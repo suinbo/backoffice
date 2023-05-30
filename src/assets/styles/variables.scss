@@ -1,0 +1,228 @@
+%container-wrapper {
+    min-width: 320px;
+    width: 100%;
+}
+
+%text-overflow {
+    // 말줄임 style
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+%clear-floats {
+    // Clear Floats
+    display: block;
+    clear: both;
+    content: "";
+}
+
+@mixin flex($position) {
+    display: flex;
+    justify-content: #{$position};
+    align-items: center;
+}
+
+@mixin scroll($max-height) {
+    // scroll
+    max-height: #{$max-height};
+    padding-right: 0.625rem;
+    overflow-y: scroll;
+    scrollbar-width: thin; // firefox scroll style
+    scrollbar-color: #d7d7d7 rgba(203, 203, 203, 0.4); // firefox scroll style
+    &::-webkit-scrollbar {
+        width: 0.313rem;
+        height: 0.313rem;
+        padding-right: 1.25rem;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #d7d7d7;
+        border-radius: $border-radius-large;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: rgba(203, 203, 203, 0.4);
+        border-radius: $border-radius-large;
+    }
+}
+
+@mixin arrow($top, $right, $left, $rotate) {
+    //pagination arrow style
+    content: "";
+    position: absolute;
+    top: #{$top};
+    right: #{$right};
+    left: #{$left};
+    width: 0.313rem;
+    height: 0.313rem;
+    border-top: 1px solid #aaaaaa;
+    border-right: 1px solid #aaaaaa;
+    display: inline-block;
+    transform: rotate(#{$rotate});
+}
+
+/** color variables **/
+$primary-color: #2761ef;
+$primary-hover-color: #1551e3;
+$primary-default-border-color: #8db4ff;
+$primary-bg-color: #e6f0ff;
+$primary-mark-bg-color: #f5f9ff;
+
+$secondary-color: #ff153c;
+$secondary-hover-color: #cc1030;
+$secondary-default-border-color: #e3929f;
+$secondary-bg-color: #ffeded;
+$secondary-hover-bg-color: #fff8f9;
+
+$default-bg-color: #ffffff;
+$default-gray-bg-color: #fafafa;
+
+$default-border-color: #dddddd;
+$default-light-border-color: #eeeeee;
+
+// font
+$font-default-color: #222222;
+$font-disabled-color: #cccccc;
+$font-placeholder-color: #9a9a9a;
+
+// box-shadow
+$box-shadow-color: rgba(221 221 221 / 25%);
+
+/** font size variables **/
+$fs-extra-large: 1rem;
+$fs-large: 0.875rem;
+$fs-default: 0.813rem;
+$fs-medium: 0.75rem;
+$fs-small: 0.688rem;
+
+/** font-weight variables **/
+$fw-bold: 600;
+$fw-semi-bold: 500;
+$fw-normal: 400;
+$fw-light: 300;
+
+/** border-radius size variables **/
+$border-radius-large: 0.75rem;
+$border-radius-medium: 0.313rem;
+$border-radius-small: 0.188rem;
+
+/** responsive variables **/
+$breakpoint-mobile: 320px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1280px;
+
+/** tving design color **/
+$black-color: #000000;
+$white-color: #ffffff;
+$text-default-color: #999999;
+$border-default-color: #666666;
+$line-color: #333333;
+$focus-red-color: #ff153c;
+
+$black: (
+    logo-wrap: (
+        bg: $black-color,
+    ),
+    top: (
+        bg: $black-color,
+    ),
+    menu-item: (
+        color: $text-default-color,
+        hover: $white-color,
+        under-line: $focus-red-color,
+    ),
+    select-content: (
+        border-color: $border-default-color,
+        border-hover-color: $text-default-color,
+        color: $text-default-color,
+    ),
+    select-option: (
+        bg: $black-color,
+        border-color: $border-default-color,
+        color: $text-default-color,
+        hover: $white-color,
+    ),
+    user-info: (
+        line-color: $line-color,
+    ),
+    user-button: (
+        color: $text-default-color,
+        hover: $white-color,
+        line-color: $line-color,
+    ),
+);
+
+@mixin ThemeStyle($theme-name, $theme-map) {
+    .#{$theme-name} {
+        @each $section, $map in $theme-map {
+            @if ($section == user-button) {
+                .#{$section} {
+                    li {
+                        color: map-get($map, color) !important;
+                        &:hover,
+                        &.active {
+                            color: map-get($map, hover) !important;
+                        }
+                        &::after {
+                            background-color: map-get($map, line-color) !important;
+                        }
+                    }
+                }
+            } @else if ($section == select-content) {
+                .#{$section} {
+                    border: 1px solid map-get($map, border-color) !important;
+                    color: map-get($map, color) !important;
+                    background: inherit !important;
+                    &:hover {
+                        border: 1px solid map-get($map, border-hover-color) !important;
+                    }
+                }
+            } @else if ($section == select-option) {
+                .#{$section} {
+                    background-color: map-get($map, bg) !important;
+                    border: 1px solid map-get($map, border-color) !important;
+                    li {
+                        color: map-get($map, color) !important;
+                        &:hover {
+                            color: map-get($map, hover) !important;
+                            background-color: map-get($map, bg) !important;
+                        }
+                    }
+                }
+            } @else {
+                .#{$section} {
+                    background-color: map-get($map, bg);
+                    color: map-get($map, color) !important;
+                    &:hover,
+                    &.active {
+                        color: map-get($map, hover) !important;
+                    }
+                    &::after {
+                        background-color: map-get($map, under-line) !important;
+                    }
+                    &::before {
+                        background-color: map-get($map, line-color) !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin responsive($point) {
+    @if $point == mobile {
+        @media (max-width: #{$breakpoint-tablet - 1px}) {
+            @content;
+        }
+    }
+    @if $point == tablet {
+        //@media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+        @media (max-width: #{$breakpoint-desktop - 1px}) {
+            @content;
+        }
+    }
+    @if $point == desktop {
+        @media (min-width: #{$breakpoint-desktop}) {
+            @content;
+        }
+    }
+}

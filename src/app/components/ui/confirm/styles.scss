@@ -1,0 +1,133 @@
+.em-confirm {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    &.show {
+        display: block;
+    }
+
+    &.danger,
+    &.warning,
+    &.reject {
+        .em-confirm-header {
+            position: relative;
+            width: 3.75rem;
+            height: 3.75rem;
+            margin: 0 auto 1.563rem;
+            text-align: center;
+            border-radius: 50%;
+            background: #fef8f9;
+        }
+    }
+
+    &.success,
+    &.info,
+    &.approve {
+        .em-confirm-header {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.563rem;
+            text-align: center;
+            border-radius: 50%;
+            background: #fafaff;
+        }
+    }
+
+    &.alert {
+        .em-confirm-wrapper {
+            padding: 0;
+
+            .em-confirm-header {
+                margin-bottom: 1.875rem;
+                padding: 1rem 1.75rem;
+                background: $primary-mark-bg-color;
+                font-size: $fs-large;
+            }
+
+            .em-confirm-body {
+                margin-bottom: 1.875rem;
+            }
+
+            .em-confirm-footer {
+                margin-bottom: 1.875rem;
+
+                .em-button {
+                    &.ok {
+                        background-color: #f4f4f4;
+                        color: $font-default-color;
+                    }
+
+                    &.default {
+                        // 확인
+                        background-color: $primary-color;
+                        border-color: $primary-color;
+                        color: #ffffff;
+
+                        &:hover {
+                            background-color: $primary-hover-color;
+                        }
+
+                        &:disabled {
+                            background-color: #dddddd;
+                            border-color: $default-border-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .em-confirm-wrapper {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 26.25rem;
+        padding: 3rem;
+        border-radius: $border-radius-large;
+        background: #ffffff;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+
+        .em-confirm-body {
+            margin-bottom: 2.5rem;
+            text-align: center;
+
+            p {
+                line-height: 1.4;
+                padding: 0 1rem;
+                font-size: $fs-large;
+                white-space: pre-line;
+                word-break: keep-all;
+            }
+        }
+
+        .em-confirm-footer {
+            @include flex(center);
+
+            .em-button {
+                height: 2.25rem;
+                padding: 0 1.133rem;
+                &.delete,
+                &.reject {
+                    background: #d9534f;
+                    color: #ffffff;
+                }
+
+                &.ok {
+                    background: $primary-color;
+                    color: #ffffff;
+
+                    &:hover {
+                        background-color: #efefef;
+                    }
+                }
+            }
+        }
+    }
+}

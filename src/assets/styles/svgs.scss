@@ -1,0 +1,184 @@
+/** Material Icon **/
+svg {
+    //transition: color 0.2s ease-in, border 0.2s ease-in;
+
+    &.tab-icon {
+        margin-right: 0.25rem;
+        font-size: $fs-medium;
+    }
+
+    &.sub-title-icon {
+        margin-right: 0.313rem;
+        font-size: $fs-extra-large;
+        color: #797979;
+    }
+
+    &.menu-icon {
+        padding: 0.313rem;
+        border-radius: $border-radius-medium;
+        background-color: #f2f2f2;
+        font-size: 1.438rem;
+        color: #aaaaaa;
+    }
+
+    &.search {
+        padding: 0.125rem;
+        font-size: 1.125rem;
+    }
+
+    &.search-icon {
+        margin-right: 0.188rem;
+        color: $font-default-color;
+        font-size: 1rem;
+    }
+
+    &.delete {
+        padding: 0.625rem;
+        border-radius: $border-radius-small;
+        color: #666666;
+        border: 1px solid $default-border-color;
+        font-size: 2.475rem;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+            color: $secondary-color;
+            border: 1px solid $secondary-color;
+            background-color: $secondary-hover-bg-color;
+        }
+
+        &.disabled {
+            color: #cccccc;
+            background: #fafafa;
+            border: 1px solid #eeeeee;
+            cursor: default;
+        }
+    }
+
+    &.del,
+    &.reject {
+        margin-right: 0.188rem;
+        font-size: 1rem;
+    }
+
+    &.add {
+        padding: 0.625rem;
+        font-size: 2.1875rem;
+        border-radius: $border-radius-small;
+        color: $primary-color;
+        border: 1px solid $primary-default-border-color;
+        background-color: #ffffff;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+            background-color: $primary-mark-bg-color;
+            border-color: $primary-hover-color;
+        }
+    }
+
+    &.trending-flat {
+        // sign-in icon
+        margin-left: 0.188rem;
+        font-size: $fs-large;
+        vertical-align: middle;
+    }
+
+    &.session-icon {
+        padding: 1.125rem;
+        font-size: 5rem;
+        color: $primary-color;
+        background: #fafaff;
+        border-radius: 50%;
+    }
+
+    &.divider-icon {
+        padding: 0;
+    }
+
+    // confirm icon style
+    &.icon {
+        &.success,
+        &.info {
+            padding: 1.125rem;
+            font-size: 5rem;
+            color: $primary-color;
+        }
+
+        &.danger,
+        &.warning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1.125rem;
+            font-size: 4.25rem;
+            color: $secondary-color;
+        }
+    }
+
+    // modal icon style
+    &.close {
+        position: absolute;
+        top: 1.875rem;
+        right: 1.875rem;
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0.4;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &.modal-title-icon {
+        margin-right: 0.313rem;
+        font-size: 1.25rem;
+        color: #585858;
+        vertical-align: text-top;
+
+        &.writing-icon {
+            margin-right: 0.625rem;
+            font-size: 1.1rem;
+            vertical-align: bottom;
+        }
+    }
+
+    &.sub-icon {
+        margin-right: 0.188rem;
+        font-size: 1rem;
+        color: #585858;
+    }
+
+    &.drag-icon {
+        color: #333333;
+        font-size: $fs-extra-large;
+        cursor: pointer;
+    }
+
+    &.info-tooltip {
+        margin-left: 0.25rem;
+        font-size: $fs-default;
+        color: #787878;
+        cursor: pointer;
+        &:hover {
+            color: #b5b5b5;
+            transition: 0.2s ease-out;
+        }
+    }
+    &.refresh-icon {
+        margin-left: 0.45rem;
+        padding: 0.125rem;
+        font-size: 18px;
+        color: #999;
+        border: 1px solid $default-border-color;
+        border-radius: 2px;
+        background-color: #fff;
+        cursor: pointer;
+        &:hover {
+            color: #000;
+            border: 1px solid #999;
+            transition: 0.2s ease-out;
+        }
+    }
+}

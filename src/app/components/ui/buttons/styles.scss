@@ -1,0 +1,196 @@
+.em-button {
+    min-width: 4.125rem;
+    height: 1.875rem;
+    margin: 0 0.188rem;
+    padding: 0 0.5rem;
+    border: 1px solid;
+    border-radius: $border-radius-small;
+    font-size: $fs-small;
+    font-weight: $fw-bold;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: default;
+    }
+
+    &.default {
+        @include flex(center);
+        margin-left: 0.25rem;
+        background-color: $default-bg-color;
+        border-color: $default-border-color;
+        color: #666666;
+
+        svg {
+            color: #999999;
+        }
+
+        &:hover {
+            background-color: $default-bg-color;
+            border-color: #999999;
+            color: #000000;
+
+            svg {
+                color: #000000;
+            }
+        }
+
+        &:disabled {
+            background-color: #fafafa;
+            border-color: $default-light-border-color;
+            color: #cccccc;
+
+            svg {
+                color: #cccccc;
+            }
+        }
+    }
+
+    &.primary {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        color: #ffffff;
+
+        &:hover {
+            background-color: $primary-hover-color;
+            border-color: $primary-hover-color;
+        }
+
+        &.border {
+            background-color: #ffffff;
+            border-color: $primary-default-border-color;
+            color: $primary-color;
+
+            svg {
+                color: $primary-default-border-color;
+            }
+
+            &:hover {
+                background-color: $primary-mark-bg-color;
+                border-color: $primary-hover-color;
+
+                svg {
+                    color: $primary-hover-color;
+                }
+            }
+
+            &:disabled {
+                background-color: #fafafa;
+                border-color: #eeeeee;
+                color: #cccccc;
+                svg {
+                    color: #cccccc;
+                }
+            }
+        }
+
+        &:disabled {
+            background-color: #dddddd;
+            border-color: $default-border-color;
+        }
+    }
+
+    &.secondary {
+        background-color: #666666;
+        border-color: #666666;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #333333;
+            border-color: #333333;
+        }
+
+        &.border {
+            background-color: #ffffff;
+            border-color: $default-border-color;
+            color: #4a4a4a;
+
+            &:hover {
+                background-color: #fbfbfb;
+            }
+        }
+
+        &:disabled {
+            background-color: #fafafa;
+            border-color: #eeeeee;
+            color: #cccccc;
+            svg {
+                color: #cccccc;
+            }
+        }
+    }
+
+    &.danger,
+    &.reject {
+        background-color: $secondary-color;
+        border-color: $secondary-color;
+        color: #ffffff;
+
+        &:hover {
+            background-color: $secondary-hover-color;
+            border-color: $secondary-hover-color;
+        }
+
+        &.border {
+            border-color: $secondary-default-border-color;
+            color: $secondary-hover-color;
+            background-color: #ffffff;
+
+            svg {
+                color: $secondary-default-border-color;
+            }
+
+            &:hover {
+                background-color: $secondary-hover-bg-color;
+                border-color: $secondary-hover-color;
+                svg {
+                    color: $secondary-hover-color;
+                }
+            }
+
+            &:disabled {
+                background-color: #fafafa;
+                border-color: #eeeeee;
+                color: #cccccc;
+                svg {
+                    color: #cccccc;
+                }
+            }
+        }
+
+        &:disabled {
+            background-color: #dddddd;
+            border-color: $default-border-color;
+        }
+    }
+
+    &.calendar {
+        min-width: 3.125rem;
+        padding: 0;
+        color: $font-default-color;
+        border-color: $default-border-color;
+        background-color: #ffffff;
+
+        &:hover,
+        &.active {
+            font-weight: $fw-semi-bold;
+            color: $primary-color;
+            border-color: $primary-color;
+        }
+    }
+
+    &.registration,
+    &.confirm {
+        color: #ffffff;
+        background-color: $primary-color;
+    }
+
+    // &.extend {
+    //     padding: 0 0.938rem;
+    // }
+
+    svg {
+        margin-right: 0.25rem;
+        font-size: 0.75rem;
+        vertical-align: text-bottom;
+    }
+}
