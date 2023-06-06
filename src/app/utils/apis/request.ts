@@ -3,7 +3,7 @@ import { stringify } from "query-string"
 import { RESPONSE_CODE } from "../resources/constants"
 import { RowItem } from "../resources/types"
 import { Storage } from "../storage"
-import { API_BOGW_REQUEST_URL, HTTP_METHOD_GET } from "./request.const"
+import { API_REQUEST_URL, HTTP_METHOD_GET } from "./request.const"
 import cookie from "../cookie"
 
 export const INSTANCE_TYPE = {
@@ -18,7 +18,7 @@ export type instanceConfig = {
 } & Partial<AxiosRequestConfig>
 
 export const instance = axios.create({
-    baseURL: API_BOGW_REQUEST_URL,
+    baseURL: API_REQUEST_URL,
     timeout: 60000,
 })
 
@@ -60,7 +60,7 @@ export const applyPath = (url: string, path: string) => `${url}/${path}`
 /** CSV Data Excel Download */
 export const excelApiRequest = (apiUrl: string) => {
     const optionConfig: Partial<AxiosRequestConfig> = {
-        baseURL: API_BOGW_REQUEST_URL,
+        baseURL: API_REQUEST_URL,
         headers: {
             Authorization: `Bearer ${cookie.getItem(cookie.keys.credential)}`,
             "Access-Control-Allow-Headers": "x-auth-token",

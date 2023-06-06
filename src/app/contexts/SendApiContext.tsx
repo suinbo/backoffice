@@ -2,7 +2,7 @@ import { apiRequest, INSTANCE_TYPE } from "@/utils/apis/request"
 import React, { useContext, useMemo, useState } from "react"
 import { createContext } from "react-activation"
 import Loading from "@/components/ui/progress"
-import { API_BOGW_REQUEST_URL, HTTP_METHOD_GET, HTTP_METHOD_POST, X_AUTH_TOKEN } from "@/utils/apis/request.const"
+import { API_REQUEST_URL, HTTP_METHOD_GET, HTTP_METHOD_POST, X_AUTH_TOKEN } from "@/utils/apis/request.const"
 import { AxiosError, AxiosResponse, Method } from "axios"
 import cookie from "@/utils/cookie"
 import { Storage } from "@/utils/storage"
@@ -147,7 +147,7 @@ export const SendAPIProvider = ({ children }: { children: JSX.Element }) => {
         const { /*key,*/ ...apiConfig } = config
 
         const options = Object.assign(apiConfig, {
-            baseURL: API_BOGW_REQUEST_URL,
+            baseURL: API_REQUEST_URL,
             headers: Object.assign(
                 {
                     Authorization: `Bearer ${cookie.getItem(cookie.keys.credential)}`,

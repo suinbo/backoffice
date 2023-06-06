@@ -67,7 +67,7 @@ export const Login = () => {
                                 loginTime: userInfo.loginTime.toString(),
                                 loginId: userInfo.loginId,
                             })
-                            i18next.changeLanguage(userInfo.languageCode)
+                            //i18next.changeLanguage(userInfo.languageCode)
                             Storage.set(Storage.keys.closePopup, String(false))
                             Storage.set(Storage.keys.expireTime, String(userInfo.expireTime))
                             if (LOGIN_STATUS.AUTH_EMAIL === code) {
@@ -132,7 +132,7 @@ export const Login = () => {
 
     const enterCheck = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
-            //if (e.key === "Enter") login()
+            if (e.key === "Enter") login()
         },
         [userPw, userId]
     )

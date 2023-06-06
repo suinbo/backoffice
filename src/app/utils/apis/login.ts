@@ -2,7 +2,7 @@ import cookie from "@/utils/cookie"
 import { history } from "@/history"
 import { Storage } from "@/utils/storage"
 import { apiRequest } from "./request"
-import { API, API_BOGW_REQUEST_URL, HTTP_METHOD_POST, X_AUTH_TOKEN } from "./request.const"
+import { API, API_REQUEST_URL, HTTP_METHOD_POST, X_AUTH_TOKEN } from "./request.const"
 import { AxiosRequestConfig, AxiosResponseHeaders } from "axios"
 
 type LoginProps = {
@@ -24,7 +24,6 @@ type LoginResponseProps = {
         loginTime: number
         regionList: Array<{ id: string }>
         timeZoneData: number
-        vdiYn: boolean
     }
 }
 
@@ -41,7 +40,7 @@ export const loginProc = async ({ userId, userPw }: Partial<LoginProps>) => {
 
             cookie.setItem({
                 key: cookie.keys.userInfo,
-                value: JSON.stringify({ vdiYn: userInfo.vdiYn, status: userInfo.loginStatus }),
+                value: JSON.stringify({ status: userInfo.loginStatus }),
                 expire,
             })
 
@@ -59,7 +58,7 @@ export const loginProc = async ({ userId, userPw }: Partial<LoginProps>) => {
 // request Header setting
 const options = (req: AxiosRequestConfig) => {
     const config = Object.assign(req, {
-        baseURL: API_BOGW_REQUEST_URL,
+        baseURL: API_REQUEST_URL,
         headers: {
             Authorization: `Bearer ${cookie.getItem(cookie.keys.credential)}`,
             "Access-Control-Allow-Headers": "x-auth-token",
@@ -70,6 +69,7 @@ const options = (req: AxiosRequestConfig) => {
     return config
 }
 
+/** 로그아웃 */
 export const logoutProc = async () => {
     const req: AxiosRequestConfig = {
         url: API.LOGOUT,
@@ -84,6 +84,7 @@ export const logoutProc = async () => {
     })
 }
 
+/** 로그인 */
 export const postLogin = async ({ accessId, secretPw }: Partial<LoginProps>) => {
     const req: AxiosRequestConfig = {
         url: API.LOGIN,

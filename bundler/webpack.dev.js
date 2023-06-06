@@ -29,14 +29,14 @@ module.exports = args =>
             historyApiFallback: {
                 index: "/",
             },
-            proxy: {
-                // "/api": {
-                //     target: "https://bo-dev-api.aws.tving.com/",
-                //     ws: true,
-                //     secure: false,
-                //     changeOrigin: true,
-                // },
-            },
+            // proxy: {
+            //     "/api": {
+            //         target: "https://bo-dev-api.aws.tving.com/",
+            //         ws: true,
+            //         secure: false,
+            //         changeOrigin: true,
+            //     },
+            // },
         },
         plugins: [
             new Dotenv({ path: path.resolve(__dirname, `../.env.${args.mode}`), systemvars: true }),
