@@ -1,0 +1,305 @@
+/** 네비게이션 **/
+
+@include ThemeStyle('black', $black);
+
+header {
+    @include flex(flex-start);
+    position: sticky;
+    top: 0;
+    height: 3.75rem;
+    min-width: $breakpoint-desktop;
+    box-shadow: 0.125rem 0.125rem 0.25rem $box-shadow-color;
+    z-index: 999;
+
+    .logo-wrap {
+        @include flex(center);
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 15rem;
+        height: 3.75rem;
+        background-color: $default-bg-color;
+        .logo {
+            width: 45%;
+            height: 100%;
+            background-image: url('@assets/images/logo.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        span {
+            margin-left: 0.5rem;
+            margin-top: 0.313rem;
+            font-size: 1.313rem;
+            font-weight: 700;
+        }
+    }
+
+    .top {
+        @include flex(space-between);
+        width: calc(100% - 15rem);
+        height: 100%;
+        margin-left: 15rem;
+        background-color: $default-bg-color;
+
+        nav {
+            @include flex(flex-start);
+            height: 100%;
+            padding-left: 0.5rem;
+
+            .menu-item {
+                @include flex(center);
+                position: relative;
+                height: 100%;
+                margin: 0 0.75rem;
+                color: #aaa;
+                font-size: $fs-large;
+                font-weight: $fw-bold;
+                text-align: center;
+                transition: color 0.3s ease-out;
+                cursor: pointer;
+                @include responsive(tablet) {
+                    margin: 0 0.5rem;
+                    font-size: 0.8rem;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    height: 0.188rem;
+                    width: 0;
+                    background-color: #000;
+                    transition: width 0.1s ease-in, color 0.1s ease-in;
+                }
+
+                &.active {
+                    color: #000;
+
+                    &::after {
+                        width: 100%;
+                    }
+                }
+
+                &:hover {
+                    color: #000;
+                }
+            }
+        }
+
+        .setting {
+            display: flex;
+            align-items: center;
+
+            .nav-selector {
+                margin-right: 1.875rem;
+            }
+
+            .user-info {
+                position: relative;
+                min-width: 235px;
+
+                &::before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 0.375rem;
+                    left: -0.875rem;
+                    width: 0.063rem;
+                    height: 1.25rem;
+                    background-color: $default-border-color;
+                }
+
+                .user-button {
+                    @include flex(flex-start);
+                    margin-bottom: 0.1rem;
+
+                    li {
+                        position: relative;
+                        margin: 0 0.375rem;
+                        color: #939393;
+                        cursor: pointer;
+                        transition: color 0.3s ease-out;
+
+                        &:hover {
+                            color: #262626;
+                        }
+
+                        svg {
+                            margin-right: 0.25rem;
+                            font-size: $fs-small;
+                            vertical-align: middle;
+                        }
+
+                        span {
+                            font-size: $fs-small;
+                            font-weight: $fw-light;
+                            text-transform: uppercase;
+                        }
+
+                        &::after {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 0.375rem;
+                            left: -0.4rem;
+                            width: 1px;
+                            height: 0.625rem;
+                            background-color: $default-border-color;
+                        }
+
+                        &:first-child {
+                            margin-left: 0;
+
+                            &::after {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .record {
+                    font-size: 0.625rem;
+
+                    span {
+                        margin-right: 0.125rem;
+                        letter-spacing: -0.035rem;
+                        color: #939393;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+  * 개인정보 수정 modal
+  */
+.modal-user-info {
+    .form-box {
+        width: 34.375rem;
+
+        div {
+            &.form {
+                padding: 0;
+
+                .select-setting {
+                    @include flex(space-between);
+                    width: 100%;
+                    padding-bottom: 1.25rem;
+                    margin: 1.25rem 0;
+                    border-top: 1px solid $default-border-color;
+                    border-bottom: 1px solid $default-border-color;
+
+                    .em-select-box {
+                        width: 100%;
+
+                        .select-content {
+                            width: 100%;
+                            height: 2.25rem;
+                            line-height: 2.25rem;
+                        }
+
+                        .select-option {
+                            top: 2.5rem;
+                        }
+                    }
+                }
+
+                .sub-title {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}
+
+/** Body 컨테이너 **/
+#container {
+    height: 100%;
+    width: calc(100% - 15rem);
+    transition: width 0.1s ease-in;
+
+    .menu-tabs {
+        position: sticky;
+        z-index: 800;
+        padding-top: 1.25rem;
+        background: #fafafa;
+    }
+    .em-panel {
+        display: none;
+        height: calc(100vh - 6.75rem);
+        &.show {
+            display: flex;
+        }
+        iframe {
+            height: 100%;
+            width: 100%;
+            border: none;
+            user-select: none;
+        }
+    }
+}
+
+/** 사이드 메뉴 **/
+#subMenu {
+    position: sticky;
+    left: 0;
+    z-index: 900;
+    width: 15rem;
+    padding: 0.938rem 1rem 1.625rem;
+    border-right: 1px solid #eee;
+    background-color: #fafafa;
+    transition: width 0.1s ease-in;
+
+    .em-tree-container {
+        width: 100%;
+        height: calc(100vh - 6.313rem);
+        overflow-y: scroll;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+        }
+    }
+
+    // 사이드바 토글
+    .side-menu {
+        position: absolute;
+        top: 0.625rem;
+        left: 14.2rem;
+        z-index: 999;
+        width: 1.6rem;
+        height: 1.6rem;
+        background-color: $default-bg-color;
+        box-shadow: 1px 1px 1px #ededed;
+        border: 1px solid #eee;
+        border-radius: 50%;
+        transition: all 0.1s ease-in;
+        cursor: pointer;
+        &::after {
+            @include arrow(0.58rem, 0.42rem, auto, -135deg);
+        }
+    }
+
+    &.fold {
+        width: 1rem;
+        transition: width 0.1s ease-in;
+        .side-menu {
+            left: 1.2rem;
+            transition: all 0.08s ease-in;
+            &::after {
+                @include arrow(0.58rem, 0.625rem, auto, 45deg);
+            }
+        }
+        + .home-wrapper,
+        + #container {
+            width: calc(100% - 1rem);
+        }
+    }
+}

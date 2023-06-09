@@ -52,7 +52,7 @@ export const SessionProvider = React.memo(({ children }) => {
     /** 다국어 로케일 변경 */
     useEffect(() => {
         if (session.languageCode) {
-            if (i18next.language !== session.languageCode) i18next.changeLanguage(session.languageCode)
+            //if (i18next.language !== session.languageCode) i18next.changeLanguage(session.languageCode)
         }
     }, [])
 

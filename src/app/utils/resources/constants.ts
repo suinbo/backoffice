@@ -40,4 +40,5 @@ export const T_NAMESPACE = {
 
 export const NUMBER = {
     MILLISECOND: 1000,
+    MAXIMUM_TAB_SIZE: 10
 }

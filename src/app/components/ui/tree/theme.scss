@@ -1,0 +1,344 @@
+/** depth line style **/
+%before-line {
+    //depth line 가로
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    left: -1.563rem;
+    width: 0.938rem;
+    border-bottom: 1px dotted #d2d2d2;
+}
+%after-line {
+    //depth line 세로
+    content: "";
+    position: absolute;
+    top: 0.063rem;
+    left: -1.563rem;
+    width: 0.063rem;
+    height: calc(100% - 0.063rem);
+    border-left: 1px dotted #d2d2d2;
+}
+
+@mixin line($afterYn: false) {
+    position: relative;
+    width: calc(100% - 2.5rem);
+    margin-left: 2.5rem;
+    &::before {
+        @extend %before-line;
+    }
+    &::after {
+        @extend %after-line;
+        @if $afterYn {
+            height: calc(100% + 0.438rem);
+        }
+    }
+    &:last-child {
+        &::after {
+            height: 1.125rem;
+        }
+    }
+}
+
+/** toggle arrow style **/
+@mixin arrow($top, $right, $left, $rotate) {
+    content: "";
+    position: absolute;
+    top: #{$top};
+    right: #{$right};
+    left: #{$left};
+    z-index: 100;
+    width: 0.313rem;
+    height: 0.313rem;
+    border-top: 1px solid #a0a0a0;
+    border-right: 1px solid #a0a0a0;
+    display: inline-block;
+    transform: rotate(#{$rotate});
+    transition: transform 0.3s linear;
+}
+
+@mixin theme-boxed {
+    .em-tree-group {
+        .em-tree-item,
+        .em-tree-leaf {
+            margin-bottom: 0.375rem;
+            .em-tree-data {
+                display: block;
+                width: calc(100% - 2.813rem);
+                padding: 0.688rem 0 0.688rem 1.25rem;
+                border: 1px solid $default-border-color;
+                border-radius: $border-radius-small;
+                font-size: $fs-default;
+                cursor: pointer;
+
+                &:hover {
+                    border: 1px solid $primary-default-border-color;
+                    background-color: $primary-mark-bg-color;
+                }
+
+                // 토글버튼 영역
+                &.toggle-add {
+                    @include flex(space-between);
+                    width: 100%;
+                    padding: 0 0 0 1.25rem;
+                    > span {
+                        width: calc(100% - 5rem);
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    .toggle-area {
+                        padding: 0.48rem;
+                        background: #fff;
+                        border-left: 1px solid $default-border-color;
+
+                        &.dim {
+                            .label {
+                                background-color: #c9c9c9;
+                                border: 1px solid #c9c9c9;
+
+                                &:hover {
+                                    cursor: default;
+                                    border-color: #c9c9c9;
+                                    box-shadow: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                .em-tree-data {
+                    border: 1px solid $primary-default-border-color;
+                    background-color: $primary-mark-bg-color;
+                }
+            }
+
+            &.selected {
+                .em-tree-data {
+                    border: 1px solid $primary-color;
+                    background-color: $primary-color;
+                    color: #ffffff;
+                    font-weight: $fw-bold;
+
+                    &:hover {
+                        background-color: $primary-hover-color;
+                    }
+                }
+            }
+        }
+        &.depth1,
+        &.depth2 {
+            @include line(false);
+        }
+        .em-tree-leaf {
+            @include line(true);
+        }
+    }
+}
+
+@mixin theme-expand-out {
+    @include scroll(35.5rem);
+    .em-tree-root {
+        position: relative;
+        width: 100%;
+        margin-bottom: 0.375rem;
+        padding: 0.688rem 0 0.688rem 1.25rem;
+        font-size: $fs-default;
+        border: 1px solid $default-border-color;
+        border-radius: $border-radius-small;
+        box-shadow: 0.125rem 0.125rem 0.25rem $box-shadow-color;
+        cursor: pointer;
+        &:hover {
+            border: 1px solid $primary-default-border-color;
+            background-color: $primary-mark-bg-color;
+        }
+        &.active {
+            border: 1px solid $primary-default-border-color;
+            background-color: $primary-mark-bg-color;
+        }
+        // &.selected {
+        //     border: 1px solid $primary-default-border-color;
+        //     border-left: 3px solid $primary-color;
+        //     border-radius: 0 0.188rem 0.188rem 0;
+        //     background-color: #f9fafe;
+        //     color: $primary-color;
+        //     font-weight: $fw-bold;
+        // }
+        &.selected {
+            .em-tree-data {
+                border: 1px solid $primary-color;
+                background-color: $primary-color;
+                color: #ffffff;
+                font-weight: $fw-bold;
+
+                &:hover {
+                    background-color: $primary-hover-color;
+                }
+            }
+        }
+        .em-checkbox-check {
+            position: absolute;
+            top: 0.688rem;
+            left: 0.938rem;
+        }
+        .em-tree-data {
+            padding-left: 1.25rem;
+        }
+    }
+    .em-tree-group {
+        .em-tree-expand-toggle {
+            position: absolute;
+            left: -2rem;
+            top: 0.75rem;
+            z-index: 100;
+            width: 0.938rem;
+            height: 0.938rem;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            &::after {
+                content: "+";
+                position: absolute;
+                top: 0;
+                display: block;
+                width: 0.813rem;
+                height: 0.813rem;
+                line-height: 0.75rem;
+                text-align: center;
+                color: #c4c4c4;
+            }
+            &.expanded {
+                &::after {
+                    content: "-";
+                }
+            }
+        }
+        .em-tree-item,
+        .em-tree-leaf {
+            .em-tree-data {
+                padding-left: 1.25rem;
+            }
+        }
+        &.depth0 {
+            @include line(false);
+            &:last-child {
+                &::after {
+                    height: calc(100% - 0.375rem);
+                }
+            }
+        }
+    }
+}
+
+@mixin theme-checkbox {
+    &.checkbox {
+        .em-tree-group {
+            &.depth0,
+            &.depth1 {
+                .em-checkbox-check {
+                    position: absolute;
+                    top: 0.688rem;
+                    left: 0.938rem;
+                    z-index: 100;
+                }
+            }
+            .em-tree-item,
+            .em-tree-leaf {
+                .em-tree-data {
+                    width: 100%;
+                    padding-left: 2.5rem;
+                    &.add-label {
+                        display: flex;
+                        align-items: center;
+                        .tree-label {
+                            position: absolute;
+                            right: 0.938rem;
+                            padding: 0.133rem 0.5rem;
+                            font-size: $fs-small;
+                            color: #2761ef;
+                            border: 1px solid #8db4ff;
+                            border-radius: 0.133rem;
+                            background: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin theme-lined {
+    .em-tree-group {
+        .em-tree-item,
+        .em-tree-leaf {
+            color: $font-default-color;
+            cursor: pointer;
+            &:hover,
+            &:focus {
+                color: $primary-color;
+                text-decoration: underline;
+            }
+            &:not(.isRoot) {
+                &::before {
+                    content: "";
+                    position: absolute;
+                    bottom: 0.625rem;
+                    left: 1.133rem;
+                    width: 0.625rem;
+                    height: 100%;
+                    border-left: 1px dotted #a6a6a6;
+                    border-bottom: 1px dotted #a6a6a6;
+                }
+            }
+            &.active {
+                color: $primary-color;
+                font-weight: $fw-bold;
+            }
+        }
+        .em-tree-item {
+            min-height: 2.437rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.313rem;
+            padding: 0.5rem 0.625rem;
+            border-radius: 0.313rem;
+
+            &::after {
+                @include arrow(1rem, 1rem, auto, -225deg);
+            }
+            &.expanded {
+                &::after {
+                    top: 1rem;
+                    transform: rotate(-405deg);
+                }
+                &.active {
+                    color: $primary-color;
+                    font-weight: $fw-bold;
+                }
+            }
+            &:hover,
+            &.active {
+                background-color: #e6f0ff;
+                .menu-icon {
+                    color: $primary-color;
+                    background-color: #d4e5ff;
+                }
+            }
+            &.isLeaf {
+                // 2depth가 메뉴 노드인 경우
+                &::after {
+                    display: none;
+                }
+            }
+            .em-tree-data {
+                display: block;
+                width: calc(100% - 2.813rem);
+                padding-left: 0.75rem;
+            }
+        }
+        .em-tree-leaf {
+            height: 1.563rem;
+            z-index: 1;
+        }
+    }
+}

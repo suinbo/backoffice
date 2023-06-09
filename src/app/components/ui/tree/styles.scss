@@ -1,0 +1,53 @@
+@import 'theme';
+
+/** Custom Tree Styles **/
+.em-tree-container {
+    width: 100%;
+    .em-tree {
+        display: flex;
+        flex-flow: column nowrap;
+        width: 100%;
+        &.lined {
+            @include theme-lined;
+        }
+        &.boxed {
+            @include theme-boxed;
+        }
+        &.expand-out {
+            @include theme-expand-out;
+        }
+        &.checkbox {
+            @include theme-checkbox;
+        }
+        .em-tree-group {
+            width: 100%;
+            display: flex;
+            flex-flow: column wrap;
+            .em-tree-item,
+            .em-tree-leaf {
+                position: relative;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                font-size: $fs-large;
+                .em-tree-data {
+                    padding-left: 2.688rem;
+                    @extend %text-overflow;
+                }
+                svg.tree-icon {
+                    position: absolute;
+                    right: 0;
+                }
+            }
+            .em-tree-item {
+                position: relative;
+                z-index: 2;
+            }
+        }
+        .em-tree-expand-toggle {
+            width: 3.125rem;
+            height: 3.125rem;
+            background-color: #ccc;
+        }
+    }
+}
