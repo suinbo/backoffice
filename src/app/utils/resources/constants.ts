@@ -1,5 +1,14 @@
+import { RowItem } from "./types"
+
 export default {
     COOKIE_DOMAIN: location.hostname.replace("www.", ""),
+}
+
+export const HTTP_STATUS = {
+    OK: 200,
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404,
+    UNAUTHORIZED: 401,
 }
 
 /** 메뉴 URL */
@@ -8,6 +17,27 @@ export const MENUS = {
     SIGNIN: "/signin",
     AUTH_PASSWORD: "/auth/password",
     AUTH_EMAIL: "/auth/email",
+    MYPAGE: "",
+}
+
+export const CUSTOM_MENUS = {
+    HOME: {
+        id: "MT000000",
+        uxId: "CM0000",
+    },
+    MYPAGE: {
+        id: "MT000001",
+        uxId: "CM0001",
+    },
+}
+
+export const UX_CODES: RowItem = {
+    SPLASH: CUSTOM_MENUS.HOME.uxId,
+    MYPAGE: CUSTOM_MENUS.MYPAGE.uxId,
+}
+
+export const UX_MAPPER = {
+    [UX_CODES.MYPAGE]: MENUS.MYPAGE,
 }
 
 /** 로그인 상태 */
@@ -40,5 +70,5 @@ export const T_NAMESPACE = {
 
 export const NUMBER = {
     MILLISECOND: 1000,
-    MAXIMUM_TAB_SIZE: 10
+    MAXIMUM_TAB_SIZE: 10,
 }
