@@ -4,6 +4,7 @@ import { useConfirm } from "@/contexts/ConfirmContext"
 import { instance } from "@/utils/apis/request"
 import { RESPONSE_CODE, T_NAMESPACE } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
+import { AxiosError, AxiosResponse } from "axios"
 
 const Axios = ({ children }: any) => {
     const { setVisible, setOptions } = useConfirm()
@@ -11,7 +12,7 @@ const Axios = ({ children }: any) => {
 
     useMemo(() => {
         instance.interceptors.response.use(
-            response => {
+            (response: AxiosResponse<{ code: string; detailMessage: string; message: string }>) => {
                 const {
                     data: { code, detailMessage, message },
                 } = response
@@ -34,7 +35,7 @@ const Axios = ({ children }: any) => {
                         throw new Error(detailMessage ?? message)
                 }
             },
-            error => {
+            (error: AxiosError) => {
                 if (error.response) {
                     //const { status, data } = error.response
                     // if (status === HTTP_STATUS.UNAUTHORIZED) {
