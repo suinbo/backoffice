@@ -1,0 +1,164 @@
+.layer-wrapper {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    //min-width: calc(#{$breakpoint-desktop} - 15rem);
+    height: 100%;
+    padding: 1.875rem 2.188rem;
+
+    .layer-header {
+        margin-bottom: 1.25rem;
+
+        h3 {
+            font-size: 1.313rem;
+            font-weight: $fw-bold;
+        }
+
+        p {
+            font-size: $fs-large;
+            color: $font-default-color;
+        }
+    }
+
+    &.vertical {
+        display: block;
+        .layer-body {
+            display: block;
+        }
+
+        .layer-divider {
+            width: 100%;
+            min-height: auto;
+        }
+    }
+
+    &.horizon {
+        .layer-body {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .layer-divider {
+            display: flex;
+            width: calc(50% - 0.625rem);
+            padding: 1.563rem;
+            border: 1px solid $default-border-color;
+            border-radius: $border-radius-large;
+        }
+    }
+
+    .layer-divider {
+        .divider-header {
+            width: auto;
+        }
+
+        .divider-body {
+            width: 100%;
+
+            .body-description,
+            .description {
+                margin-bottom: 0.625rem;
+                font-size: $fs-medium;
+                white-space: pre-line;
+                color: $font-default-color;
+            }
+
+            .body-title {
+                @include flex(center);
+                width: 100%;
+                margin: 0.313rem 0;
+                padding: 0.688rem 0;
+                color: $font-default-color;
+                font-size: $fs-large;
+                font-weight: $fw-semi-bold;
+                background-color: #f8f8f8;
+            }
+        }
+    }
+
+    /* 좌/우 레이어 존재 시 접기 기능 추가 2023.05.09 BH */
+    .detail-fold {
+        position: absolute;
+        top: 4.25rem;
+        left: 50%;
+        z-index: 999;
+        width: 1.6rem;
+        height: 1.6rem;
+        background-color: $default-bg-color;
+        box-shadow: 1px 1px 1px #ededed;
+        border: 1px solid #eee;
+        border-radius: 50%;
+        transition: all 0.1s ease-in;
+        cursor: pointer;
+        &::after {
+            @include arrow(0.58rem, 0.625rem, auto, 45deg);
+        }
+    }
+
+    .layer-body {
+        aside {
+            transition: all 0.08s ease-in;
+        }
+        &.fold {
+            .detail-fold {
+                left: unset;
+                right: 1rem;
+                transition: all 0.08s ease-in;
+                &::after {
+                    @include arrow(0.58rem, 0.45rem, auto, -135deg);
+                }
+            }
+            aside {
+                &:first-child {
+                    width: calc(100% - 1rem);
+                }
+                &:last-child {
+                    width: 0;
+                    border: 0;
+                    padding: 0;
+                    .divider-body {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.divider-header-category {
+    @include flex(flex-start);
+    margin-bottom: 0.5rem;
+    color: $font-default-color;
+
+    & > svg {
+        font-size: $fs-extra-large;
+    }
+
+    & > span {
+        padding-left: 0.438rem;
+    }
+}
+
+.search-form {
+    margin-bottom: 2rem;
+
+    .divider-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .divider-header-category {
+            margin-bottom: 0;
+        }
+
+        .button-group {
+            width: auto;
+            margin: 0;
+            padding: 0;
+            button {
+                height: 1.875rem;
+                padding: 0 0.5rem;
+            }
+        }
+    }
+}

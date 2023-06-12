@@ -1,23 +1,19 @@
-import React, { useState } from 'react'
-import Container from "@/components/containers"
-import { SMenuStateProvider } from "@/contexts/MenuContext"
-import { NodeProp } from '@/utils/resources/types'
-import GlobalComponent from "@/components/GlobalComponent"
-import './style.scss'
+import React from "react"
+import "./style.scss"
+
+const imageSrc = `https://cdn.pixabay.com/photo/2015/07/10/15/13/building-839362_1280.jpg`
 
 const Home = () => {
-    const [activeMenu, setActiveMenu] = useState<NodeProp | null>(null)
-
     return (
-        <GlobalComponent> 
-            <SMenuStateProvider tMenu={activeMenu}>
-                <Container.top activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-                <main className="main">
-                    <Container.aside />
-                    <Container.body />
-                </main>
-            </SMenuStateProvider>
-        </GlobalComponent>
+        <div
+            className="home-wrapper"
+            style={{
+                backgroundImage: `url(${imageSrc})`,
+            }}>
+            <div className="home-message">
+                <div className="message-box"></div>
+            </div>
+        </div>
     )
 }
 

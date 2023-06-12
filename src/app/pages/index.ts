@@ -1,11 +1,9 @@
-//import AuthEmail from "./default/email"
-import NotFound from "./default/error"
+import { lazy } from "react"
 import Intro from "./default/intro"
-import Home from "./default/home"
+import Home from "./home"
 
 export default {
     Intro,
     Home,
-    NotFound,
-    //AuthEmail,
+    MyPage: lazy(() => import("./mypage")),
 }

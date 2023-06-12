@@ -1,0 +1,7 @@
+.no-result {
+    @include flex(center);
+    min-height: 28.13rem;
+    font-size: $fs-default;
+    color: #585858;
+    border-bottom: 1px solid $default-border-color;
+}

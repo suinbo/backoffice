@@ -29,9 +29,7 @@ const routes = () => {
                 <Routes>
                     <Route path={MENUS.SIGNIN} element={<Pages.Intro />} />
                     <Route path={MENUS.HOME} element={<Pages.Home />} />
-                    {/* <Route path={MENUS.AUTH_PASSWORD} element={<Pages.AuthPassword />} />
-                    <Route path={MENUS.AUTH_EMAIL} element={<Pages.AuthEmail />} /> */}
-                    {/* <Route path="*" element={<Pages.NotFound />} /> */}
+                    <Route path={MENUS.MYPAGE} element={<Pages.MyPage />} />
                 </Routes>
             </CustomRouter>
         </Suspense>

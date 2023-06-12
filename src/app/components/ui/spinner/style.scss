@@ -1,0 +1,54 @@
+.loading-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 28.13rem;
+    .loading {
+        position: relative;
+        width: 6rem;
+        height: 3rem;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 0.9rem;
+        &.dot {
+            div {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 1.5rem;
+                bottom: 0;
+                width: 1.25rem;
+                height: 1.25rem;
+                margin: auto;
+                border-radius: 0.625rem;
+                background-color: $font-default-color;
+                transform: scale(0);
+                animation: dot 1.5s linear infinite;
+                text-indent: -9999em;
+                &:nth-child(2) {
+                    left: -3.125rem;
+                    animation-delay: -0.1s;
+                }
+                &:nth-child(4) {
+                    right: -3.125rem;
+                    animation-delay: 0.1s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes dot {
+    0% {
+        transform: scale(0);
+    }
+    35% {
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(0);
+    }
+}

@@ -14,6 +14,8 @@ const Body = () => {
     //const { setHideRegionSelect, region } = useRegion()
     const { setOnMouse, tooltipHandler } = useToolTip()
 
+    console.log("sectionPanels:: ", sectionPanels)
+
     // 탭 선택 이벤트
     const onSelectTab = useCallback((tab: SectionPanel) => {
         setActiveMenu(tab)
@@ -86,30 +88,30 @@ const Body = () => {
     return (
         <>
             {/* 선택된 메뉴 없을 경우 기본 인트로 이미지 노출 */}
-            {/* {!sectionPanels.length ? (
+            {!sectionPanels.length ? (
                 <Dashboard />
-            ) :  */}
-
-            <section id="container">
-                <div className="menu-tabs">
-                    <Tabs
-                        tabs={sectionPanels}
-                        renderer={tabRenderer}
-                        selectedTab={activeMenu?.id as string}
-                        onRemove={onRemoveTab}
-                        onSelect={onSelectTab}
-                        theme={TabTheme.boxed}
-                        isMenuTab={true}
-                    />
-                </div>
-                {/* {sectionPanels.map((panel: SectionPanel) => {
+            ) : (
+                <section id="container">
+                    <div className="menu-tabs">
+                        <Tabs
+                            tabs={sectionPanels}
+                            renderer={tabRenderer}
+                            selectedTab={activeMenu?.id as string}
+                            onRemove={onRemoveTab}
+                            onSelect={onSelectTab}
+                            theme={TabTheme.boxed}
+                            isMenuTab={true}
+                        />
+                    </div>
+                    {sectionPanels.map((panel: SectionPanel) => {
                         return (
                             <div key={panel.id} className={cx("em-panel", { show: activeMenu?.id == panel.id })}>
                                 <iframe key={panel.id} src={panel.url} />
                             </div>
                         )
-                    })} */}
-            </section>
+                    })}
+                </section>
+            )}
         </>
     )
 }

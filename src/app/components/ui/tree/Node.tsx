@@ -81,7 +81,6 @@ const Node = ({
 
     /** 활성화 노드 검사 (자식 노드 포함) */
     const isActiveNode = useMemo((): boolean => {
-        console.log("activateNodeId:: ", activateNodeId, "/// node[keyName]:: ", node[keyName])
         if (!activateNodeId) return false
         return activateNodeId == node[keyName] || allLeafs.includes(activateNodeId)
     }, [activateNodeId, node])

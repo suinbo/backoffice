@@ -10,7 +10,8 @@ export const API = {
     LOGIN_AUTH: "/api/v1/backoffice/auth", // 이메일 2차 인증 번호 발급
     LOGIN_EMAIL_CHECK: "/api/v1/backoffice/auth/check", // 발급받은 2차 인증 번호 체크
     TOP_MENUS: "/api/menus/top", // 상단메뉴 조회
-    SIDE_MENUS: "/api/menus/side" // 네비메뉴 조회
+    SIDE_MENUS: "/api/menus/side", // 네비메뉴 조회
+    USER_HISTORY: "/api/v1/backoffice/users/infoHistory", // 개인정보 수정 - 로그인 기록
 }
 
 /** HTTP METHODS */

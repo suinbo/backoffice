@@ -15,9 +15,7 @@ export const HTTP_STATUS = {
 export const MENUS = {
     HOME: "/",
     SIGNIN: "/signin",
-    AUTH_PASSWORD: "/auth/password",
-    AUTH_EMAIL: "/auth/email",
-    MYPAGE: "",
+    MYPAGE: "/mypage",
 }
 
 export const CUSTOM_MENUS = {
@@ -68,7 +66,22 @@ export const T_NAMESPACE = {
     INTRO: "intro",
 }
 
+export const T_PREFIX: RowItem = {
+    MYPAGE: "myPage",
+}
+
 export const NUMBER = {
     MILLISECOND: 1000,
     MAXIMUM_TAB_SIZE: 10,
+}
+
+export const DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss"
+
+export const PAGINATION_FORMAT = {
+    DEFAULT_LIMIT: 10,
+    DEFAULT_LIMIT_TWO: 20,
+    DEFAULT_LIMIT_THREE: 30,
+    DEFAULT_LIMIT_TEN: 100,
+    DEFAULT_KEYWORD: "",
+    DEFAULT_PAGE: 1,
 }

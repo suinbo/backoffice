@@ -58,7 +58,5 @@ export const SMenuStateProvider = React.memo(({ tMenu = null, children }: { tMen
         [menus, error, activeMenu, sectionPanels]
     )
 
-    console.log("activeMenu:: ", activeMenu)
-
     return <SMenuContext.Provider value={value}> {children} </SMenuContext.Provider>
 })

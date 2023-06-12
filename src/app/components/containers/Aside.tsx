@@ -21,8 +21,6 @@ const Aside = () => {
     const { menus, activeMenu, setActiveMenu, sectionPanels, setSectionPanels } = useSMenu()
     const [foldSidebar, setFoldSidebar] = useState(false)
 
-    console.log("menus:: ", menus)
-
     // iframe 내부에서 탭 수신
     // useEffect(() => {
     //     const messageSender = (e: MessageEvent<SectionPanel>) => {

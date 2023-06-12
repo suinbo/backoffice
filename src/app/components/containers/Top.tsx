@@ -1,4 +1,3 @@
-import "./styles.scss"
 import React, { useCallback, useEffect, useState } from "react"
 import cx from "classnames"
 import { useTranslation } from "react-i18next"
@@ -7,6 +6,8 @@ import { T_NAMESPACE } from "@/utils/resources/constants"
 import { useSMenu } from "@/contexts/MenuContext"
 import { useRequest } from "@/contexts/SendApiContext"
 import { NodeProp } from "@/utils/resources/types"
+import LoginInfo from "./LoginInfo"
+import "./styles.scss"
 
 /** GNB */
 const Top = ({
@@ -63,9 +64,7 @@ const Top = ({
 
     return (
         <header>
-            <div className={"logo-wrap"}>
-                <div className={"logo"} />
-            </div>
+            <div className="logo-wrap">OFFICE</div>
             <div className="top">
                 <nav>
                     {!error &&
@@ -114,7 +113,7 @@ const Top = ({
                     )} */}
 
                     {/* Login 정보 레이아웃 */}
-                    {/* <LoginInfo /> */}
+                    <LoginInfo />
                 </div>
             </div>
         </header>

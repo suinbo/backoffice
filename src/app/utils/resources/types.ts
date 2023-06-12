@@ -21,3 +21,17 @@ export type SectionPanel = {
     update?: boolean
     viewYn?: boolean
 }
+
+/** TYPES OF TABLE  */
+export enum TableTheme {
+    lined = "lined",
+    boxed = "boxed",
+}
+
+export interface PaginationProps {
+    offset: number
+    limit: number
+    total: number
+    size?: number
+    onChange?: (page: number) => void
+}
