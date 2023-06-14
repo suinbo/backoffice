@@ -30,6 +30,13 @@ const routes = () => {
                     <Route path={MENUS.SIGNIN} element={<Pages.Intro />} />
                     <Route path={MENUS.HOME} element={<Pages.Home />} />
                     <Route path={MENUS.MYPAGE} element={<Pages.MyPage />} />
+                    <Route path={MENUS.FAQ} element={<Pages.Faq />} />
+                    {/* <Route path={MENUS.FAQ_DETAIL}>
+                        <Route index element={<Pages.FaqDetail />} />
+                        <Route path=":noId" element={<Pages.FaqDetail />}>
+                            <Route path=":searchParam" element={<Pages.FaqDetail />} />
+                        </Route>
+                    </Route> */}
                 </Routes>
             </CustomRouter>
         </Suspense>

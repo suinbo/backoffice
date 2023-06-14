@@ -1,3 +1,9 @@
+/** Checkbox */
+export type CheckItemProp = {
+    label?: string
+    value: string
+}
+
 /**
  * Selectbox
  */
@@ -40,6 +46,10 @@ export interface sizeCheckProp {
     scrollY: number
 }
 
+/** Multi Selectbox */
+export type MultiSelectBoxItem = SelectBoxItem & { isChecked: boolean }
+export type CheckItemBySelectBox = CheckItemProp & { isChecked: boolean }
+
 /**
  * FormItem
  */
@@ -62,4 +72,14 @@ export interface FormItemProp {
     tooltip?: string
     refreshBtn?: boolean
     refreshEvent?: () => void
+}
+
+/** Search Form */
+export interface SearchFormProp {
+    title: string
+    children: React.ReactNode
+    onSearch: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    onClear?: () => void
+    downloadEvent?: () => void
+    download?: boolean
 }

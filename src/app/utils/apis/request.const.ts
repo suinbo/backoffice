@@ -16,6 +16,10 @@ export const API = {
     TIMEZONE_LIST: "/api/timezones", // 타임존 목록 조회
     LANGUAGE_LIST: "/api/languages", // 사용 언어 조회
     USER_PASSWORD: "",
+    FAQ_LIST: "/api/faqs/list", // FAQ 목록 조회
+
+    OPCODE_LIST: "/api/opcodes", // 운영코드 조회
+    SYSCODE_LIST: "/api/systemCodes", // 시스템코드 조회
 }
 
 /** HTTP METHODS */

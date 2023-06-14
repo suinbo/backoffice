@@ -16,6 +16,8 @@ export const MENUS = {
     HOME: "/",
     SIGNIN: "/signin",
     MYPAGE: "/mypage",
+    FAQ: "/site/faq/faqlist",
+    FAQ_DETAIL: "/site/faq/faq-detail",
 }
 
 export const CUSTOM_MENUS = {
@@ -37,6 +39,15 @@ export const UX_CODES: RowItem = {
 export const UX_MAPPER = {
     [UX_CODES.MYPAGE]: MENUS.MYPAGE,
 }
+
+/** 화면 코드 */
+export const VIEW_CODES: RowItem = {
+    FAQ: "ST00110",
+    POC: "POC",
+}
+
+export const ASC = "asc",
+    DESC = "desc"
 
 /** 로그인 상태 */
 export const LOGIN_STATUS = {
@@ -64,6 +75,7 @@ export const T_NAMESPACE = {
     GLOBAL: "global",
     VALIDATE: "validate",
     INTRO: "intro",
+    FAQ: "faq",
 }
 
 export const T_PREFIX: RowItem = {
@@ -78,6 +90,7 @@ export const NUMBER = {
 }
 
 export const DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss"
+export const DATE_FORMAT_LINE = "YYYY-MM-DD"
 
 export const PAGINATION_FORMAT = {
     DEFAULT_LIMIT: 10,

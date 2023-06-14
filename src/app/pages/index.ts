@@ -6,4 +6,5 @@ export default {
     Intro,
     Home,
     MyPage: lazy(() => import("./mypage")),
+    Faq: lazy(() => import("./site/faq/faqList")),
 }

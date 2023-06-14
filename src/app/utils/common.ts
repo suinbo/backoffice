@@ -12,6 +12,18 @@ export const convert2Utc = (date: string | number, format = DATETIME_FORMAT) => 
     return date ? dayjs.unix(typeof date === "string" ? parseInt(date) : date).format(format) ?? dayjs(date).format(DATETIME_FORMAT) : ""
 }
 
+/** URL 결합 */
+export const combineUrls = (urls: string[]) => urls.join("/")
+
+/**
+ * Number 3자리마다 쉼표 처리
+ * @param {number} value
+ * @return string
+ */
+export const getComma = (value: number) => {
+    return value.toLocaleString()
+}
+
 /**
  * 시간, 분 2자리 표시
  * @param {string | number} value

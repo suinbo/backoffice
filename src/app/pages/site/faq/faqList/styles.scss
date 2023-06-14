@@ -1,0 +1,19 @@
+#faqPage {
+    .em-table-td {
+        &:first-child,
+        &:nth-child(5) {
+            flex: 0.35;
+        }
+        &:nth-child(2) {
+            flex: 0.7;
+        }
+        &:nth-child(3) {
+            flex: 1.9;
+        }
+        &:nth-child(4),
+        &:nth-child(6),
+        &:nth-child(7) {
+            flex: 0.5;
+        }
+    }
+}
