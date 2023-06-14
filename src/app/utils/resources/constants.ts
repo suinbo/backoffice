@@ -73,6 +73,8 @@ export const T_PREFIX: RowItem = {
 export const NUMBER = {
     MILLISECOND: 1000,
     MAXIMUM_TAB_SIZE: 10,
+    MAX_PHONE_LENGTH: 13,
+    PHONE_LENGTH: 11,
 }
 
 export const DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss"

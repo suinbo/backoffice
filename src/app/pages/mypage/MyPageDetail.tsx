@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from "react"
 import { Tabs } from "@/components/ui/tab"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-//import MyPagePassword from "./detail/PasswordDetail"
-//import MyPageDetail from "./detail/MyInfoDetail"
+import MyPagePassword from "./detail/PasswordDetail"
+import MyPageDetail from "./detail/MyInfoDetail"
 import { NodeProp } from "@/components/ui/tree/types"
 import { TabTheme } from "@/components/ui/tab/types"
 
@@ -23,7 +23,7 @@ const MyPageTabs = () => {
     }
 
     const tabView = useCallback(() => {
-        //return activeListTab.id === tabListItems[0].id ? <MyPageDetail /> : <MyPagePassword />
+        return activeListTab.id === tabListItems[0].id ? <MyPageDetail /> : <MyPagePassword />
     }, [activeListTab, tabListItems])
 
     return (

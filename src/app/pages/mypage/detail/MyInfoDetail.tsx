@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react"
 import { Button } from "@/components/ui/buttons"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { ConfirmType } from "@/components/ui/confirm/types"
-import { SelectBox } from "@/components/ui/forms"
+import { Selectbox } from "@/components/ui/forms"
 import { SelectBoxItem } from "@/components/ui/forms/types"
 import { useConfirm } from "@/contexts/ConfirmContext"
 import { useSession } from "@/contexts/SessionContext"
@@ -65,7 +65,7 @@ const MyPageDetail = () => {
     const [formItem, setFormItem] = useState<UserInfoType>(defaultValue)
 
     const { data: timezones } = useFetch<Array<TimezoneType>>({ url: API.TIMEZONE_LIST })
-    const { data: languages } = useFetch<Array<LangType>>({ url: API.LANGUAGE_USE })
+    const { data: languages } = useFetch<Array<LangType>>({ url: API.LANGUAGE_LIST })
     const { setSession } = useSession()
     const { isValid } = useValidate<UserInfoType>(formItem)
     const { setVisible, setOptions } = useConfirm()
@@ -205,7 +205,7 @@ const MyPageDetail = () => {
             <div className="select-setting">
                 <FormItem isDivide={true} required={true}>
                     <Label id="language" value={t("language")} />
-                    <SelectBox
+                    <Selectbox
                         defaultLabel={t("chooseLanguage")}
                         defaultItem={defaultLangItem}
                         items={languageData}
@@ -214,7 +214,7 @@ const MyPageDetail = () => {
                 </FormItem>
                 <FormItem isDivide={true} required={true}>
                     <Label id="timezone" value={t("timezone")} />
-                    <SelectBox
+                    <Selectbox
                         defaultLabel={t("chooseTimezone")}
                         defaultItem={defaultTimeItem}
                         items={timezoneData}

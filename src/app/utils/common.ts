@@ -20,3 +20,13 @@ export const getTimeDigits = (value: string | number) => {
     const twoWordFormat = 2
     return value.toString().padStart(twoWordFormat, "0")
 }
+
+/**
+ * 전화번호 자동 하이픈 표시
+ * @param value string
+ */
+export const autoHyphen = (value: string) =>
+    value
+        .replace(/[^0-9]/g, "")
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+        .replace(/(-{1,2})$/g, "")
