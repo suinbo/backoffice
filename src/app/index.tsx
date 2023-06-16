@@ -1,4 +1,5 @@
 import React from "react"
+import "@/plugins/i18n"
 import Routes from "./route"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { SessionProvider } from "./contexts/SessionContext"
@@ -19,7 +20,7 @@ const App = () => {
                     {/* <AliveScope> */}
                     <QueryClientProvider client={queryClent}>
                         <SendAPIProvider>
-                                <Routes />
+                            <Routes />
                         </SendAPIProvider>
                     </QueryClientProvider>
                     {/* </AliveScope> */}
