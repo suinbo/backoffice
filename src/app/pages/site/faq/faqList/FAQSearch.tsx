@@ -32,21 +32,15 @@ export type pocRenderCodeProps = {
     name?: string
 }
 
-/** Category Code List 데이터 변형 */
-export const getCategoryCode = (codeList: Array<PageCodeList>) => {
-    const getCode = codeList[0].leafs
-    return getCode.map((data: PageCodeList) => {
-        const getLeafs = data.leafs.map((item: PageCodeListProps) => ({ label: item.name, value: item.id }))
-        return {
-            id: data.id,
-            items: [...getLeafs],
-        }
-    })
+/** 시스템 코드 포맷 변경 */
+export const getCategoryCode = (codeList: Array<PageCodeList>, code: string) => {
+    const getDepth = codeList[0].leafs.find(leaf => leaf.id == code)
+    return getDepth.leafs.map((item: PageCodeListProps) => ({ label: item.name, value: item.id }))
 }
 
-/** Cateogry Code 셀렉박스 Items 조회 */
-export const getCodeItems = (items: Array<PageCodeDetailProps>, codeType: string) => {
-    return items ? items.filter(item => item.id === codeType).map(data => data.items)[0] : []
+export const getMultiSelectedItem = (codeList: Array<PageCodeList>, code: string) => {
+    const getDepth = codeList[0].leafs.find(leaf => leaf.id == code)
+    return getDepth.leafs.map((item: PageCodeListProps) => ({ label: item.name, value: item.id, isChecked: true }))
 }
 
 const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
@@ -57,46 +51,31 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
     const { useFetch } = useRequest()
     const [formItem, setFormItem] = useState<FAQRequesDataProp>(requestData)
 
-    /** 멀티 셀렉박스 */
+    /** 셀렉박스 아이템 */
+    const [searchItems, setSearchItem] = useState<SelectBoxItem[]>([])
     const [ctgSeletedItems, setCtgSelectedItems] = useState<MultiSelectBoxItem[]>([])
     const [pocSelectedItems, setPocSelectedItems] = useState<MultiSelectBoxItem[]>([])
 
-    /** 검색 조건 코드 조회 */
-    const { data: code } = useFetch<Array<PageCodeList>>({ url: `${API.OPCODE_LIST}/${VIEW_CODES.FAQ}/list` })
-    const { data: pocCode } = useFetch<Array<pocRenderCodeProps>>({ url: `${API.OPCODE_LIST}/${VIEW_CODES.POC}/${UX_CODES.FAQ}` })
-    const { data: searchCode } = useFetch<Array<PageCodeList>>({ url: `${API.SYSCODE_LIST}/${UX_CODES.FAQ}/list` })
+    /** 운영 코드 조회 */
+    useFetch<Array<PageCodeList>>(
+        { url: `${API.OPCODE_LIST}/${VIEW_CODES.FAQ}/list` },
+        {
+            onSuccess: (res: Array<PageCodeList>) => {
+                const getSearchItem = getCategoryCode(res, "search")
+                setRequestData(prev => ({ ...prev, sType: getSearchItem[0].value }))
 
-    const categoryItems = useMemo(() => code && getCodeItems(getCategoryCode(code), "category"), [code])
-    const pocItems = useMemo(() => (pocCode ? pocCode.map(item => ({ label: item.name, value: item.id })) : []), [pocCode])
-    const sTypeItems = useMemo(() => (searchCode ? getCodeItems(getCategoryCode(searchCode), "search") : []), [searchCode])
-
-    const sType = useMemo(() => sTypeItems.find(item => item.value === formItem.sType) || sTypeItems[0], [formItem])
-
-    useEffect(() => {
-        if (code && pocCode && searchCode) {
-            const param = (state as FAQRequesDataProp) || { ...requestData, sType: sTypeItems[0].value }
-
-            setRequestData(param)
-            setFormItem(param)
-
-            setPocSelectedItems(setBoxItems(pocItems, "pocCd"))
-            setCtgSelectedItems(setBoxItems(categoryItems, "categoryCd"))
+                setSearchItem(getSearchItem)
+                setCtgSelectedItems(getMultiSelectedItem(res, "category"))
+                setPocSelectedItems(getMultiSelectedItem(res, "poc"))
+            },
         }
-    }, [code, pocCode, searchCode])
+    )
 
     /** 노출 여부 아이템 */
     const blindItems: RadioProps<NUMBER_BLINDRADIO_KEY, NUMBER_BLIND_RADIO_VALUE>[] = useMemo(
         () => RADIO_LIST.map(item => ({ ...item, title: g(item.title) })),
         []
     )
-
-    const setBoxItems = (items: SelectBoxItem[], key: keyof FAQRequesDataProp) => {
-        const param = (state as FAQRequesDataProp) || { ...requestData, sType: sTypeItems[0].value }
-        return items.map(item => {
-            const nodsIds = param[key] as Array<string>
-            return { ...item, isChecked: !nodsIds.length || !!nodsIds.find(code => code == item.value) }
-        })
-    }
 
     /** 이벤트 핸들러 */
     const onChange = useCallback((key: string, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,19 +103,18 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
     }, [formItem])
 
     const onClear = useCallback(() => {
-        setFormItem({ ...defaultRequestData, sType: sTypeItems[0].value })
-        setPocSelectedItems(pocItems.map(item => ({ ...item, isChecked: true })))
-        setCtgSelectedItems(categoryItems.map(item => ({ ...item, isChecked: true })))
-    }, [sTypeItems, pocItems, categoryItems])
+        setFormItem({ ...defaultRequestData, sType: searchItems[0].value })
+        setPocSelectedItems(pocSelectedItems.map(item => ({ ...item, isChecked: true })))
+        //setCtgSelectedItems(categoryItems.map(item => ({ ...item, isChecked: true })))
+    }, [searchItems, pocSelectedItems, ctgSeletedItems])
 
     return (
         <SearchForm title={t("faqSearch")} onSearch={onSearch} onClear={onClear}>
             <FormItem title={g("search.condition")}>
                 <Selectbox
-                    items={sTypeItems}
+                    items={searchItems}
                     onChange={item => setFormItem(prev => ({ ...prev, sType: item.value }))}
-                    defaultItem={sType}
-                    //condition={true}
+                    //defaultItem={sType}
                 />
                 <Input
                     id="search"

@@ -19,7 +19,7 @@ export type PageCodeListProps = {
     id: string
     systemId: string
     depth?: number
-    codeValue?: string
+    codeValue?: string  
     name: string
 }
 

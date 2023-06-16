@@ -43,7 +43,7 @@ export const UX_MAPPER = {
 /** 화면 코드 */
 export const VIEW_CODES: RowItem = {
     FAQ: "ST00110",
-    POC: "POC",
+    POC: "poc",
 }
 
 export const ASC = "asc",
