@@ -14,9 +14,7 @@ const MyPage = () => {
         <section id="myPage">
             <Layer.Wrapper pageTitle={t("editProfile")} position={DividerPosition.horizon}>
                 <Layer.Divider>
-                    <Layer.DividerHeader icon={DividerIcon.settings} title={t("profile")}>
-                        <p className="body-description">{t("description")}</p>
-                    </Layer.DividerHeader>
+                    <Layer.DividerHeader icon={DividerIcon.settings} title={t("profile")} />
                     <MyPageTab />
                 </Layer.Divider>
                 <Layer.Divider>

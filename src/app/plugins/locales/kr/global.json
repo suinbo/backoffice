@@ -1,0 +1,26 @@
+{
+    "label": {
+        "all": "전체",
+        "viewY": "노출",
+        "viewN": "비노출",
+        "viewReserve": "노출예약",
+        "multiChoice": "{{val}}개 선택"
+    },
+    "button": {
+        "reset": "초기화",
+        "search": "검색",
+        "regist": "등록",
+        "save": "저장",
+        "cancel": "취소"
+    },
+    "condition": "검색조건",
+    "placeholder": "검색어를 입력하세요.",
+    "title": "제목",
+    "category": "카테고리",
+    "viewPoc": "노출 POC",
+    "viewDate": "노출일시",
+    "viewYn": "노출여부",
+    "readCount": "조회수",
+    "updateDateTime": "수정일자",
+    "totalCount": "* 총 {{val}}건"
+}

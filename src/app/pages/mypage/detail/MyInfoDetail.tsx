@@ -25,7 +25,7 @@ const timeCode = "timeCode"
 const defaultValue = {
     id: "", // 아이디
     name: "", // 관리자명
-    phone: "", // 연락처
+    tel: "", // 연락처
     email: "", // 이메일
     department: "", // 부서
     langCode: "", // 언어
@@ -53,7 +53,7 @@ const MyPageDetail = () => {
                 setFormItem({
                     id: res.id,
                     name: res.name,
-                    phone: res.phone,
+                    tel: res.tel,
                     email: res.email,
                     department: res.department,
                     langCode: res.langCode,
@@ -130,7 +130,7 @@ const MyPageDetail = () => {
                     applyButtonMessage: g("button.save"),
                     onApply: () => {
                         const param = {
-                            phone: encodeURIComponent(formItem.phone),
+                            phone: encodeURIComponent(formItem.tel),
                             email: encodeURIComponent(formItem.email),
                             department: formItem.department,
                             setLangCd: formItem.langCode ?? "",
@@ -181,7 +181,6 @@ const MyPageDetail = () => {
 
     return (
         <DetailForm>
-            <div className="body-title"> {t("detailContents")} </div>
             <FormItem isDivide={true} required={true}>
                 <Label id="id" value={t("id")} />
                 <Input id="id" type="text" readonly={true} value={formItem.id} />
@@ -191,8 +190,8 @@ const MyPageDetail = () => {
                 <Input id="name" type="text" readonly={true} value={formItem.name} />
             </FormItem>
             <FormItem isDivide={true} required={true}>
-                <Label id="phone" value={t("phone")} />
-                <Input id="phone" type="text" value={formItem.phone} onChange={handlePhoneChange} />
+                <Label id="tel" value={t("phone")} />
+                <Input id="tel" type="text" value={formItem.tel} onChange={handlePhoneChange} />
             </FormItem>
             <FormItem isDivide={true} required={true}>
                 <Label id="email" value={t("email")} />
@@ -206,7 +205,6 @@ const MyPageDetail = () => {
                 <FormItem isDivide={true} required={true}>
                     <Label id="language" value={t("language")} />
                     <Selectbox
-                        defaultLabel={t("chooseLanguage")}
                         defaultItem={defaultLangItem}
                         items={languageData}
                         onChange={item => onSelectBoxChange(langCode, item)}
@@ -215,7 +213,6 @@ const MyPageDetail = () => {
                 <FormItem isDivide={true} required={true}>
                     <Label id="timezone" value={t("timezone")} />
                     <Selectbox
-                        defaultLabel={t("chooseTimezone")}
                         defaultItem={defaultTimeItem}
                         items={timezoneData}
                         onChange={item => onSelectBoxChange(timeCode, item)}

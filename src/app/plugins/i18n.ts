@@ -10,6 +10,8 @@ i18n.use(initReactI18next).init(
         defaultNS: "global",
         resources: {
             ko: {
+                global: localeKR.global,
+                intro: localeKR.intro,
                 faq: localeKR.faq,
             },
         },

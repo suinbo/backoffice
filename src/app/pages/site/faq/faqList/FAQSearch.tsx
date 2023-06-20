@@ -110,7 +110,7 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
 
     return (
         <SearchForm title={t("faqSearch")} onSearch={onSearch} onClear={onClear}>
-            <FormItem title={g("search.condition")}>
+            <FormItem title={g("condition")} isDivide={true}>
                 <Selectbox
                     items={searchItems}
                     onChange={item => setFormItem(prev => ({ ...prev, sType: item.value }))}
@@ -121,11 +121,11 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
                     type="text"
                     onChange={e => onChange("search", e)}
                     value={formItem.search}
-                    placeholder={g("search.placeholder")}
+                    placeholder={g("placeholder")}
                     onKeyUp={e => e.key === "Enter" && onSearch()}
                 />
             </FormItem>
-            <FormItem title={g("search.category")} isDivide={true}>
+            <FormItem title={g("category")} isDivide={true} customClassName={["top-line"]}>
                 <MultiSelectBox
                     classList={["long-select-box"]}
                     hasAll={true}
@@ -133,15 +133,7 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
                     onChange={item => onMultiSelect("categoryCd", item)}
                 />
             </FormItem>
-            <FormItem title={g("search.poc")} isDivide={true}>
-                <MultiSelectBox
-                    classList={["long-select-box"]}
-                    hasAll={true}
-                    items={pocSelectedItems}
-                    onChange={item => onMultiSelect("pocCd", item)}
-                />
-            </FormItem>
-            <FormItem title={g("search.viewYn")}>
+            <FormItem title={g("viewYn")}>
                 <Radio
                     key="faqSearchScreenYn"
                     name="faqSearchScreenYn"

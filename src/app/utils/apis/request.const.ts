@@ -12,7 +12,7 @@ export const API = {
     TOP_MENUS: "/api/menus/top", // 상단메뉴 조회
     SIDE_MENUS: "/api/menus/side", // 네비메뉴 조회
     USER_HISTORY: "/api/users/infoHistory", // 로그인 기록 조회
-    USER_INFO: "/api/users/info", // 사용자 정보 조회
+    USER_INFO: "/admins/getAdmins",// 사용자 정보 조회
     TIMEZONE_LIST: "/api/timezones", // 타임존 목록 조회
     LANGUAGE_LIST: "/api/languages", // 사용 언어 조회
     USER_PASSWORD: "",

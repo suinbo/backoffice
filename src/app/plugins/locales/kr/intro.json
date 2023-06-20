@@ -1,0 +1,23 @@
+{
+    "myPage": {
+        "editProfile": "마이페이지",
+        "profile": "프로필 관리",
+        "detailInfo": "상세 정보",
+        "password": "비밀번호",
+        "accessHistory": "접속 내역",
+        "detailContents": "상세 내용",
+        "id": "아이디",
+        "name": "이름",
+        "phone": "전화 번호",
+        "email": "이메일",
+        "department": "부서",
+        "language": "사용 언어",
+        "timezone": "사용 타임존",
+        "history": "로그인 기록",
+        "accessDay": "접속 날짜",
+        "accessIp": "접속 IP",
+        "curPassword": "현재 비밀번호",
+        "newPassword": "새 비밀번호",
+        "confirmNewPassword": "새 비밀번호 확인"
+    }
+}

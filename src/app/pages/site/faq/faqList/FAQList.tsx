@@ -59,23 +59,23 @@ const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
                 accessorKey: "no",
                 header: () => (
                     <div className="headerSort-add" onClick={() => onChangeOrder("no")}>
-                        {g("column.no")}
+                        {"No"}
                         <div className={`headerSort ${checkedSorting("no", requestData.order, requestData.orderType)}`}></div>
                     </div>
                 ),
             },
-            { id: "categoryName", accessorKey: "categoryName", header: g("column.category") },
+            { id: "categoryName", accessorKey: "categoryName", header: g("category") },
             {
                 id: "title",
                 accessorKey: "title",
-                header: g("column.title"),
+                header: g("title"),
                 isClick: true,
                 cell: (props: CellProps) => props.getValue(),
             },
             {
                 id: "pocList",
                 accessorKey: "pocList",
-                header: g("column.viewPoc"),
+                header: g("viewPoc"),
                 accessorFn: (row: FAQListType): string =>
                     row.isAll ? g("label.all") : row.pocList.map((item: { name: string }) => item.name).join(", "),
             },
@@ -85,7 +85,7 @@ const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
                 header: () => {
                     return (
                         <div className="headerSort-add" onClick={() => onChangeOrder("readCnt")}>
-                            {g("column.readCount")}
+                            {g("readCount")}
                             <div className={`headerSort ${checkedSorting("readCnt", requestData.order, requestData.orderType)}`}></div>
                         </div>
                     )
@@ -97,7 +97,7 @@ const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
                 header: () => {
                     return (
                         <div className="headerSort-add" onClick={() => onChangeOrder("viewDt")}>
-                            {g("column.viewDate")}
+                            {g("viewDate")}
                             <div className={`headerSort ${checkedSorting("viewDt", requestData.order, requestData.orderType)}`}></div>
                         </div>
                     )
@@ -107,7 +107,7 @@ const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
             {
                 id: "viewYn",
                 accessorKey: "viewYn",
-                header: g("column.viewYn"),
+                header: g("viewYn"),
                 cell: ({ row }: CellProps) => {
                     const { styleType, title } = getLabel(row.original.viewYn as string)
                     return <Labels styleType={styleType}>{g(title)}</Labels>
@@ -119,7 +119,7 @@ const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
                 header: () => {
                     return (
                         <div className="headerSort-add" onClick={() => onChangeOrder("updateDt")}>
-                            {g("column.updateDateTime")}
+                            {g("updateDateTime")}
                             <div className={`headerSort ${checkedSorting("updateDt", requestData.order, requestData.orderType)}`}></div>
                         </div>
                     )

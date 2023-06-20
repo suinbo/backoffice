@@ -119,13 +119,6 @@ const Password = () => {
 
     return (
         <DetailForm>
-            <div>
-                <div className="sub-title">
-                    <LockOutlined className="sub-icon" />
-                    <p>{t("changePassword")}</p>
-                </div>
-                <p className="sub-description">{t("passwordDescription")}</p>
-            </div>
             <FormItem required={true}>
                 <Label id="password" value={t("curPassword")} />
                 <Input id="secretPw" type="password" onChange={handleChange} value={formItem.secretPw} />

@@ -19,7 +19,7 @@ export type UserHistoryType = {
 export type UserInfoType = {
     id: string
     name: string
-    phone: string
+    tel: string
     email: string
     department: string
     createDate?: number
