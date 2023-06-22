@@ -1,0 +1,31 @@
+.em-timepicker-wrapper {
+    @include flex(flex-start);
+    width: auto !important;
+    > div {
+        @include flex(flex-start);
+        margin-left: 0.75rem;
+        span {
+            margin-left: 0.313rem;
+            font-size: $fs-medium;
+        }
+    }
+    .em-select-box {
+        width: 5rem;
+        .select-option {
+            min-width: 5rem;
+        }
+    }
+
+    &.disabled {
+        .em-select-box {
+            .select-content {
+                background-color: #fafafa;
+                color: #aaa;
+                cursor: default;
+                &:hover {
+                    border: 1px solid $default-border-color;
+                }
+            }
+        }
+    }
+}

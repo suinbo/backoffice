@@ -31,12 +31,14 @@ const routes = () => {
                     <Route path={MENUS.HOME} element={<Pages.Home />} />
                     <Route path={MENUS.MYPAGE} element={<Pages.MyPage />} />
                     <Route path={MENUS.FAQ} element={<Pages.Faq />} />
-                    {/* <Route path={MENUS.FAQ_DETAIL}>
+                    <Route path={MENUS.FAQ_DETAIL}>
                         <Route index element={<Pages.FaqDetail />} />
                         <Route path=":noId" element={<Pages.FaqDetail />}>
                             <Route path=":searchParam" element={<Pages.FaqDetail />} />
                         </Route>
-                    </Route> */}
+                    </Route>
+                    <Route path={MENUS.FAQ_MANAGEMENT} element={<Pages.FaqManagement />} />
+                    <Route path={MENUS.GROUP_MANAGEMENT} element={<Pages.GroupManagement />} />
                 </Routes>
             </CustomRouter>
         </Suspense>

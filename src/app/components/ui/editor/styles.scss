@@ -1,0 +1,38 @@
+.em-editor {
+    width: 100%;
+
+    .ck-editor {
+        > label {
+            &.ck-label {
+                display: none;
+            }
+        }
+
+        .ck-content {
+            @include scroll(62.5rem);
+            overflow-y: auto;
+            width: 100% !important;
+            min-height: 18.75rem;
+            resize: vertical;
+
+            ol,
+            li {
+                list-style-type: revert;
+                padding-left: revert;
+            }
+
+            ul {
+                list-style-type: disc;
+                padding-left: revert;
+            }
+        }
+
+        .ck-toolbar {
+            &.ck-toolbar_grouping {
+                > .ck-toolbar__items {
+                    font-size: 0.625rem;
+                }
+            }
+        }
+    }
+}

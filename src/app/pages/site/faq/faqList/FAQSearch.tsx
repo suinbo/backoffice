@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { VIEW_CODES, PAGINATION_FORMAT, T_NAMESPACE, UX_CODES } from "@/utils/resources/constants"
+import { VIEW_CODES, PAGINATION_FORMAT, T_NAMESPACE } from "@/utils/resources/constants"
 import { Selectbox } from "@/components/ui/forms"
 import { MultiSelectBoxItem, SelectBoxItem } from "@/components/ui/forms/types"
 import Radio, { RadioProps } from "@/components/ui/forms/Radio"
@@ -10,10 +10,11 @@ import Input from "@/components/ui/forms/Input"
 import { FAQRequesDataProp, FAQPageProp } from "./types"
 import MultiSelectBox from "@/components/ui/forms/MultiSelectBox"
 import { useLocation } from "react-router-dom"
-import { PageCodeDetailProps, PageCodeList, PageCodeListProps } from "@/utils/apis/request.types"
+import { PageCodeList, PageCodeListProps } from "@/utils/apis/request.types"
 import { API } from "@/utils/apis/request.const"
 import { useRequest } from "@/contexts/SendApiContext"
-import { defaultRequestData, getLabel, RADIO_LIST } from "./const"
+import { defaultRequestData, getLabel, RADIO_LIST } from "../const"
+import { changeSystemCodeFormat } from "@/utils/common"
 
 //TODO 타입정리
 export const NUMBER_BLIND = {
@@ -33,10 +34,6 @@ export type pocRenderCodeProps = {
 }
 
 /** 시스템 코드 포맷 변경 */
-export const getCategoryCode = (codeList: Array<PageCodeList>, code: string) => {
-    const getDepth = codeList[0].leafs.find(leaf => leaf.id == code)
-    return getDepth.leafs.map((item: PageCodeListProps) => ({ label: item.name, value: item.id }))
-}
 
 export const getMultiSelectedItem = (codeList: Array<PageCodeList>, code: string) => {
     const getDepth = codeList[0].leafs.find(leaf => leaf.id == code)
@@ -61,7 +58,7 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
         { url: `${API.OPCODE_LIST}/${VIEW_CODES.FAQ}/list` },
         {
             onSuccess: (res: Array<PageCodeList>) => {
-                const getSearchItem = getCategoryCode(res, "search")
+                const getSearchItem = changeSystemCodeFormat(res, "search")
                 setRequestData(prev => ({ ...prev, sType: getSearchItem[0].value }))
 
                 setSearchItem(getSearchItem)

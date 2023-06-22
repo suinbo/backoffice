@@ -1,0 +1,80 @@
+#faqManagement {
+    #faqManagementList {
+        .table-search {
+            .em-select-box,
+            .select-option {
+                width: 10rem;
+            }
+        }
+        > .em-table {
+            flex-flow: column;
+            @include scroll(31.35rem);
+
+            .em-table-head {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            .em-table-head,
+            .em-table-body {
+                .em-table-tr {
+                    .em-table-td {
+                        &:nth-child(2),
+                        &:nth-child(3) {
+                            flex: 0.3;
+                        }
+                        &:nth-child(6) {
+                            flex: 0.5;
+                        }
+                        &:nth-child(5),
+                        &:last-child {
+                            flex: 1.2;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .modal {
+        &.add-modal {
+            &.faq-add {
+                .form-box {
+                    width: 68rem;
+                    .search-area {
+                        .form-item {
+                            > div {
+                                > p {
+                                    height: 2rem;
+                                    line-height: 2rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .total-count {
+                        margin-bottom: 0.313rem;
+                    }
+                    .em-table {
+                        .em-table-head,
+                        .em-table-body {
+                            .em-table-tr {
+                                .em-table-td {
+                                    &:nth-child(2),
+                                    &:nth-child(6) {
+                                        flex: 0.3;
+                                    }
+                                    &:nth-child(5) {
+                                        flex: 0.8;
+                                    }
+                                    &:last-child {
+                                        flex: 0.6;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

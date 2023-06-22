@@ -15,7 +15,7 @@ import { useRequest } from "@/contexts/SendApiContext"
 import TsTable from "@/components/ui/table/TsTable"
 import { FAQList as FAQListType, FAQListTypes, FAQPageProp } from "./types"
 import { CellProps } from "@/components/ui/table/tsTypes"
-import { getLabel } from "./const"
+import { getLabel } from "../const"
 
 //TODO
 const checkedSorting = (orderType: string, order: string, keyName: string) => {

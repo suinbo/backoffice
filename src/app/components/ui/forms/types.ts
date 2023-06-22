@@ -4,6 +4,17 @@ export type CheckItemProp = {
     value: string
 }
 
+/** Checkbod List */
+export type CheckItems = Array<CheckItemProp>
+export interface CheckListProp {
+    checkBoxItems: CheckItems
+    onChange?: (items: Array<string>, value?: string) => void
+    allChecked?: boolean
+    checkedItems?: Array<string> | []
+    dimList?: Array<string>
+    blockEventList?: Array<string>
+}
+
 /**
  * Selectbox
  */
@@ -44,6 +55,27 @@ export interface sizeCheckProp {
     height: number
     scrollX: number
     scrollY: number
+}
+
+/**
+ * Selectbox List
+ */
+export type SelectBoxListItem = {
+    inputValue: string
+    selectBoxItem: SelectBoxItem
+    origin: boolean
+}
+
+export interface SelectBoxListProp {
+    selectList: SelectBoxItem[]
+    listItems: SelectBoxListItem[]
+    emptyLabel?: string
+    inputLabel?: string
+    setlistItems?: (itemList: SelectBoxListItem[]) => void
+    onInputChange?: (item: SelectBoxListItem) => void
+    onSelectBoxChange?: (item: SelectBoxListItem) => void
+    onDeleteBoxClick?: (item: SelectBoxListItem) => void
+    readonly?: boolean
 }
 
 /** Multi Selectbox */

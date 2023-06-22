@@ -19,7 +19,7 @@ export type PageCodeListProps = {
     id: string
     systemId: string
     depth?: number
-    codeValue?: string  
+    codeValue?: string
     name: string
 }
 
@@ -40,4 +40,14 @@ export type PageCodeList = {
 export type PageCodeDetailProps<T = SelectBoxItem> = {
     id: string
     items: Array<T>
+    name?: string
+}
+
+export type POCListProp<T = string> = {
+    code: T
+}
+
+export type TimeType = {
+    date: Date
+    time: string
 }

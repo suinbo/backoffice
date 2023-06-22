@@ -12,12 +12,13 @@ export const API = {
     TOP_MENUS: "/api/menus/top", // 상단메뉴 조회
     SIDE_MENUS: "/api/menus/side", // 네비메뉴 조회
     USER_HISTORY: "/api/users/infoHistory", // 로그인 기록 조회
-    USER_INFO: "/admins/getAdmins",// 사용자 정보 조회
+    USER_INFO: "/admins/getAdmins", // 사용자 정보 조회
     TIMEZONE_LIST: "/api/timezones", // 타임존 목록 조회
     LANGUAGE_LIST: "/api/languages", // 사용 언어 조회
     USER_PASSWORD: "",
     FAQ_LIST: "/api/faqs/list", // FAQ 목록 조회
-
+    FAQ_DETAIL: "/api/faqs/details", // FAQ 상세 조회
+    FAQ_ORDER: "", // FAQ 순서 변경
     OPCODE_LIST: "/api/opcodes", // 운영코드 조회
     SYSCODE_LIST: "/api/systemCodes", // 시스템코드 조회
 }

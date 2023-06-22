@@ -7,4 +7,7 @@ export default {
     Home,
     MyPage: lazy(() => import("./mypage")),
     Faq: lazy(() => import("./site/faq/faqList")),
+    FaqDetail: lazy(() => import("./site/faq/faqList/FAQDetail")),
+    FaqManagement: lazy(() => import("./site/faq/faqTypeList")),
+    GroupManagement: lazy(() => import("./operation/menu")),
 }

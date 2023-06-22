@@ -1,6 +1,6 @@
 import { LabelStyleType } from "@/components/ui/labels/type"
 import { PAGINATION_FORMAT, VIEW_CODES, DESC } from "@/utils/resources/constants"
-import { FAQRequesDataProp, RadioGroupProp, RadioLabelProp } from "./types"
+import { FAQRequesDataProp, RadioGroupProp, RadioLabelProp } from "./faqList/types"
 
 export const NUMBER_BLIND = {
     all: "",

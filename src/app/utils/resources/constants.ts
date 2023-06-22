@@ -18,6 +18,8 @@ export const MENUS = {
     MYPAGE: "/mypage",
     FAQ: "/site/faq/faqlist",
     FAQ_DETAIL: "/site/faq/faq-detail",
+    FAQ_MANAGEMENT: "/site/faq/faqMgmt",
+    GROUP_MANAGEMENT: "/operation/curation",
 }
 
 export const CUSTOM_MENUS = {
@@ -44,6 +46,10 @@ export const UX_MAPPER = {
 export const VIEW_CODES: RowItem = {
     FAQ: "ST00110",
     POC: "poc",
+}
+
+export const MESSAGE_TYPE = {
+    TAB: "tab",
 }
 
 export const ASC = "asc",
@@ -82,6 +88,12 @@ export const T_PREFIX: RowItem = {
     MYPAGE: "myPage",
 }
 
+/** 메뉴관리 list key */
+export const MENU_LIST = {
+    UX_LIST: "uxList",
+    LANG_LIST: "langList",
+}
+
 export const NUMBER = {
     MILLISECOND: 1000,
     MAXIMUM_TAB_SIZE: 10,
@@ -91,6 +103,10 @@ export const NUMBER = {
 
 export const DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss"
 export const DATE_FORMAT_LINE = "YYYY-MM-DD"
+export const TIME_HMS_FORMAT = "HH:mm:ss"
+export const DATE_PICKER_FORMAT = "yyyy-MM-dd"
+export const TIME_HMS_START = "00:00:00"
+export const TIME_HMS_END = "23:59:59"
 
 export const PAGINATION_FORMAT = {
     DEFAULT_LIMIT: 10,
@@ -100,3 +116,9 @@ export const PAGINATION_FORMAT = {
     DEFAULT_KEYWORD: "",
     DEFAULT_PAGE: 1,
 }
+
+export const FLAG = {
+    ALL: "",
+    Y: "Y",
+    N: "N",
+} as const

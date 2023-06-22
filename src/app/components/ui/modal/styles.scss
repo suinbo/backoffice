@@ -1,0 +1,114 @@
+.modal {
+    display: none;
+    &.show {
+        display: block;
+    }
+
+    .form-box {
+        .modal-title {
+            position: relative;
+            margin-bottom: 0.625rem;
+            padding: 2rem 2.5rem 1.25rem 2.5rem;
+            border-bottom: 1px solid $default-border-color;
+
+            h2 {
+                font-size: $fs-extra-large;
+            }
+
+            p {
+                margin-top: 0.625rem;
+                font-size: $fs-default;
+            }
+
+            .no-title-close {
+                cursor: pointer;
+            }
+        }
+
+        .form {
+            padding: 0 2.5rem;
+        }
+
+        .button-group {
+            margin-bottom: 0;
+            padding: 0 2.5rem 2.5rem 2.5rem;
+        }
+    }
+
+    &.modal-writing {
+        .form-box {
+            .writing-title {
+                @include flex(space-between);
+                width: 100%;
+                margin-top: 0.625rem;
+
+                h4 {
+                    font-size: $fs-large;
+                }
+            }
+
+            .writing-area {
+                width: 100%;
+
+                input[type='text'] {
+                    height: 2rem;
+                }
+            }
+        }
+    }
+
+    &.add-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+        .form-box {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 54rem;
+            border-radius: $border-radius-large;
+            background: #ffffff;
+            transform: translate(-50%, -50%);
+            @include responsive(mobile) {
+                width: 80%;
+            }
+
+            .writing-area {
+                @include scroll(calc(100vh - 18rem));
+                width: 100%;
+                height: auto;
+
+                .em-select-box {
+                    + input {
+                        max-width: inherit;
+                        width: calc(100% - 7.313rem);
+                    }
+                }
+            }
+        }
+
+        .em-table {
+            .em-table-body {
+                min-height: 2.5rem;
+
+                .no-result {
+                    min-height: 2.5rem;
+                }
+            }
+
+            .em-table-td {
+                &:first-child {
+                    flex: 1;
+                }
+            }
+        }
+
+        .item-title {
+            white-space: pre-line;
+        }
+    }
+}
