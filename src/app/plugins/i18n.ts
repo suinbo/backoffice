@@ -2,7 +2,7 @@ import i18n from "i18next"
 import { initReactI18next } from "react-i18next"
 import { localeKR } from "./locales"
 
-const namespaces = ["global", "faq"]
+const namespaces = ["global", "menu1"]
 
 i18n.use(initReactI18next).init(
     {
@@ -12,7 +12,7 @@ i18n.use(initReactI18next).init(
             ko: {
                 global: localeKR.global,
                 intro: localeKR.intro,
-                faq: localeKR.faq,
+                menu1: localeKR.menu1,
             },
         },
         fallbackLng: ["en", "ko"],

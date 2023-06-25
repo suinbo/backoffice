@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { VIEW_CODES, PAGINATION_FORMAT, T_NAMESPACE } from "@/utils/resources/constants"
+import { VIEW_CODES, PAGINATION_FORMAT, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { Selectbox } from "@/components/ui/forms"
 import { MultiSelectBoxItem, SelectBoxItem } from "@/components/ui/forms/types"
 import Radio, { RadioProps } from "@/components/ui/forms/Radio"
@@ -41,7 +41,7 @@ export const getMultiSelectedItem = (codeList: Array<PageCodeList>, code: string
 }
 
 const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
-    const { t } = useTranslation(T_NAMESPACE.FAQ)
+    const { t } = useTranslation(T_NAMESPACE.MENU1, { keyPrefix: T_PREFIX.TABLE })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
 
     const { state } = useLocation()
@@ -51,7 +51,6 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
     /** 셀렉박스 아이템 */
     const [searchItems, setSearchItem] = useState<SelectBoxItem[]>([])
     const [ctgSeletedItems, setCtgSelectedItems] = useState<MultiSelectBoxItem[]>([])
-    const [pocSelectedItems, setPocSelectedItems] = useState<MultiSelectBoxItem[]>([])
 
     /** 운영 코드 조회 */
     useFetch<Array<PageCodeList>>(
@@ -63,7 +62,6 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
 
                 setSearchItem(getSearchItem)
                 setCtgSelectedItems(getMultiSelectedItem(res, "category"))
-                setPocSelectedItems(getMultiSelectedItem(res, "poc"))
             },
         }
     )
@@ -81,8 +79,7 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
     }, [])
 
     const onMultiSelect = useCallback((key: keyof FAQRequesDataProp, item: MultiSelectBoxItem[]) => {
-        const isPoc = key === "pocCd"
-        isPoc ? setPocSelectedItems(item) : setCtgSelectedItems(item)
+        setCtgSelectedItems(item)
         setFormItem(prev => ({ ...prev, [key]: item.filter(i => i.isChecked).map(v => v.value) }))
     }, [])
 
@@ -95,15 +92,13 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
         }
         setRequestData(param)
         setFormItem(param)
-        setPocSelectedItems(prev => (formItem.pocCd.length ? prev : prev.map(poc => ({ ...poc, isChecked: true }))))
         setCtgSelectedItems(prev => (formItem.categoryCd.length ? prev : prev.map(poc => ({ ...poc, isChecked: true }))))
     }, [formItem])
 
     const onClear = useCallback(() => {
         setFormItem({ ...defaultRequestData, sType: searchItems[0].value })
-        setPocSelectedItems(pocSelectedItems.map(item => ({ ...item, isChecked: true })))
-        //setCtgSelectedItems(categoryItems.map(item => ({ ...item, isChecked: true })))
-    }, [searchItems, pocSelectedItems, ctgSeletedItems])
+        setCtgSelectedItems(ctgSeletedItems.map(item => ({ ...item, isChecked: true })))
+    }, [searchItems, ctgSeletedItems])
 
     return (
         <SearchForm title={t("faqSearch")} onSearch={onSearch} onClear={onClear}>

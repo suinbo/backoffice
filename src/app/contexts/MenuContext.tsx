@@ -32,12 +32,13 @@ export const useSMenu = () => useContext(SMenuContext)
 
 /** Side menu State Provider */
 export const SMenuStateProvider = React.memo(({ tMenu = null, children }: { tMenu: NodeProp | null; children: ReactNode }) => {
-    const { useFetch } = useRequest()
+    const { usePost } = useRequest()
     const {
         data: menus,
         error,
         refetch: mutateMenus,
-    } = useFetch<NodeItems>(tMenu?.id ? { url: applyPath(API.SIDE_MENUS, `${tMenu.id}/list`) } : null)
+    } = usePost({ url: API.SIDE_MENUS, data: { parentId: tMenu?.id ?? "MENU100" } })
+    
 
     // 현재 선택된 메뉴
     const [activeMenu, setActiveMenu] = useState<NodeProp | null>()

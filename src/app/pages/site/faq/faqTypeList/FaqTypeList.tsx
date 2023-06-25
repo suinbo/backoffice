@@ -8,7 +8,7 @@ import { Selectbox } from "@/components/ui/forms"
 import { LibraryAdd } from "@material-ui/icons"
 import { useRequest } from "@/contexts/SendApiContext"
 import { API, HTTP_METHOD_DELETE, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
-import { MENUS, MESSAGE_TYPE, T_NAMESPACE, UX_CODES, VIEW_CODES } from "@/utils/resources/constants"
+import { MENUS, MESSAGE_TYPE, T_NAMESPACE, T_PREFIX, UX_CODES, VIEW_CODES } from "@/utils/resources/constants"
 import { convert2Utc } from "@/utils/common"
 import { useTranslation } from "react-i18next"
 import { SelectBoxItem } from "@/components/ui/forms/types"
@@ -28,7 +28,7 @@ const FAQManagementList = () => {
     const { useFetch, usePost, useAxios } = useRequest()
     const { setVisible, setOptions } = useConfirm()
 
-    const { t } = useTranslation(T_NAMESPACE.FAQ)
+    const { t } = useTranslation(T_NAMESPACE.MENU1, { keyPrefix: T_PREFIX.TABLE })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
 
     const [open, setOpen] = useState<boolean>(false)

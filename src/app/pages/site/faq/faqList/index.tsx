@@ -3,7 +3,7 @@ import Layer from "@/components/layout"
 import { DividerPosition } from "@/components/layout/types"
 import FAQList from "@/pages/site/faq/faqList/FAQList"
 import FAQSearch from "@/pages/site/faq/faqList/FAQSearch"
-import { T_NAMESPACE } from "@/utils/resources/constants"
+import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
 import { defaultRequestData } from "../const"
 import { FAQRequesDataProp } from "./types"
@@ -11,12 +11,12 @@ import "react-datepicker/dist/react-datepicker.css"
 import "./styles.scss"
 
 const Faq = () => {
-    const { t } = useTranslation(T_NAMESPACE.FAQ)
+    const { t } = useTranslation(T_NAMESPACE.MENU1, { keyPrefix: T_PREFIX.TABLE })
     const [requestData, setRequestData] = useState<FAQRequesDataProp>(defaultRequestData)
 
     return (
         <div id="faqPage">
-            <Layer.Wrapper pageTitle={t("faqList")} position={DividerPosition.vertical}>
+            <Layer.Wrapper pageTitle={t("case1")} position={DividerPosition.vertical}>
                 <Layer.Divider>
                     <FAQSearch requestData={requestData} setRequestData={setRequestData} />
                 </Layer.Divider>

@@ -6,7 +6,7 @@ import { SelectBoxListProp } from "./types"
 import { useTranslation } from "react-i18next"
 import { T_NAMESPACE } from "@/utils/resources/constants"
 
-//셀렉박스 폼
+// 셀렉박스 폼
 const SelectBoxForm: React.FC<{
     item: SelectBoxListItem
     selectList: SelectBoxItem[]
@@ -38,18 +38,18 @@ const SelectBoxForm: React.FC<{
 }
 
 const SelectBoxList: React.FC<SelectBoxListProp> = ({
-    listItems, //리스트에 보일 목록
-    selectList, //셀렉박스에 보일 목록
-    emptyLabel = "", //listItems가 비었을시 나타낼 문구
-    inputLabel = "", //input placeholder에 들어갈 문구
-    setlistItems = () => ({}), //상태 저장할set함수
+    listItems, // 리스트에 보일 목록
+    selectList, // 셀렉박스에 보일 목록
+    emptyLabel = "", // listItems 가 비었을 시 나타낼 문구
+    inputLabel = "", // input placeholder 에 들어갈 문구
+    setlistItems = () => ({}), //상태 저장할 set 함수
     readonly = false, // 읽기전용
 }) => {
     const scrollRef = useRef<HTMLDivElement>(null)
 
     // 셀렉터 박스 삭제 이벤트
     const delSelectBox = (idx: number) => {
-        setlistItems(listItems.filter((item, i) => i !== idx))
+        setlistItems(listItems.filter((_, i) => i !== idx))
     }
 
     // 셀렉터 Input 값 변경 이벤트

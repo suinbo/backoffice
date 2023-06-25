@@ -11,8 +11,11 @@
         "search": "검색",
         "regist": "등록",
         "save": "저장",
-        "cancel": "취소"
+        "cancel": "취소",
+        "add": "추가",
+        "delete": "삭제"
     },
+    "all": "전체",
     "condition": "검색조건",
     "placeholder": "검색어를 입력하세요.",
     "title": "제목",
@@ -22,5 +25,7 @@
     "viewYn": "노출여부",
     "readCount": "조회수",
     "updateDateTime": "수정일자",
-    "totalCount": "* 총 {{val}}건"
+    "totalCount": "* 총 {{val}}건",
+    "orderNo": "순서"
+
 }

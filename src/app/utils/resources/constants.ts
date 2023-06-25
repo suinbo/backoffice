@@ -16,10 +16,10 @@ export const MENUS = {
     HOME: "/",
     SIGNIN: "/signin",
     MYPAGE: "/mypage",
-    FAQ: "/site/faq/faqlist",
-    FAQ_DETAIL: "/site/faq/faq-detail",
-    FAQ_MANAGEMENT: "/site/faq/faqMgmt",
-    GROUP_MANAGEMENT: "/operation/curation",
+    FAQ: "/menu1/1/1",
+    FAQ_DETAIL: "/menu1/1/1/detail",
+    FAQ_MANAGEMENT: "/menu1/1/2",
+    GROUP_MANAGEMENT: "/menu1/2",
 }
 
 export const CUSTOM_MENUS = {
@@ -81,11 +81,13 @@ export const T_NAMESPACE = {
     GLOBAL: "global",
     VALIDATE: "validate",
     INTRO: "intro",
-    FAQ: "faq",
+    MENU1: "menu1",
 }
 
 export const T_PREFIX: RowItem = {
     MYPAGE: "myPage",
+    TABLE: "table",
+    TREE: "tree"
 }
 
 /** 메뉴관리 list key */

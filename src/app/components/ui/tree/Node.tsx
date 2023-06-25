@@ -147,7 +147,7 @@ const Node = ({
                 })
             ) : (
                 <NodeContent>
-                    <span className={"em-tree-data"}> {node?.title} </span>
+                    <span className="em-tree-data"> {node?.title} </span>
                 </NodeContent>
             )}
         </>

@@ -11,26 +11,8 @@ export type MenuDetailProp = {
     orderNo: number
     desc: string
     viewYn: boolean
-    dUxId: string
-    uxList: Array<MenuUxProps>
-    defaultName: string
-    langList: Array<MenuLangProps>
+    menuNm: string
+    langList: Array<Menulanguage>
 }
 
-export type MenuUxProps = {
-    regionId: string
-    uxId: string
-}
-
-export type MenuUxList = Array<MenuUxProps>
-
-export type MenuLangProps = {
-    code: string
-    name: string
-}
-
-export type MenuLangList = Array<MenuLangProps>
-
-export type MenuLanguage = { name: string; defaultNm: string; code: string }
-
-export type MenuRegion = { code: string; language: string }
+export type Menulanguage = { rdx: number, regionCd: string; regionNm: string, languageNm: string }

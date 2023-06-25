@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { ASC, DATE_FORMAT_LINE, DESC, MENUS, PAGINATION_FORMAT, T_NAMESPACE } from "@/utils/resources/constants"
+import { ASC, DATE_FORMAT_LINE, DESC, MENUS, PAGINATION_FORMAT, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { DividerIcon } from "@/components/layout/types"
 import { TableTheme } from "@/utils/resources/types"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
@@ -27,7 +27,7 @@ const checkedSorting = (orderType: string, order: string, keyName: string) => {
 const FAQList = ({ requestData, setRequestData }: FAQPageProp) => {
     const navigate = useNavigate()
 
-    const { t } = useTranslation(T_NAMESPACE.FAQ)
+    const { t } = useTranslation(T_NAMESPACE.MENU1, { keyPrefix: T_PREFIX.TABLE })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
     const { usePost } = useRequest()
 

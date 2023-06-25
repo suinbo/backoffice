@@ -9,34 +9,31 @@ import { useRequest } from "@/contexts/SendApiContext"
 import { applyPath } from "@/utils/apis/request"
 import { API, HTTP_METHOD_DELETE } from "@/utils/apis/request.const"
 import { NodeItems, NodeProp, TreeTheme } from "@/components/ui/tree/types"
-import { CHECK_THREE_DEPTH, MENU_LIST_KEY } from "./const"
+import { CHECK_THREE_DEPTH } from "./const"
 
 const List = ({ menuState, setMenuState }: { menuState: MenuStateType; setMenuState: (menuState: MenuStateType) => void }) => {
     const { t } = useTranslation(T_NAMESPACE.GLOBAL, { keyPrefix: T_PREFIX.MENU })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
     const { useFetch, useAxios } = useRequest()
 
-    /**화면 상태 변수 */
+    /** 화면 상태 변수 */
     const { menuId, depth, nodeId, viewYn } = menuState
     const [parentId, setParentId] = useState<string | null>(null)
     const [result, setResult] = useState<NodeItems>([])
 
-    //메뉴 리스트
+    // 메뉴 리스트
     const { refetch: setMenus } = useFetch<NodeItems>(
-        { url: API.TOP_MENUS, key: MENU_LIST_KEY },
-        {
-            onSuccess: (res: NodeItems) => setResult(res),
-        }
+        { url: API.TREE_MENUS },
+        { onSuccess: (res: NodeItems) => setResult(res) }
     )
 
     // 커스텀 노드 렌더러
     const renderer = useCallback(
         ({ node, Content }) => {
-            const hasLeafs = useMemo(() => node.leafs && node.leafs.length > 0, [node])
+            const hasLeafs = useMemo(() => node.leafs && node.leafs.length, [node])
 
             /** Toggle click node */
             const onNodeClick = (clickNode: NodeProp) => {
-                console.log("clickNode:: ", clickNode)
                 setMenuState({
                     menuId: clickNode.menuId,
                     nodeId: clickNode.id,
@@ -82,7 +79,7 @@ const List = ({ menuState, setMenuState }: { menuState: MenuStateType; setMenuSt
 
             return (
                 <Content classList={{ active: menuId === "" }} nodeClick={onNodeClick}>
-                    {t("menuList")}
+                    {g("all")}
                 </Content>
             )
         },
@@ -139,7 +136,7 @@ const List = ({ menuState, setMenuState }: { menuState: MenuStateType; setMenuSt
                                     onClick={onCreate}
                                     disabled={viewYn || depth >= CHECK_THREE_DEPTH || nodeId === null}
                                     border={true}>
-                                    {g("button.create")}
+                                    {g("button.add")}
                                 </Button>
                             </div>
                         )
