@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { SelectBoxItem, SelectBoxListItem } from "@/components/ui/forms/types"
 import { LibraryAdd } from "@material-ui/icons"
@@ -82,16 +82,17 @@ const Detail = ({ menuState, setMenuState }: { menuState: MenuStateType; setMenu
 
     // 선택된 메뉴 상세 조회
     const [langList, setLangList] = useState<SelectBoxListItem[]>([])
-    const { refetch: setDetails, isFetching } = useFetch<MenuDetailProp>(menuId ? { url: `${API.MENU_DETAILS}?menuId=${menuId}` } : null, {
-        onSuccess: (res: MenuDetailProp) => { 
-            setFormItem(res)
-            setLangList(res.langList.map(language => ({ 
-                inputValue: language.languageNm,
-                selectBoxItem: regionList.find(region => region.value == language.regionCd),
-                origin: language.languageNm == res.menuNm
-            })))
-        }
+    const { data: details, refetch: setDetails, isFetching } = useFetch<MenuDetailProp>(menuId ? { url: `${API.MENU_DETAILS}?menuId=${menuId}` } : null, {
+        onSuccess: (res: MenuDetailProp) => setFormItem(res)
     })
+
+    useEffect(() => {
+        details && regionList.length && setLangList(details.langList.map(language => ({ 
+            inputValue: language.languageNm,
+            selectBoxItem: regionList.find(region => region.value == language.regionCd),
+            origin: language.languageNm == details.menuNm
+        })))
+    },[details, regionList])
 
     // Input/Textarea 이벤트 핸들러
     const handleChange = (e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {

@@ -15,6 +15,9 @@
         "add": "추가",
         "delete": "삭제"
     },
+    "confirm": {
+        "onSave": "저장하시겠습니까?"
+    },
     "all": "전체",
     "condition": "검색조건",
     "placeholder": "검색어를 입력하세요.",
