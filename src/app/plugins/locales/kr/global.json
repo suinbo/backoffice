@@ -8,9 +8,11 @@
         "useY": "사용",
         "multiChoice": "{{val}}개 선택",
         "upLoad": "업로드",
-        "link": "링크"
+        "link": "링크",
+        "alert": "알림"
     },
     "button": {
+        "ok": "확인",
         "reset": "초기화",
         "search": "검색",
         "regist": "등록",
@@ -24,6 +26,9 @@
     "confirm": {
         "onSave": "저장하시겠습니까?",
         "onDeleteSection": "섹션 {{val}}을(를) 삭제하시겠습니까?"
+    },
+    "alert": {
+        "maximum2Images": "이미지는 2개만 추가 가능합니다."
     },
     "all": "전체",
     "condition": "검색조건",

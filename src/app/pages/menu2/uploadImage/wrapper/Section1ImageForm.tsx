@@ -61,22 +61,12 @@ const POCImageForm = ({
 
     /** 이미지 개별 삭제 */
     const onDeleteImage = useCallback((image: CurationImageInfo) => {
-        const key = sectionPocItem[imageType].imageKey
-        const getFilteredList = (list: CurationImageInfo[]) => {
-            const removedList = list.filter(item => item.url !== image.url)
-
-                const pocOrderedList = (poc: string) =>
-                    removedList.filter(item => item.pocType == poc).map((item, index) => ({ ...item, orderNo: index + 1 }))
-                return [...pocOrderedList("APP"), ...pocOrderedList("TV")]
-            
-        }
-
         setS3UploadFiles(prev => prev.filter(item => item.key !== image.url))
         setFormItem((prev: CurationDetailProp) => ({
             ...prev,
-            [key]: getFilteredList(prev[key] as CurationImageInfo[]),
+            specialImages: imageList.filter(item => item !== image)
         }))
-    }, [])
+    }, [imageList])
 
     /** 드래그 시작 */
     const onDragStart = useCallback((index: number) => (dragItem.current = index - 1), [imageList])
@@ -118,10 +108,13 @@ const POCImageForm = ({
     /** 이미지 첨부 */
     const onAttachFiles = useCallback(
         ({ id, fileList }: UploadFileProps) => {
-            const isOverTwoImages = fileList.length > SPECIAL_MINIMUN_IMAGE
+            const isOverTwoImages = imageList.filter(image => image.pocType == id).length + fileList.length > SPECIAL_MINIMUN_IMAGE 
 
-            //이미지 2개 이상 시 알럿 노출
-            if (isOverTwoImages) onAlertOfImages()
+            // 이미지 2개 이상 시 알럿 노출
+            if (isOverTwoImages) {
+                onAlertOfImages()
+                return
+            }
 
             fileList.map(item => {
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
@@ -176,8 +169,8 @@ const POCImageForm = ({
      **/
     const imageFileRenderer = useCallback(
         (type: string) => {
-            const image = formItem.specialImages.find(item => item.pocType == type)
-            const renderList = formItem.specialImages.filter(item => item.pocType == type)
+            const image = imageList.find(item => item.pocType == type)
+            const renderList = imageList.filter(item => item.pocType == type)
 
             return (
                 <div className="file-wrapper">
