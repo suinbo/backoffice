@@ -3,16 +3,12 @@ import FormItem from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import {  S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem, CurationIamgeRenderType } from "../types"
+import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
 import { CONTENT_IMAGE_TYPE, LINK, UPLOAD } from "../const"
 import { AttachFile, HighlightOff } from "@material-ui/icons"
 import { UploadFileProps, UploadImageProps } from "@/utils/resources/types"
 import { uploadImage } from "@/utils/common"
 import { S3UploadFile } from "@/utils/aws/types"
-import { SPECIAL_MINIMUN_IMAGE } from "../const"
-import { useConfirm } from "@/contexts/ConfirmContext"
-import { ConfirmType } from "@/components/ui/confirm/types"
-import { ButtonStyleType } from "@/components/ui/buttons/types"
 
 /**
  * 섹션 3 이미지 
@@ -37,7 +33,6 @@ const Section3ImageForm = ({
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
-    const { setVisible, setOptions } = useConfirm()
     const { imageList, imageType } = imageInfo
 
     /** 드래그할 아이템 인덱스 */
@@ -108,73 +103,33 @@ const Section3ImageForm = ({
         [imageList]
     )
 
-    /** 알럿 노출 */
-    const onAlertOfImages = useCallback(() => {
-        setOptions({
-            type: ConfirmType.alert,
-            message: g("alert.maximum2Images"),
-            buttonStyle: ButtonStyleType.primary,
-            applyButtonMessage: g("button.ok"),
-        })
-        setVisible(true)
-    }, [])
-
     /** 이미지 첨부 */
     const onAttachFiles = useCallback(
         ({ id, fileList }: UploadFileProps) => {
-            const appImagesLength = formItem.specialImages?.filter(image => image.pocType == "APP").length
-            const isOverTwoImages = id == "APP" && imageType == "pocType" && fileList.length + appImagesLength > SPECIAL_MINIMUN_IMAGE
-            const isOverSpecialImages = id == "APP" && appImagesLength == SPECIAL_MINIMUN_IMAGE
 
-            //[스페셜관 강조] 이미지 2개 이상 시 알럿 노출
-            if (isOverSpecialImages) {
-                onAlertOfImages()
-                return
-            }
-
-            if (isOverTwoImages) onAlertOfImages()
-
-            const imageFileList = isOverTwoImages ? fileList.slice(0, SPECIAL_MINIMUN_IMAGE - appImagesLength) : fileList
-
-            imageFileList.map(item => {
+            fileList.map(item => {
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
                     setFormItem(prev => {
                         const list: { [key: string]: CurationImageInfo[] } = {
-                            pocType: prev.specialImages,
-                            directionType: prev.images,
                             singleType: prev.contentImages,
                         }
 
-
                         setS3UploadFiles((prev: Array<S3UploadFile>) => {
                             const fileObj = { key: res.imgPath, file: item, option: id }
-                            const uploadFiles: { [key: string]: S3UploadFile[] } = {
-                                pocType:
-                                    id == "APP"
-                                        ? [...prev.filter(item => item.key !== res.imgPath), fileObj]
-                                        : [...prev.filter(item => item.option !== id), fileObj],
-                                directionType: [...prev.filter(item => item.option !== id), fileObj],
-                                singleType: [...prev.filter(item => item.key !== res.imgPath), fileObj],
-                            }
-
-                            return uploadFiles[imageType]
+                            return [...prev.filter(item => item.key !== res.imgPath), fileObj]
                         })
+                        
+                        const contentImages = {
+                            orderNo: list[imageType].length + 1,
+                            url: res.imgPath,
+                            width: res.width,
+                            height: res.height,
+                            previewImage: res.src,
+                        }
 
-                        switch (imageType) {
-                            default: {
-                                const contentImages = {
-                                    orderNo: list[imageType].length + 1,
-                                    url: res.imgPath,
-                                    width: res.width,
-                                    height: res.height,
-                                    previewImage: res.src,
-                                }
-
-                                return {
-                                    ...prev,
-                                    contentImages: [...list[imageType], contentImages],
-                                }
-                            }
+                        return {
+                            ...prev,
+                            contentImages: [...list[imageType], contentImages],
                         }
                     })
                 })
@@ -212,41 +167,26 @@ const Section3ImageForm = ({
         (type: string) => {
             const image = imageList?.find(item => item[imageType] == type)
 
-            // 이미지 렌더 타입
-            const rendererType: { [key: string]: CurationIamgeRenderType } = {
-                singleType: {
-                    renderElement: imageList?.map(image => imageElement(image)),
-                    isMultiUpload: true,
-                    description: { singleType: t("minimum5Images") },
-                },
-            }
-            const { renderElement, isMultiUpload, description } = rendererType[imageType]
-            const isSpecialTvType = isMultiUpload && type !== "TV"
-
             return (
                 <div className="file-wrapper">
                     <>
                         <div className="file-box">
                             <label htmlFor={type}>
                                 <AttachFile />
-                                {g(`button.${!image?.url || isSpecialTvType ? "addFile" : "modifyFile"}`)}
+                                {g(`button.${!image?.url ? "addFile" : "modifyFile"}`)}
                             </label>
-                            {<UploadFile id={type} onChange={onAttachFiles} multiUpload={isSpecialTvType} />}
+                            {<UploadFile id={type} onChange={onAttachFiles} multiUpload={true} />}
                         </div>
-                        {isMultiUpload ? (
-                            <div className="image-box multi">
-                                {image || (type == CONTENT_IMAGE_TYPE && imageList.length) ? (
-                                    renderElement
-                                ) : (
-                                    <div className="description">
-                                        <p>{description[type]}</p>
-                                        {isSpecialTvType && <p>{t("dragNDropImages")}</p>}
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            renderElement
-                        )}
+                        <div className="image-box multi">
+                            {image || imageList.length ? (
+                                imageList?.map(image => imageElement(image))
+                            ) : (
+                                <div className="description">
+                                    <p>{t("minimum5Images")}</p>
+                                    <p>{t("dragNDropImages")}</p>
+                                </div>
+                            )}
+                        </div>
                     </>
                 </div>
             )

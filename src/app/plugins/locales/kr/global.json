@@ -18,7 +18,8 @@
         "cancel": "취소",
         "add": "추가",
         "delete": "삭제",
-        "addFile": "파일 추가"
+        "addFile": "파일 추가",
+        "modifyFile": "파일 변경"
     },
     "confirm": {
         "onSave": "저장하시겠습니까?",
@@ -36,5 +37,7 @@
     "updateDateTime": "수정일자",
     "totalCount": "* 총 {{val}}건",
     "orderNo": "순서",
-    "noResult": "등록된 컨텐츠가 없습니다."
+    "noResult": "등록된 컨텐츠가 없습니다.",
+    "imagePath": "이미지 경로: {{val}}",
+    "imageSize": "이미지 사이즈: {{val}} px"
 }

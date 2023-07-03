@@ -139,9 +139,7 @@ const Section2ImageForm = ({
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
                     setFormItem(prev => {
                         const list: { [key: string]: CurationImageInfo[] } = {
-                            pocType: prev.specialImages,
                             directionType: prev.images,
-                            singleType: prev.contentImages,
                         }
 
                         setS3UploadFiles((prev: Array<S3UploadFile>) => {
@@ -210,15 +208,6 @@ const Section2ImageForm = ({
             const image = imageList?.find(item => item[imageType] == type)
             const hasLinkUrlType = image?.urlType == LINK
 
-            // 이미지 렌더 타입
-            const rendererType: { [key: string]: CurationIamgeRenderType } = {
-                directionType: {
-                    renderElement: image?.url && imageInfoRenderer(image),
-                    isMultiUpload: false,
-                },
-            }
-            const { renderElement, isMultiUpload, description } = rendererType[imageType]
-
             return (
                 <div className="file-wrapper">
                     {hasLinkUrlType ? (
@@ -232,20 +221,7 @@ const Section2ImageForm = ({
                                 </label>
                                <UploadFile id={type} onChange={onAttachFiles} />
                             </div>
-                            {isMultiUpload ? (
-                                <div className="image-box multi">
-                                    {image || (type == CONTENT_IMAGE_TYPE && imageList.length) ? (
-                                        renderElement
-                                    ) : (
-                                        <div className="description">
-                                            <p>{description[type]}</p>
-                                            <p>{t("dragNDropImages")}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                renderElement
-                            )}
+                            {image?.url && imageInfoRenderer(image)}
                         </>
                     )}
                 </div>

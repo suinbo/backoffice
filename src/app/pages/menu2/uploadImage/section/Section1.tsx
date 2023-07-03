@@ -5,13 +5,8 @@ import { T_NAMESPACE } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
 import { CheckItemBySelectBox, MultiSelectBoxItem } from "@/components/ui/forms/types"
 import SelectCheckBox from "@/components/ui/forms/SelectCheckBox"
-import {
-    CONTENT_IMAGE_TYPE,
-    HORIZONTAL,
-    VERTICAL,
-} from "../const"
+import { HORIZONTAL, VERTICAL } from "../const"
 import { S3UploadFile } from "@/utils/aws/types"
-
 import POCImageForm from "../wrapper/Section1ImageForm"
 import { CurationDetailProp,DetailSelectBoxItem } from "../types"
 import "../styles.scss"
@@ -107,7 +102,7 @@ const CurationDetailBasic = ({
             </FormItem>
             {/** 이미지 첨부 영역 */}
             <POCImageForm
-                imageInfo={{ imageList: formItem.contentImages, imageType: "pocType" }}
+                imageInfo={{ imageList: formItem.specialImages, imageType: "pocType" }}
                 formItem={formItem}
                 setFormItem={setFormItem}
                 setS3UploadFiles={setS3UploadFiles}

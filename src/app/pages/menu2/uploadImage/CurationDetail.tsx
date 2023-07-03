@@ -54,7 +54,6 @@ const CurationDetail = () => {
 
     const { isValid } = useValidate(formItem)
     const refs = useRef<HTMLDivElement>(null)
-    console.log(formItem)
 
     /** 시스템 코드 조회 */
     useFetch<PageCodeList[]>(

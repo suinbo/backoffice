@@ -3,8 +3,7 @@ import FormItem, { FormGroup } from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import {  S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem, CurationIamgeRenderType } from "../types"
-import { CONTENT_IMAGE_TYPE } from "../const"
+import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
 import { AttachFile, HighlightOff } from "@material-ui/icons"
 import { UploadFileProps, UploadImageProps } from "@/utils/resources/types"
 import { uploadImage } from "@/utils/common"
@@ -87,7 +86,7 @@ const POCImageForm = ({
 
     /** 드롭 */
     const onDrop = useCallback(
-        (imageType: string, pocType?: string) => {
+        (pocType?: string) => {
             const newList = [...imageList]
             const dragItemValue = newList[dragItem.current]
             newList.splice(dragItem.current, 1)
@@ -97,7 +96,7 @@ const POCImageForm = ({
 
             setFormItem(prev => ({
                 ...prev,
-                [sectionPocItem[imageType].imageKey]: newList.map((item, index) =>
+                specialImages: newList.map((item, index) =>
                     item.pocType == pocType ? { ...item, orderNo: index + 1 } : item
                 ),
             }))
@@ -119,66 +118,31 @@ const POCImageForm = ({
     /** 이미지 첨부 */
     const onAttachFiles = useCallback(
         ({ id, fileList }: UploadFileProps) => {
-            const appImagesLength = formItem.specialImages?.filter(image => image.pocType == "APP").length
-            const isOverTwoImages = id == "APP" && imageType == "pocType" && fileList.length + appImagesLength > SPECIAL_MINIMUN_IMAGE
-            const isOverSpecialImages = id == "APP" && appImagesLength == SPECIAL_MINIMUN_IMAGE
+            const isOverTwoImages = fileList.length > SPECIAL_MINIMUN_IMAGE
 
-            //[스페셜관 강조] 이미지 2개 이상 시 알럿 노출
-            if (isOverSpecialImages) {
-                onAlertOfImages()
-                return
-            }
-
+            //이미지 2개 이상 시 알럿 노출
             if (isOverTwoImages) onAlertOfImages()
 
-            const imageFileList = isOverTwoImages ? fileList.slice(0, SPECIAL_MINIMUN_IMAGE - appImagesLength) : fileList
-
-            imageFileList.map(item => {
+            fileList.map(item => {
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
                     setFormItem(prev => {
-                        const list: { [key: string]: CurationImageInfo[] } = {
-                            pocType: prev.specialImages,
-                        }
-
-
                         setS3UploadFiles((prev: Array<S3UploadFile>) => {
                             const fileObj = { key: res.imgPath, file: item, option: id }
-                            const uploadFiles: { [key: string]: S3UploadFile[] } = {
-                                pocType:
-                                    id == "APP"
-                                        ? [...prev.filter(item => item.key !== res.imgPath), fileObj]
-                                        : [...prev.filter(item => item.option !== id), fileObj],
-                            }
-
-                            return uploadFiles[imageType]
+                            return [...prev, fileObj]
                         })
 
-                        const hasTvImage = !!list[imageType].find(item => item.pocType == "TV")
-                        const specialImages = {
-                            orderNo: list[imageType]?.filter(item => item.pocType == id).length + 1,
-                            pocType: id,
-                            url: res.imgPath,
-                            width: res.width,
-                            height: res.height,
-                            previewImage: res.src,
-                        }
-
-                        //TV 일 경우
-                        if (id == "TV" && hasTvImage) {
-                            list[imageType].map(item => {
-                                if (item.pocType == "TV") {
-                                    item.url = res.imgPath
-                                    item.width = res.width
-                                    item.height = res.height
-                                    item.previewImage = res.src
+                        return { ...prev, 
+                            specialImages: [
+                                ...prev.specialImages, 
+                                {
+                                    orderNo: prev.specialImages.length + 1, 
+                                    height: res.height,
+                                    width: res.width,
+                                    url: res.imgPath,
+                                    previewImage: res.src,
+                                    pocType: id,
                                 }
-                                return item
-                            })
-                            return { ...prev }
-                        }
-                        return {
-                            ...prev,
-                            specialImages: [...list[imageType], specialImages],
+                            ]
                         }
                     })
                 })
@@ -196,11 +160,11 @@ const POCImageForm = ({
                     className="box"
                     onDragStart={() => onDragStart(image.orderNo)}
                     onDragEnter={() => onDragEnter(image.orderNo)}
-                    onDragEnd={() => onDrop(imageType, image.pocType)}
+                    onDragEnd={() => onDrop(image.pocType)}
                     onDragOver={e => e.preventDefault()}
                     draggable>
                     <img className="image" id={image?.url} src={image?.previewImage ?? image?.domain + image?.url} />
-                    {image?.pocType !== "TV" && <HighlightOff className="img-close" onClick={() => onDeleteImage(image)} />}
+                    <HighlightOff className="img-close" onClick={() => onDeleteImage(image)} />
                 </div>
             ),
 
@@ -209,49 +173,31 @@ const POCImageForm = ({
 
     /**
      * 이미지 영역
-     * @desc APP,WEB : 2개 이상 등록
-     * @desc VERTICAL,HORIZONTAL,TV : 1개만 등록
-     * */
+     **/
     const imageFileRenderer = useCallback(
         (type: string) => {
-            const image = imageList?.find(item => item[imageType] == type)
-
-            // 이미지 렌더 타입
-            const rendererType: { [key: string]: CurationIamgeRenderType } = {
-                pocType: {
-                    renderElement: imageElement(image),
-                    isMultiUpload: true,
-                    description: { APP: t("minimum2Images"), TV: t("minimum1Image") },
-                },
-            }
-            const { renderElement, isMultiUpload, description } = rendererType[imageType]
-            const isSpecialTvType = isMultiUpload && type !== "TV"
+            const image = formItem.specialImages.find(item => item.pocType == type)
+            const renderList = formItem.specialImages.filter(item => item.pocType == type)
 
             return (
                 <div className="file-wrapper">
-                    <>
-                        <div className="file-box">
-                            <label htmlFor={type}>
-                                <AttachFile />
-                                {g(`button.${!image?.url || isSpecialTvType ? "addFile" : "modifyFile"}`)}
-                            </label>
-                            {<UploadFile id={type} onChange={onAttachFiles} multiUpload={isSpecialTvType} />}
-                        </div>
-                        {isMultiUpload ? (
-                            <div className="image-box multi">
-                                {image || (type == CONTENT_IMAGE_TYPE && imageList.length) ? (
-                                    renderElement
-                                ) : (
-                                    <div className="description">
-                                        <p>{description[type]}</p>
-                                        {isSpecialTvType && <p>{t("dragNDropImages")}</p>}
-                                    </div>
-                                )}
-                            </div>
+                    <div className="file-box">
+                        <label htmlFor={type}>
+                            <AttachFile />
+                            {g("button.addFile")}
+                        </label>
+                        {<UploadFile id={type} onChange={onAttachFiles} multiUpload={true} />}
+                    </div>
+                    <div className="image-box multi">
+                        {image ? (
+                            renderList.map(image => imageElement(image))
                         ) : (
-                            renderElement
+                            <div className="description">
+                                <p>{t("minimum2Images")}</p>
+                                <p>{t("dragNDropImages")}</p>
+                            </div>
                         )}
-                    </>
+                    </div>
                 </div>
             )
         },
