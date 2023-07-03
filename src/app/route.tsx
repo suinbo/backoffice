@@ -38,7 +38,9 @@ const routes = () => {
                         </Route>
                     </Route>
                     <Route path={MENUS.FAQ_MANAGEMENT} element={<Pages.FaqManagement />} />
-                    <Route path={MENUS.GROUP_MANAGEMENT} element={<Pages.GroupManagement />} />
+                    <Route path={MENUS.TREE} element={<Pages.Tree />} />
+                    <Route path={MENUS.UPLOAD_IMAGE} element={<Pages.UploadImage />} />
+                    <Route path={MENUS.ADD_CONTENT} element={<Pages.AddContent />} />
                 </Routes>
             </CustomRouter>
         </Suspense>

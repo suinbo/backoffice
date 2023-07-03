@@ -4,7 +4,11 @@
         "viewY": "노출",
         "viewN": "비노출",
         "viewReserve": "노출예약",
-        "multiChoice": "{{val}}개 선택"
+        "useN": "미사용",
+        "useY": "사용",
+        "multiChoice": "{{val}}개 선택",
+        "upLoad": "업로드",
+        "link": "링크"
     },
     "button": {
         "reset": "초기화",
@@ -13,10 +17,12 @@
         "save": "저장",
         "cancel": "취소",
         "add": "추가",
-        "delete": "삭제"
+        "delete": "삭제",
+        "addFile": "파일 추가"
     },
     "confirm": {
-        "onSave": "저장하시겠습니까?"
+        "onSave": "저장하시겠습니까?",
+        "onDeleteSection": "섹션 {{val}}을(를) 삭제하시겠습니까?"
     },
     "all": "전체",
     "condition": "검색조건",
@@ -29,6 +35,6 @@
     "readCount": "조회수",
     "updateDateTime": "수정일자",
     "totalCount": "* 총 {{val}}건",
-    "orderNo": "순서"
-
+    "orderNo": "순서",
+    "noResult": "등록된 컨텐츠가 없습니다."
 }

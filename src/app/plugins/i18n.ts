@@ -13,6 +13,7 @@ i18n.use(initReactI18next).init(
                 global: localeKR.global,
                 intro: localeKR.intro,
                 menu1: localeKR.menu1,
+                menu2: localeKR.menu2,
             },
         },
         fallbackLng: ["en", "ko"],

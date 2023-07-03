@@ -35,3 +35,35 @@ export interface PaginationProps {
     size?: number
     onChange?: (page: number) => void
 }
+
+/** TYPES OF UPLOAD FILE */
+export type UploadFileProps = {
+    id?: string
+    name?: string
+    fileList: File[]
+}
+
+export type UploadImageProps = {
+    src: string
+    no: number
+    imgPath: string
+    file: File
+    width?: number
+    height?: number
+}
+
+export type imageRequestProp = {
+    file: File
+    prefix?: string
+    type?: string[]
+    hasSize?: boolean
+}
+
+export type imageFileProp = {
+    src: string
+    imgPath: string
+    width?: number
+    height?: number
+    no?: string | number
+    file?: File
+}

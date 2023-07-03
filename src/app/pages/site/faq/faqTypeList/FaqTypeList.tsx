@@ -178,7 +178,7 @@ const FAQManagementList = () => {
                 onClickHandler={onMoveTab}
                 onDrop={onDrop}
                 isLoading={isFetching}
-                noResultMsg={g("noResultMessage")}
+                noResultMsg={g("noResult")}
             />
             {open && (
                 <FaqAddModal

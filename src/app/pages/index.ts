@@ -9,5 +9,7 @@ export default {
     Faq: lazy(() => import("./site/faq/faqList")),
     FaqDetail: lazy(() => import("./site/faq/faqList/FAQDetail")),
     FaqManagement: lazy(() => import("./site/faq/faqTypeList")),
-    GroupManagement: lazy(() => import("./operation/menu")),
+    Tree: lazy(() => import("./operation/menu")),
+    UploadImage: lazy(() => import("./menu2/uploadImage")),
+    AddContent: lazy(() => import("./menu2/addContent")),
 }

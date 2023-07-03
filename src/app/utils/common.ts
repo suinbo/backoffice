@@ -1,6 +1,8 @@
 import dayjs from "dayjs"
-import { DATETIME_FORMAT } from "./resources/constants"
+import { DATETIME_FORMAT, DATE_FILE_FORMAT } from "./resources/constants"
 import { PageCodeList, PageCodeListProps } from "./apis/request.types"
+import { IMAGETYPE } from "./resources/mimeTypes"
+import { imageFileProp, imageRequestProp } from "./resources/types"
 
 /** IE Browser 체크 */
 export const isInternetExplorer = () => {
@@ -69,3 +71,62 @@ export const autoHyphen = (value: string) =>
         .replace(/[^0-9]/g, "")
         .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
         .replace(/(-{1,2})$/g, "")
+
+/**
+ * 리스트 Drag&Drop 순서 변경
+ * @param list Array
+ * @param dragIdx Number
+ * @param dropIdx Number
+ * @param orderKey
+ */
+export const setListOrderChange = (list: Array<any>, dragIdx: number, dropIdx: number, orderKey = "orderNo") => {
+    const changeList = [...list]
+    changeList.splice(dropIdx, 0, changeList.splice(dragIdx, 1)[0])
+    return changeList.reduce((acc, cur, idx) => {
+        acc.push({ ...cur, [orderKey]: idx + 1 })
+        return acc
+    }, [])
+}
+
+/**
+ * 이미지 파일 정보 조회
+ * @param file 이미지 파일
+ * @param prefix 기준 경로
+ * @param type 허용할 이미지 타입
+ * @param hasSize 이미지 사이즈 표시 여부
+ * @imgPath {prefix}/YYYY/MM/DD/{unixTime}_{count}.{ext}
+ */
+export const uploadImage = ({ file, prefix, type = [IMAGETYPE], hasSize = true }: imageRequestProp) => {
+    return new Promise((resolve, reject) => {
+        if (!file.type.split("/").some(item => type.includes(item))) {
+            // 이미지 타입에 맞지 않을 경우
+            reject({ errorType: type || "not match" })
+        } else {
+            const imageInfo: imageFileProp = {
+                src: "",
+                no: `image_${dayjs().format("HHmmss")}`,
+                imgPath: `${prefix}/${dayjs().format(DATE_FILE_FORMAT)}/${dayjs().unix()}_1.${file.name.split(".").at(-1)}`,
+                file: file,
+            }
+
+            const imageSize = hasSize && new Image()
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onloadend = () => {
+                imageInfo.src = reader.result?.toString()
+                if (hasSize) {
+                    // 상세 이미지 정보(사이즈 O)
+                    imageSize.src = reader.result?.toString()
+                    imageSize.onload = () => {
+                        imageInfo.width = imageSize.width
+                        imageInfo.height = imageSize.height
+                        resolve(imageInfo)
+                    }
+                } else {
+                    // 기본 이미지 정보(사이즈 X)
+                    resolve(imageInfo)
+                }
+            }
+        }
+    })
+}

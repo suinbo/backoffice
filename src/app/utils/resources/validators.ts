@@ -40,7 +40,7 @@ const isValidHexCode = (value: string) => /^#[a-fA-F0-9]*$/.test(value)
 const isValidEnglishNumber = (value: string) => /^[a-zA-Z0-9]*$/g.test(value)
 const isValidInteger = (value: string) => /^-?\d+$/.test(value)
 
-//연속된 알파벳 및 숫자 체크
+// 연속된 알파벳 및 숫자 체크
 const isContinuous = (value: string, times: number) => {
     let count = 0
     for (let i = 0; i < value.length - 1; i++) {
@@ -52,7 +52,7 @@ const isContinuous = (value: string, times: number) => {
     return false
 }
 
-//비밀번호 포맷 체크
+// 비밀번호 포맷 체크
 const isInValidPassword = ({ password = "", id = "", count = 4 }) => {
     if (!password) return "inValidPassword"
     if (isSameThreeTimes(password)) return "notUseRepeatPatternRegex"
@@ -61,8 +61,15 @@ const isInValidPassword = ({ password = "", id = "", count = 4 }) => {
     return ""
 }
 
-//시,분 포맷 체크
+// 시,분 포맷 체크
 export const isValidTimeFormat = (value: string) => /^([01][0-9]|[0-5][0-9])$/.test(value)
+
+// url 포맷 체크
+export const isValidUrl = (value: string) => {
+    const regExp =
+        /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    return regExp.test(value)
+}
 
 export {
     isValidAccessId,

@@ -58,7 +58,7 @@ const LoginLog = () => {
 
     return (
         <div className="login-log">
-            <TsTable theme={TableTheme.lined} keyName={keyName} columns={tsColumns} rows={data.list} noResultMsg={g("noResultMessage")} />
+            <TsTable theme={TableTheme.lined} keyName={keyName} columns={tsColumns} rows={data.list} noResultMsg={g("noResult")} />
             <Pagination offset={pageOffset.page} limit={pageOffset.size} total={data.totalCount} onChange={controlPage} />
         </div>
     )

@@ -23,7 +23,7 @@ export const API = {
     FAQ_DETAIL: "/api/faqs/details", // FAQ 상세 조회
     FAQ_ORDER: "", // FAQ 순서 변경
     OPCODE_LIST: "/api/opcodes", // 운영코드 조회
-    SYSCODE_LIST: "/api/systemCodes", // 시스템코드 조회
+    SYSCODE_LIST: "/admins/getSystemCode", // 시스템코드 조회
 }
 
 /** HTTP METHODS */

@@ -1,5 +1,7 @@
 import { SelectBoxItem } from "@/components/ui/forms/types"
 
+export type FlagYN = "Y" | "N" | ""
+
 export type RequestPage = {
     page: number
     size: number
@@ -17,10 +19,9 @@ export type TableList<L, T = number> = {
 /** TYPE OF SYSTEM CODE */
 export type PageCodeListProps = {
     id: string
-    systemId: string
-    depth?: number
-    codeValue?: string
     name: string
+    value: string
+    depth?: number
 }
 
 export type PageCodeList = {
@@ -31,10 +32,10 @@ export type PageCodeList = {
         id: string
         leafs?: Array<PageCodeListProps>
         name: string
-        systemId: string
+        value: string
     }>
     name: string
-    systemId: string
+    value: string
 }
 
 export type PageCodeDetailProps<T = SelectBoxItem> = {

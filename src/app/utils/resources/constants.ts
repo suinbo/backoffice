@@ -19,7 +19,9 @@ export const MENUS = {
     FAQ: "/menu1/1/1",
     FAQ_DETAIL: "/menu1/1/1/detail",
     FAQ_MANAGEMENT: "/menu1/1/2",
-    GROUP_MANAGEMENT: "/menu1/2",
+    TREE: "/menu1/2",
+    UPLOAD_IMAGE: "/menu2/1/1",
+    ADD_CONTENT: "/menu2/1/2",
 }
 
 export const CUSTOM_MENUS = {
@@ -46,6 +48,7 @@ export const UX_MAPPER = {
 export const VIEW_CODES: RowItem = {
     FAQ: "ST00110",
     POC: "poc",
+    MENU2: "MENU200"
 }
 
 export const MESSAGE_TYPE = {
@@ -82,6 +85,7 @@ export const T_NAMESPACE = {
     VALIDATE: "validate",
     INTRO: "intro",
     MENU1: "menu1",
+    MENU2: "menu2"
 }
 
 export const T_PREFIX: RowItem = {
@@ -124,3 +128,9 @@ export const FLAG = {
     Y: "Y",
     N: "N",
 } as const
+
+export const S3_SERVICE_PREFIX = {
+    curation: "ntgs/menu2/navigator",
+}
+
+export const DATE_FILE_FORMAT = "YYYY/MM/DD"
