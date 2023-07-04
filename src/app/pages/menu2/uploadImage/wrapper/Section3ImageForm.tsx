@@ -3,7 +3,7 @@ import FormItem from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import {  S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
+import { SectionImageProp, ImageOfSectionTypeProp, ImageProp } from "../types"
 import { CONTENT_IMAGE_TYPE, LINK, UPLOAD } from "../const"
 import { AttachFile, HighlightOff } from "@material-ui/icons"
 import { UploadFileProps, UploadImageProps } from "@/utils/resources/types"
@@ -24,11 +24,11 @@ const Section3ImageForm = ({
     setS3UploadFiles,
 }: {
     imageInfo: {
-        imageList: Array<CurationImageInfo>
+        imageList: Array<ImageProp>
         imageType: string
     }
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionImageProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
@@ -52,7 +52,7 @@ const Section3ImageForm = ({
 
     /** 섹션 별 이미지 아이템 */
     const sectionPocItem = useMemo(
-        (): { [key: string]: CurationImageFormItem } => ({
+        (): { [key: string]: ImageOfSectionTypeProp } => ({
             singleType: {
                 formTitle: t("image"),
                 labelList: labelItem.slice(0, 1).map(item => ({ ...item, id: UPLOAD })),
@@ -62,11 +62,11 @@ const Section3ImageForm = ({
     )
 
     /** 이미지 개별 삭제 */
-    const onDeleteImage = useCallback((image: CurationImageInfo) => {
+    const onDeleteImage = useCallback((image: ImageProp) => {
         setS3UploadFiles(prev => prev.filter(item => item.key !== image.url))
-        setFormItem((prev: CurationDetailProp) => ({
+        setFormItem((prev: SectionImageProp) => ({
             ...prev,
-            contentImages: imageList.filter(item => item !== image)
+            section3Images: imageList.filter(item => item !== image)
         }))
     }, [imageList])
 
@@ -88,7 +88,7 @@ const Section3ImageForm = ({
 
             setFormItem(prev => ({
                 ...prev,
-                contentImages: newList.map((item, index) =>
+                section3Images: newList.map((item, index) =>
                     item.pocType == pocType ? { ...item, orderNo: index + 1 } : item
                 ),
             }))
@@ -103,8 +103,8 @@ const Section3ImageForm = ({
             fileList.map(item => {
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
                     setFormItem(prev => {
-                        const list: { [key: string]: CurationImageInfo[] } = {
-                            singleType: prev.contentImages,
+                        const list: { [key: string]: ImageProp[] } = {
+                            singleType: prev.section3Images,
                         }
 
                         setS3UploadFiles((prev: Array<S3UploadFile>) => {
@@ -112,7 +112,7 @@ const Section3ImageForm = ({
                             return [...prev.filter(item => item.key !== res.imgPath), fileObj]
                         })
                         
-                        const contentImages = {
+                        const section3Images = {
                             orderNo: list[imageType].length + 1,
                             url: res.imgPath,
                             width: res.width,
@@ -122,7 +122,7 @@ const Section3ImageForm = ({
 
                         return {
                             ...prev,
-                            contentImages: [...list[imageType], contentImages],
+                            section3Images: [...list[imageType], section3Images],
                         }
                     })
                 })
@@ -133,7 +133,7 @@ const Section3ImageForm = ({
 
     /** 이미지 첨부 레이아웃 */
     const imageElement = useCallback(
-        (image: CurationImageInfo) =>
+        (image: ImageProp) =>
             image && (
                 <div
                     key={image.orderNo}

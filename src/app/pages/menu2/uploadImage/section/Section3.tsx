@@ -3,7 +3,7 @@ import FormItem from "@/components/ui/forms/FormItem"
 import Radio, { RadioProps } from "@/components/ui/forms/Radio"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationDetailProp } from "../types"
+import { SectionImageProp } from "../types"
 import { S3UploadFile } from "@/utils/aws/types"
 import { HORIZONTAL, VERTICAL } from "../const"
 import { CONTENT_IMAGE_TYPE } from "../../addContent/const"
@@ -11,16 +11,15 @@ import Section3ImageForm from "../wrapper/Section3ImageForm"
 import "../styles.scss"
 
 /**
- * 큐레이션 상세 > 부가정보
- * @param
+ * 섹션 3
  */
-const CurationDetailEtc = ({
+const Section3 = ({
     formItem,
     setFormItem,
     setS3UploadFiles,
 }: {
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionImageProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
@@ -56,12 +55,12 @@ const CurationDetailEtc = ({
     }, [])
 
     return (
-        <div id={"section3"} className="content-area form-group-shape">
+        <div id="section3" className="content-area form-group-shape">
             <div className="main-title-wrap">
                 <h4>{t("section3")}</h4>
             </div>
-            {/** 상단 이미지 사용여부 */}
-            <FormItem title={t("useImageYN")} customClassName={["top-line"]} required={true} tooltip={t("tooltipImageUseYn")}>
+            {/** 이미지 사용여부 */}
+            <FormItem title={t("useImageYN")} customClassName={["top-line"]} required={true}>
                 <Radio
                     key="imageYn"
                     name="imageYn"
@@ -73,7 +72,7 @@ const CurationDetailEtc = ({
             {/** 이미지 */}
             {formItem.imageYn && (
                 <Section3ImageForm
-                    imageInfo={{ imageList: formItem.contentImages, imageType: CONTENT_IMAGE_TYPE }}
+                    imageInfo={{ imageList: formItem.section3Images, imageType: CONTENT_IMAGE_TYPE }}
                     formItem={formItem}
                     setFormItem={setFormItem}
                     setS3UploadFiles={setS3UploadFiles}
@@ -83,4 +82,4 @@ const CurationDetailEtc = ({
     )
 }
 
-export default CurationDetailEtc
+export default Section3

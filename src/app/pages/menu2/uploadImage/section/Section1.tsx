@@ -8,28 +8,28 @@ import SelectCheckBox from "@/components/ui/forms/SelectCheckBox"
 import { HORIZONTAL, VERTICAL } from "../const"
 import { S3UploadFile } from "@/utils/aws/types"
 import POCImageForm from "../wrapper/Section1ImageForm"
-import { CurationDetailProp,DetailSelectBoxItem } from "../types"
+import { SectionImageProp } from "../types"
 import "../styles.scss"
+import { DetailSelectBoxItem } from "../../addContent/types"
 
 /**
- * 큐레이션 상세 > 기본정보
- * @param items
+ * 섹션 1 
  */
-const CurationDetailBasic = ({
-    poc,
+const Section1 = ({
+    imageType,
     contentsType,
     formItem,
     setFormItem,
     setS3UploadFiles,
 }: {
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionImageProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
 } & Partial<DetailSelectBoxItem>) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2)
     const [selectedPoc, setSelectedPoc] = useState<Array<CheckItemBySelectBox>>([])
 
-    useEffect(() => setSelectedPoc(poc.map(item => ({ ...item, isChecked: formItem.pocs.includes(item.value) }))), [poc, formItem])
+    useEffect(() => setSelectedPoc(imageType.map(item => ({ ...item, isChecked: formItem.imageType.includes(item.value) }))), [imageType, formItem])
 
     /** 큐레이션 명, 분류 입력 */
     const handleChange = useCallback(
@@ -51,22 +51,19 @@ const CurationDetailBasic = ({
         (items: MultiSelectBoxItem[]) => {
             const selectedPocs = items.filter(item => item.isChecked).map(item => item.value)
 
-            //app/WEB/TV 선택
+            // 이미지 타입 선택 여부
             const isVerticalImage = selectedPocs.includes("APP")
             const isHorizonImage = selectedPocs.includes("APP") || selectedPocs.includes("WEB") || selectedPocs.includes("TV")
 
             setSelectedPoc(items)
 
-            //POC 별 노출 이미지 초기화
+            // POC 별 노출 이미지 초기화
             setFormItem(prev => {
                 const result = {
                     ...prev,
-                    pocs: items.filter(item => item.isChecked).map(item => item.value),
-                    specialImages: prev.specialImages?.filter(item =>
+                    imageType: items.filter(item => item.isChecked).map(item => item.value),
+                    section1Images: prev.section1Images?.filter(item =>
                         (!selectedPocs.includes("APP") && selectedPocs.includes("WEB") ? ["APP", ...selectedPocs] : selectedPocs).includes(item.pocType)
-                    ),
-                    images: prev.images.filter(
-                        image => (isVerticalImage && image.directionType == VERTICAL) || (isHorizonImage && image.directionType == HORIZONTAL)
                     ),
                 }
 
@@ -84,7 +81,7 @@ const CurationDetailBasic = ({
     /** 라디오 선택 아이템 */
     const selectedCurationType = useMemo(
         () => contentsType.find(item => item.value == formItem.contentsType)?.id,
-        [formItem.contentsType, contentsType]
+        [formItem, contentsType]
     )
 
     return (
@@ -102,7 +99,7 @@ const CurationDetailBasic = ({
             </FormItem>
             {/** 이미지 첨부 영역 */}
             <POCImageForm
-                imageInfo={{ imageList: formItem.specialImages, imageType: "pocType" }}
+                imageInfo={{ imageList: formItem.section1Images, imageType: "pocType" }}
                 formItem={formItem}
                 setFormItem={setFormItem}
                 setS3UploadFiles={setS3UploadFiles}
@@ -111,4 +108,4 @@ const CurationDetailBasic = ({
     )
 }
 
-export default CurationDetailBasic
+export default Section1

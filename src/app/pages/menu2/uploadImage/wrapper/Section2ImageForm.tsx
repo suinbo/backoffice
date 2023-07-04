@@ -3,7 +3,7 @@ import FormItem, { FormGroup } from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import { S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
+import { ImageProp, SectionImageProp, ImageOfSectionTypeProp } from "../types"
 import { HORIZONTAL, LINK, UPLOAD, VERTICAL } from "../const"
 import Radio from "@/components/ui/forms/Radio"
 import { AttachFile } from "@material-ui/icons"
@@ -27,11 +27,11 @@ const Section2ImageForm = ({
     setS3UploadFiles,
 }: {
     imageInfo: {
-        imageList: Array<CurationImageInfo>
+        imageList: Array<ImageProp>
         imageType: string
     }
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionImageProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
@@ -49,13 +49,13 @@ const Section2ImageForm = ({
 
     /** 섹션 별 이미지 아이템 */
     const sectionPocItem = useMemo(
-        (): { [key: string]: CurationImageFormItem } => ({
+        (): { [key: string]: ImageOfSectionTypeProp } => ({
             directionType: {
                 formTitle: [t("vertical"), t("horizon")],
                 pocType: [VERTICAL, HORIZONTAL],
                 labelList: labelItem,
-                hasAppImage: formItem.pocs.includes("APP"),
-                hasTvImage: formItem.pocs.includes("APP") || formItem.pocs.includes("WEB") || formItem.pocs.includes("TV"),
+                hasAppImage: formItem.imageType.includes("APP"),
+                hasTvImage: formItem.imageType.includes("APP") || formItem.imageType.includes("WEB") || formItem.imageType.includes("TV"),
             },
         }),
         [formItem]
@@ -76,7 +76,7 @@ const Section2ImageForm = ({
             const { id, value } = e.target
 
             setFormItem(prev => {
-                const images = prev.images.map(item => {
+                const images = prev.section2Images.map(item => {
                     if (item[imageType] == id) {
                         item.url = value
                     }
@@ -97,9 +97,9 @@ const Section2ImageForm = ({
             if (value == LINK) setS3UploadFiles(prev => prev.filter(item => item.option !== name))
 
             setFormItem(prev => {
-                const hasType = !!prev.images.find(item => item.directionType == name)
+                const hasType = !!prev.section2Images.find(item => item.directionType == name)
                 if (hasType) {
-                    prev.images.map(item => {
+                    prev.section2Images.map(item => {
                         if (item.directionType == name) {
                             item.urlType = value
                             item.url = ""
@@ -113,8 +113,8 @@ const Section2ImageForm = ({
                 } else {
                     return {
                         ...prev,
-                        images: [
-                            ...prev.images,
+                        section2Images: [
+                            ...prev.section2Images,
                             {
                                 urlType: value,
                                 directionType: name,
@@ -137,8 +137,8 @@ const Section2ImageForm = ({
             fileList.map(item => {
                 uploadImage({ file: item, prefix: S3_SERVICE_PREFIX.curation }).then((res: UploadImageProps) => {
                     setFormItem(prev => {
-                        const list: { [key: string]: CurationImageInfo[] } = {
-                            directionType: prev.images,
+                        const list: { [key: string]: ImageProp[] } = {
+                            directionType: prev.section2Images,
                         }
 
                         setS3UploadFiles((prev: Array<S3UploadFile>) => {
@@ -174,7 +174,7 @@ const Section2ImageForm = ({
                             })
                             return { ...prev }
                         } else {
-                            return { ...prev, images: [...list[imageType], addImages] }
+                            return { ...prev, section2Images: [...list[imageType], addImages] }
                         }
                             
                     })
@@ -185,7 +185,7 @@ const Section2ImageForm = ({
     )
 
     /** 이미지 정보 영역 */
-    const imageInfoRenderer = useCallback((image: CurationImageInfo) => {
+    const imageInfoRenderer = useCallback((image: ImageProp) => {
         return (
             <>
                 <TextLink value={(image.domain ?? "") + image.url} active={true} />

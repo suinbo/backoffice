@@ -3,7 +3,7 @@ import FormItem, { FormGroup } from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import {  S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
+import { ImageOfSectionTypeProp, ImageProp, SectionImageProp } from "../types"
 import { AttachFile, HighlightOff } from "@material-ui/icons"
 import { UploadFileProps, UploadImageProps } from "@/utils/resources/types"
 import { uploadImage } from "@/utils/common"
@@ -27,11 +27,11 @@ const POCImageForm = ({
     setS3UploadFiles,
 }: {
     imageInfo: {
-        imageList: Array<CurationImageInfo>
+        imageList: Array<ImageProp>
         imageType: string
     }
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionImageProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
@@ -47,24 +47,24 @@ const POCImageForm = ({
 
     /** 섹션 별 이미지 아이템 */
     const sectionPocItem = useMemo(
-        (): { [key: string]: CurationImageFormItem } => ({
+        (): { [key: string]: ImageOfSectionTypeProp } => ({
             pocType: {
                 formTitle: [t("appweb"), t("tv")],
                 pocType: ["APP", "TV"],
-                hasAppImage: formItem.pocs.includes("APP") || formItem.pocs.includes("WEB"),
-                hasTvImage: formItem.pocs.includes("TV"),
-                imageKey: "specialImages",
+                hasAppImage: formItem.imageType.includes("APP") || formItem.imageType.includes("WEB"),
+                hasTvImage: formItem.imageType.includes("TV"),
+                imageKey: "section1Images",
             },
         }),
         [formItem]
     )
 
     /** 이미지 개별 삭제 */
-    const onDeleteImage = useCallback((image: CurationImageInfo) => {
+    const onDeleteImage = useCallback((image: ImageProp) => {
         setS3UploadFiles(prev => prev.filter(item => item.key !== image.url))
-        setFormItem((prev: CurationDetailProp) => ({
+        setFormItem((prev: SectionImageProp) => ({
             ...prev,
-            specialImages: imageList.filter(item => item !== image)
+            section1Images: imageList.filter(item => item !== image)
         }))
     }, [imageList])
 
@@ -86,7 +86,7 @@ const POCImageForm = ({
 
             setFormItem(prev => ({
                 ...prev,
-                specialImages: newList.map((item, index) =>
+                section1Images: newList.map((item, index) =>
                     item.pocType == pocType ? { ...item, orderNo: index + 1 } : item
                 ),
             }))
@@ -125,10 +125,10 @@ const POCImageForm = ({
                         })
 
                         return { ...prev, 
-                            specialImages: [
-                                ...prev.specialImages, 
+                            section1Images: [
+                                ...prev.section1Images, 
                                 {
-                                    orderNo: prev.specialImages.length + 1, 
+                                    orderNo: prev.section1Images.length + 1, 
                                     height: res.height,
                                     width: res.width,
                                     url: res.imgPath,
@@ -146,7 +146,7 @@ const POCImageForm = ({
 
     /** 이미지 첨부 레이아웃 */
     const imageElement = useCallback(
-        (image: CurationImageInfo) =>
+        (image: ImageProp) =>
             image && (
                 <div
                     key={image.orderNo}
@@ -199,7 +199,7 @@ const POCImageForm = ({
 
     return (
         <>
-            {!!formItem.pocs.length && (
+            {!!formItem.imageType.length && (
                 <FormGroup title={t("image")} customClassName={["popup-image"]}>
                     {sectionPocItem[imageType].hasAppImage && (
                         <FormItem title={sectionPocItem[imageType].formTitle[0]}>
