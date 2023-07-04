@@ -56,7 +56,6 @@ const Section3ImageForm = ({
             singleType: {
                 formTitle: t("image"),
                 labelList: labelItem.slice(0, 1).map(item => ({ ...item, id: UPLOAD })),
-                imageKey: "contentImages",
             },
         }),
         [formItem]
@@ -64,18 +63,12 @@ const Section3ImageForm = ({
 
     /** 이미지 개별 삭제 */
     const onDeleteImage = useCallback((image: CurationImageInfo) => {
-        const key = sectionPocItem[imageType].imageKey
-        const getFilteredList = (list: CurationImageInfo[]) => {
-            const removedList = list.filter(item => item.url !== image.url)
-            return removedList.map((item, index) => ({ ...item, orderNo: index + 1 }))
-        }
-
         setS3UploadFiles(prev => prev.filter(item => item.key !== image.url))
         setFormItem((prev: CurationDetailProp) => ({
             ...prev,
-            [key]: getFilteredList(prev[key] as CurationImageInfo[]),
+            contentImages: imageList.filter(item => item !== image)
         }))
-    }, [])
+    }, [imageList])
 
     /** 드래그 시작 */
     const onDragStart = useCallback((index: number) => (dragItem.current = index - 1), [imageList])
@@ -85,7 +78,7 @@ const Section3ImageForm = ({
 
     /** 드롭 */
     const onDrop = useCallback(
-        (imageType: string, pocType?: string) => {
+        (pocType?: string) => {
             const newList = [...imageList]
             const dragItemValue = newList[dragItem.current]
             newList.splice(dragItem.current, 1)
@@ -95,7 +88,7 @@ const Section3ImageForm = ({
 
             setFormItem(prev => ({
                 ...prev,
-                [sectionPocItem[imageType].imageKey]: newList.map((item, index) =>
+                contentImages: newList.map((item, index) =>
                     item.pocType == pocType ? { ...item, orderNo: index + 1 } : item
                 ),
             }))
@@ -147,7 +140,7 @@ const Section3ImageForm = ({
                     className="box"
                     onDragStart={() => onDragStart(image.orderNo)}
                     onDragEnter={() => onDragEnter(image.orderNo)}
-                    onDragEnd={() => onDrop(imageType, image.pocType)}
+                    onDragEnd={() => onDrop(image.pocType)}
                     onDragOver={e => e.preventDefault()}
                     draggable>
                     <img className="image" id={image?.url} src={image?.previewImage ?? image?.domain + image?.url} />

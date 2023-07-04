@@ -3,8 +3,8 @@ import FormItem, { FormGroup } from "@/components/ui/forms/FormItem"
 import UploadFile from "@/components/ui/forms/UploadFile"
 import { S3_SERVICE_PREFIX, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationImageInfo, CurationDetailProp, CurationImageFormItem, CurationIamgeRenderType } from "../types"
-import { CONTENT_IMAGE_TYPE, HORIZONTAL, LINK, UPLOAD, VERTICAL } from "../const"
+import { CurationImageInfo, CurationDetailProp, CurationImageFormItem } from "../types"
+import { HORIZONTAL, LINK, UPLOAD, VERTICAL } from "../const"
 import Radio from "@/components/ui/forms/Radio"
 import { AttachFile } from "@material-ui/icons"
 import TextLink from "@/components/ui/forms/TextLink"
@@ -67,7 +67,6 @@ const Section2ImageForm = ({
             const hasImageType = imageList.find(item => item[imageType] == sectionPocItem[imageType].pocType[index])
             return `${hasImageType?.urlType ?? UPLOAD}_${imageType}`
         },
-
         [formItem, imageInfo]
     )
 
