@@ -8,9 +8,8 @@ import SelectCheckBox from "@/components/ui/forms/SelectCheckBox"
 import { HORIZONTAL, VERTICAL } from "../const"
 import { S3UploadFile } from "@/utils/aws/types"
 import POCImageForm from "../wrapper/Section1ImageForm"
-import { SectionImageProp } from "../types"
+import { SectionImageProp, SystemCodeItemProp } from "../types"
 import "../styles.scss"
-import { DetailSelectBoxItem } from "../../addContent/types"
 
 /**
  * 섹션 1 
@@ -25,7 +24,7 @@ const Section1 = ({
     formItem: SectionImageProp
     setFormItem: React.Dispatch<React.SetStateAction<SectionImageProp>>
     setS3UploadFiles: React.Dispatch<React.SetStateAction<Array<S3UploadFile>>>
-} & Partial<DetailSelectBoxItem>) => {
+} & Partial<SystemCodeItemProp>) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2)
     const [selectedPoc, setSelectedPoc] = useState<Array<CheckItemBySelectBox>>([])
 

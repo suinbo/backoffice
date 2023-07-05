@@ -14,8 +14,8 @@ import { useTranslation } from "react-i18next"
 import { useRequest } from "@/contexts/SendApiContext"
 import { PageCodeList } from "@/utils/apis/request.types"
 import { API, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
-import { SectionImageProp } from "./types"
-import { defaultDetailData } from "./const"
+import { SectionImageProp, SystemCodeItemProp } from "./types"
+import { defaultDetailData, defaultSystemCodeData } from "./const"
 import { S3UploadFile, S3UploadResponse } from "@/utils/aws/types"
 import { applyPath } from "@/utils/apis/request"
 import { useValidate } from "@/hooks/useValidate"
@@ -24,8 +24,6 @@ import { s3Client } from "@/plugins/s3"
 import { AxiosError } from "axios"
 import { LoadingProvider, useLoading } from "@/contexts/LoadingContext"
 import "./styles.scss"
-import { DetailSelectBoxItem } from "../addContent/types"
-import { defaultDetailItem } from "../addContent/const"
 
 const validator: Array<ValidatorProp> = [{
  key: ""
@@ -47,7 +45,7 @@ const CurationDetail = () => {
     const { setLoading } = useLoading()
 
     const [formItem, setFormItem] = useState<SectionImageProp>(defaultDetailData)
-    const [systemCodeItems, setSystemCodeItems] = useState<DetailSelectBoxItem>(defaultDetailItem)
+    const [systemCodeItems, setSystemCodeItems] = useState<SystemCodeItemProp>(defaultSystemCodeData)
     const [s3UploadFiles, setS3UploadFiles] = useState<Array<S3UploadFile>>([])
 
     const { isValid } = useValidate(formItem)
