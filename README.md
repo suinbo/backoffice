@@ -22,10 +22,10 @@
 
 Install the dependencies and devDependencies and start the server.
 
-will be run at 127.0.0.1:9000
+will be run at 127.0.0.1:8080
 
 ```bash
-cd gbo-web
+cd backoffice
 npm install
 npm run start:dev
 ```
