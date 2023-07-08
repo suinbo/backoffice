@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from "react"
-import { Button, DeleteButton } from "@/components/ui/buttons"
+import React, { useEffect, useState, useCallback, useRef } from "react"
+import { Button } from "@/components/ui/buttons"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { MENUS, T_NAMESPACE,UX_CODES, VIEW_CODES } from "@/utils/resources/constants"
+import { MENUS, T_NAMESPACE, VIEW_CODES } from "@/utils/resources/constants"
 import SectionForm from "./SectionForm"
 import { useConfirm } from "@/contexts/ConfirmContext"
 import { ConfirmType } from "@/components/ui/confirm/types"
 import { useTranslation } from "react-i18next"
 import { useRequest } from "@/contexts/SendApiContext"
 import { PageCodeList } from "@/utils/apis/request.types"
-import { API, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
-import { CurationDetailProp, CurationSectionData, DetailSelectBoxItem, ModalSelectBoxItem, RequestParams } from "./types"
+import { API, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
+import { CurationDetailProp, CurationSectionData, DetailSelectBoxItem } from "./types"
 import {
     defaultDetailData,
     defaultDetailItem,
@@ -36,7 +36,6 @@ const SectionDetail = () => {
     const navigate = useNavigate()
     const { useFetch, useAxios } = useRequest()
    
-    const { t } = useTranslation(T_NAMESPACE.MENU2)
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
     const { t: v } = useTranslation(T_NAMESPACE.VALIDATE)
     const { setVisible, setOptions } = useConfirm()

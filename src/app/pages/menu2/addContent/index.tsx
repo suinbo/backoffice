@@ -3,7 +3,7 @@ import Layer from "@/components/layout"
 import { DividerPosition } from "@/components/layout/types"
 import { T_NAMESPACE } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import CurationDetail from "./SectionDetail"
+import SectionDetail from "./SectionDetail"
 import "./styles.scss"
 
 const CMS02 = () => {
@@ -13,7 +13,7 @@ const CMS02 = () => {
         <div id="cms02">
             <Layer.Wrapper pageTitle={t("cmsPage2")} position={DividerPosition.vertical}>
                 <Layer.Divider>
-                    <CurationDetail />
+                    <SectionDetail />
                 </Layer.Divider>
             </Layer.Wrapper>
         </div>
