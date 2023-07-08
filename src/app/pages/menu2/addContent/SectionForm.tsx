@@ -3,8 +3,8 @@ import FormItem from "@/components/ui/forms/FormItem"
 import Radio, { RadioProps } from "@/components/ui/forms/Radio"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationDetailProp, CurationSectionData, DetailSelectBoxItem, ModalSelectBoxItem } from "./types"
-import { ARRAY, contentsSettingType, DESC, EPISODE_ALL } from "./const"
+import { SectionFormProp, CurationSectionData, DetailSelectBoxItem, ModalSelectBoxItem } from "./types"
+import { contentsSettingType } from "./const"
 import SectionWrapper from "./wrapper/SectionForm"
 import ContentsSchedulingForm from "./wrapper/SchedulingForm"
 import "./styles.scss"
@@ -26,8 +26,8 @@ const SectionForm = ({
     setSectionData,
 }: {
     modalItems: ModalSelectBoxItem
-    formItem: CurationDetailProp
-    setFormItem: React.Dispatch<React.SetStateAction<CurationDetailProp>>
+    formItem: SectionFormProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionFormProp>>
     sectionData: CurationSectionData[]
     setSectionData: React.Dispatch<React.SetStateAction<CurationSectionData[]>>
 } & Partial<DetailSelectBoxItem>) => {
@@ -67,7 +67,6 @@ const SectionForm = ({
                     sectionName: "",
                     organizations: [],
                     sectionOrder: 1,
-                    episodeOrder: value == EPISODE_ALL ? DESC : ARRAY,
                 },
             ])
         },
@@ -80,12 +79,12 @@ const SectionForm = ({
             e.stopPropagation()
             const { name, value } = e.target
             const useYn = Boolean(Number(value))
-            const sections: CurationSectionData = { open: true, sectionName: "", organizations: [], episodeOrder: DESC }
+            const sections: CurationSectionData = { open: true, sectionName: "", organizations: [] }
 
             setFormItem(prev => ({
                 ...prev,
                 [name]: useYn,
-                sections: useYn ? [{ ...sections }, { ...sections }] : [{ ...sections }],
+                sections: [{ ...sections }],
             }))
         },
         []

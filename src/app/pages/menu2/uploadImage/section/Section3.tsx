@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next"
 import { SectionImageProp } from "../types"
 import { S3UploadFile } from "@/utils/aws/types"
 import { HORIZONTAL, VERTICAL } from "../const"
-import { CONTENT_IMAGE_TYPE } from "../../addContent/const"
 import Section3ImageForm from "../wrapper/Section3ImageForm"
 import "../styles.scss"
 
@@ -72,7 +71,7 @@ const Section3 = ({
             {/** 이미지 */}
             {formItem.imageYn && (
                 <Section3ImageForm
-                    imageInfo={{ imageList: formItem.section3Images, imageType: CONTENT_IMAGE_TYPE }}
+                    imageInfo={{ imageList: formItem.section3Images, imageType: "singleType" }}
                     formItem={formItem}
                     setFormItem={setFormItem}
                     setS3UploadFiles={setS3UploadFiles}

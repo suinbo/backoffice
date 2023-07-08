@@ -10,7 +10,7 @@ import { contentsSettingType } from "../const"
 import { Selectbox } from "@/components/ui/forms"
 import { CellProps } from "@/components/ui/table/tsTypes"
 import { TableTheme } from "@/utils/resources/types"
-import { ContentsProp, CurationDetailProp, CurationSectionData, ModalSelectBoxItem } from "../types"
+import { ContentsProp, SectionFormProp, CurationSectionData, ModalSelectBoxItem } from "../types"
 import { SelectBoxItem } from "@/components/ui/forms/types"
 import { setListOrderChange } from "@/utils/common"
 import { Checkbox } from "@/components/ui/forms"
@@ -29,7 +29,7 @@ const ContentsSchedulingForm = ({
     setReOrdering,
 }: {
     order?: number
-    formItem: CurationDetailProp
+    formItem: SectionFormProp
     selectBoxItems?: ModalSelectBoxItem
     sectionData?: CurationSectionData[]
     isReOrdering?: boolean

@@ -35,23 +35,12 @@ export interface ListSelectBoxItem {
 export interface DetailSelectBoxItem {
     pSearchType?: SelectBoxItem[]
     eSearchType?: SelectBoxItem[]
-    broadcastClass?: RadioProps<string, string>[]
-    poc?: CheckItemBySelectBox[]
-    curationClass?: RadioProps<string, string>[]
     contentsType?: RadioProps<string, string>[]
-    channelType?: RadioProps<string, string>[]
 }
 
 export interface ModalSelectBoxItem {
     pSearchType?: SelectBoxItem[]
     eSearchType?: SelectBoxItem[]
-    searchType?: SelectBoxItem[]
-    programMovieSearch?: SelectBoxItem[]
-    allEpisodeSearch?: SelectBoxItem[]
-    singleEpisodeSearch?: SelectBoxItem[]
-    channelType?: SelectBoxItem[]
-    contentType?: SelectBoxItem[]
-    content?: SelectBoxItem[]
 }
 
 export interface CurationListProp {
@@ -67,16 +56,9 @@ export interface CurationListProp {
 
 export type CurationTableList = TableList<Array<CurationListProp>>
 
-export type CurationDetailProp = {
-    //기본 정보
-    code?: string
-    title: string
-    pocs: string[]
+export type SectionFormProp = {
     contentsType: string
     sectionYn: boolean //섹션 설정
-    contentImages?: Array<CurationImageInfo> //콘텐츠 강조 이미지
-    imageYn?: boolean //이미지 사용여부
-    images?: Array<CurationImageInfo> //POC별 이미지
     sections?: Array<CurationSectionData>
 }
 
@@ -121,7 +103,6 @@ export type CurationSectionData = {
     open?: boolean
     sectionOrder?: number
     sectionName?: string
-    episodeOrder?: string
     organizations?: Array<ContentsProp>
 }
 
@@ -145,32 +126,6 @@ export interface CurationSectionFormItem {
     selectboxItem?: ModalSelectBoxItem
     ctsTypeCd?: string[]
     labelList?: RadioProps<string, string>[]
-}
-
-/** 섹션 별 이미지 데이터 */
-export interface CurationImageFormItem {
-    formTitle?: Array<string> | string
-    pocType?: Array<string>
-    labelList: RadioProps<string, string>[]
-    hasAppImage?: boolean
-    hasTvImage?: boolean
-    imageKey?: keyof CurationDetailProp
-}
-
-/** 이미지 렌더 타입 */
-export interface CurationIamgeRenderType {
-    renderElement: JSX.Element | JSX.Element[]
-    isMultiUpload: boolean
-    description?: {
-        [key: string]: string
-    }
-}
-
-/** 큐레이션 모달 */
-export interface CurationSearchRequest extends RequestPage {
-    pocCd: string
-    broadcastClass: string //편성분류
-    curationClass: string
 }
 
 export interface CurationModalSearchRequest<POCCD = string> extends RequestPage {

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next"
 import { useRequest } from "@/contexts/SendApiContext"
 import { PageCodeList } from "@/utils/apis/request.types"
 import { API, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
-import { CurationDetailProp, CurationSectionData, DetailSelectBoxItem } from "./types"
+import { SectionFormProp, CurationSectionData, DetailSelectBoxItem } from "./types"
 import {
     defaultDetailData,
     defaultDetailItem,
@@ -41,7 +41,7 @@ const SectionDetail = () => {
     const { setVisible, setOptions } = useConfirm()
     const { setLoading } = useLoading()
 
-    const [formItem, setFormItem] = useState<CurationDetailProp>({ ...defaultDetailData, sections: defaultSectionData })
+    const [formItem, setFormItem] = useState<SectionFormProp>({ ...defaultDetailData, sections: defaultSectionData })
     const [sectionData, setSectionData] = useState<CurationSectionData[]>(defaultSectionData)
     const [opSelectboxItems, setOpSelecBoxItems] = useState<DetailSelectBoxItem>(defaultDetailItem)
 
@@ -70,8 +70,8 @@ const SectionDetail = () => {
     )
 
     /** 큐레이션 상세 조회 */
-    useFetch<CurationDetailProp>(noId ? { url: applyPath(API.FAQ_DETAIL, noId) } : null, {
-        onSuccess: (data: CurationDetailProp) => {
+    useFetch<SectionFormProp>(noId ? { url: applyPath(API.FAQ_DETAIL, noId) } : null, {
+        onSuccess: (data: SectionFormProp) => {
             setLoading(false)
             setFormItem(prev => ({ ...prev, ...data }))
         },

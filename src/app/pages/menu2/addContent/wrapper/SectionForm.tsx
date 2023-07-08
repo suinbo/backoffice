@@ -4,7 +4,7 @@ import FormItem from "@/components/ui/forms/FormItem"
 import Input from "@/components/ui/forms/Input"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { CurationDetailProp, CurationSectionData, ModalSelectBoxItem } from "../types"
+import { SectionFormProp, CurationSectionData, ModalSelectBoxItem } from "../types"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { Selectbox } from "@/components/ui/forms"
 import { SECTION_DEFAULT_COUNT } from "../const"
@@ -25,7 +25,7 @@ const SectionWrapper = ({
     setSectionData,
 }: {
     selectBoxItems: ModalSelectBoxItem
-    formItem: CurationDetailProp
+    formItem: SectionFormProp
     sectionData: CurationSectionData[]
     setSectionData: React.Dispatch<React.SetStateAction<CurationSectionData[]>>
 }) => {
