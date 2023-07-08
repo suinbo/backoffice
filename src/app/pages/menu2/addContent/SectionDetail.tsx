@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react"
 import { Button, DeleteButton } from "@/components/ui/buttons"
-import { ButtonStyleType, DeleteButtonType } from "@/components/ui/buttons/types"
-import { BorderColor, Close } from "@material-ui/icons"
+import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { MENUS, T_NAMESPACE,UX_CODES, VIEW_CODES } from "@/utils/resources/constants"
-import Section2 from "./Section2"
+import SectionForm from "./SectionForm"
 import { useConfirm } from "@/contexts/ConfirmContext"
 import { ConfirmType } from "@/components/ui/confirm/types"
 import { useTranslation } from "react-i18next"
@@ -13,23 +12,13 @@ import { PageCodeList } from "@/utils/apis/request.types"
 import { API, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
 import { CurationDetailProp, CurationSectionData, DetailSelectBoxItem, ModalSelectBoxItem, RequestParams } from "./types"
 import {
-    CATEGORY,
-    CHANNEL,
-    CONTENT,
     defaultDetailData,
     defaultDetailItem,
-    defaultModalItem,
     defaultSectionData,
-    EPISODE_ALL,
-    EPISODE_SINGLE,
-    LIVE,
-    SPECIAL,
 } from "./const"
-import { S3UploadFile, S3UploadResponse } from "@/utils/aws/types"
-import { applyPath, applyQueryString } from "@/utils/apis/request"
+import { applyPath } from "@/utils/apis/request"
 import { useValidate } from "@/hooks/useValidate"
 import { ValidatorProp } from "@/utils/resources/validators"
-import { s3Client } from "@/plugins/s3"
 import { AxiosError } from "axios"
 import { LoadingProvider, useLoading } from "@/contexts/LoadingContext"
 import "./styles.scss"
@@ -41,7 +30,7 @@ const validator: Array<ValidatorProp> = [{
 /**
  * 큐레이션 상세 Component
  */
-const CurationDetail = () => {
+const SectionDetail = () => {
     const { noId } = useParams()
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -55,10 +44,7 @@ const CurationDetail = () => {
 
     const [formItem, setFormItem] = useState<CurationDetailProp>({ ...defaultDetailData, sections: defaultSectionData })
     const [sectionData, setSectionData] = useState<CurationSectionData[]>(defaultSectionData)
-
     const [opSelectboxItems, setOpSelecBoxItems] = useState<DetailSelectBoxItem>(defaultDetailItem)
-    const [sysSelectboxItems, setSysSelectBoxItems] = useState<ModalSelectBoxItem>(defaultModalItem)
-    const [s3UploadFiles, setS3UploadFiles] = useState<Array<S3UploadFile>>([])
 
     const { isValid } = useValidate({ formItem, sectionItem: { sectionYn: formItem.sectionYn, sections: sectionData } })
     const refs = useRef<HTMLDivElement>(null)
@@ -72,8 +58,13 @@ const CurationDetail = () => {
             onSuccess: (items: PageCodeList[]) => {
                 !noId && setLoading(false)
                 const contentTypes = items[0].leafs.find(leaf => leaf.value == "content").leafs
+                const pSearchTypes = items[0].leafs.find(leaf => leaf.value == "programsearch").leafs
+                const eSearchTypes = items[0].leafs.find(leaf => leaf.value == "episodesearch").leafs
+
                 setOpSelecBoxItems({
-                    contentsType: contentTypes.map(item => ({ id: item.id, title: item.name, value: item.value }))
+                    contentsType: contentTypes.map(item => ({ id: item.id, title: item.name, value: item.value })),
+                    pSearchType: pSearchTypes.map(item => ({ label: item.name, value: item.value })),
+                    eSearchType: eSearchTypes.map(item => ({ label: item.name, value: item.value })),
                 })
             },
         }
@@ -130,27 +121,7 @@ const CurationDetail = () => {
                 setVisible(true)
             }
         })
-    }, [formItem, s3UploadFiles, sectionData])
-
-    /** 삭제 */
-    const onDelete = useCallback(() => {
-        useAxios(
-            {
-                url: applyPath(API.FAQ_DETAIL, noId),
-                method: HTTP_METHOD_DELETE,
-            },
-            onClose,
-            (err: AxiosError) => {
-                setOptions({
-                    type: ConfirmType.alert,
-                    message: err.message,
-                    buttonStyle: ButtonStyleType.default,
-                    applyButtonMessage: g("button.ok"),
-                })
-                setVisible(true)
-            }
-        )
-    }, [])
+    }, [formItem, sectionData])
 
     /** Modal Footer */
     const FooterRenderer = useCallback(() => {
@@ -167,24 +138,17 @@ const CurationDetail = () => {
     }, [formItem, sectionData])
 
     return (
-        <div id="curationModal" ref={refs}>
+        <div id="cms02Detail" ref={refs}>
             <div className="page-detail content-page-detail">
                 <div className="detail-area">
-                    <Section2
+                    <SectionForm
                         {...opSelectboxItems}
-                        modalItems={sysSelectboxItems}
+                        modalItems={opSelectboxItems}
                         formItem={formItem}
                         setFormItem={setFormItem}
                         sectionData={sectionData}
                         setSectionData={setSectionData}
                     />
-                    {/**더보기 상단 메타*/}
-                    {/* <Section3
-                        {...opSelectboxItems}
-                        formItem={formItem}
-                        setFormItem={setFormItem}
-                        setS3UploadFiles={setS3UploadFiles}
-                    /> */}
                 </div>
                 <FooterRenderer />
             </div>
@@ -192,12 +156,12 @@ const CurationDetail = () => {
     )
 }
 
-const CurationDetailWrapper = () => {
+const SectionDetailWrapper = () => {
     return (
         <LoadingProvider>
-            <CurationDetail />
+            <SectionDetail />
         </LoadingProvider>
     )
 }
 
-export default React.memo(CurationDetailWrapper)
+export default React.memo(SectionDetailWrapper)

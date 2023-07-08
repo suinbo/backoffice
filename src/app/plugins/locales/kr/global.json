@@ -42,7 +42,10 @@
     "updateDateTime": "수정일자",
     "totalCount": "* 총 {{val}}건",
     "orderNo": "순서",
+    "drag": "순서변경",
+    "select": "선택",
     "noResult": "등록된 컨텐츠가 없습니다.",
+    "noSearchResult": "검색된 결과가 없습니다.",
     "imagePath": "이미지 경로: {{val}}",
     "imageSize": "이미지 사이즈: {{val}} px"
 }

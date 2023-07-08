@@ -33,6 +33,8 @@ export interface ListSelectBoxItem {
 }
 
 export interface DetailSelectBoxItem {
+    pSearchType?: SelectBoxItem[]
+    eSearchType?: SelectBoxItem[]
     broadcastClass?: RadioProps<string, string>[]
     poc?: CheckItemBySelectBox[]
     curationClass?: RadioProps<string, string>[]
@@ -41,7 +43,9 @@ export interface DetailSelectBoxItem {
 }
 
 export interface ModalSelectBoxItem {
-    search?: SelectBoxItem[]
+    pSearchType?: SelectBoxItem[]
+    eSearchType?: SelectBoxItem[]
+    searchType?: SelectBoxItem[]
     programMovieSearch?: SelectBoxItem[]
     allEpisodeSearch?: SelectBoxItem[]
     singleEpisodeSearch?: SelectBoxItem[]
@@ -175,4 +179,50 @@ export interface CurationModalSearchRequest<POCCD = string> extends RequestPage 
     pocCd: POCCD
     sType: string
     viewYn: FlagYN | "" //노출여부
+}
+
+/** 모달 */
+export type ContentAddRequestProps = {
+    pageNo: number
+    pageSize: number
+    ctsTypeCd?: string
+    type: string
+    keywords: string
+    tvingCtsType?: string
+    showYn: string
+    ctsType?: string
+    gradeCd?: string
+}
+
+export type EpisodeAddModalProps = {
+    onClose: () => void
+    item: Array<string>
+    setItem: (value: Array<ContentsList>) => void
+    isRadio?: boolean
+    customItems?: {
+        columns?: RowItem[]
+        selectBoxItems?: SelectBoxItem[] //검색타입
+    }
+}
+
+export type ContentModalRequestProps = {
+    pageNo: number
+    pageSize: number
+    type: string
+    keywords: string
+    showYn: string
+    gradeCd?: string
+}
+
+export type ContentsListProp = TableList<Array<ContentsList>>
+export type ContentsList = {
+    noId: number
+    pgCd: string
+    pgNm: string
+    epiCd: string
+    epiNm: string
+    serviceCnt: number
+    gradeNm: string
+    nation: string
+    viewYn: number
 }

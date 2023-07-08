@@ -456,7 +456,7 @@ const TsTableRenderer = React.memo(
                             {tsTable.getRowModel().rows.length ? (
                                 tsTable.getRowModel().rows.map(row => (groupColumn ? groupRenderer(row) : rowRenderer(row)))
                             ) : (
-                                <Blind text={isLoading ? "" : noResultMsg ?? g("search.noSearchResult")} />
+                                <Blind text={isLoading ? "" : noResultMsg ?? g("noSearchResult")} />
                             )}
                         </div>
                         {children}

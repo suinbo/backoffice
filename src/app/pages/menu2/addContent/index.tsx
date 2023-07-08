@@ -3,14 +3,14 @@ import Layer from "@/components/layout"
 import { DividerPosition } from "@/components/layout/types"
 import { T_NAMESPACE } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
+import CurationDetail from "./SectionDetail"
 import "./styles.scss"
-import CurationDetail from "./CurationDetail"
 
-const Curation = () => {
+const CMS02 = () => {
     const { t } = useTranslation(T_NAMESPACE.MENU2)
 
     return (
-        <div id="curation">
+        <div id="cms02">
             <Layer.Wrapper pageTitle={t("cmsPage2")} position={DividerPosition.vertical}>
                 <Layer.Divider>
                     <CurationDetail />
@@ -20,4 +20,4 @@ const Curation = () => {
     )
 }
 
-export default Curation
+export default CMS02

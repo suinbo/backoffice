@@ -6,16 +6,15 @@ import TsTable from "@/components/ui/table/TsTable"
 import { T_NAMESPACE } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
-import { contentsSettingType, CHANNEL, EPG } from "../const"
+import { contentsSettingType } from "../const"
 import { Selectbox } from "@/components/ui/forms"
 import { CellProps } from "@/components/ui/table/tsTypes"
 import { TableTheme } from "@/utils/resources/types"
-import { ContentsProp, CurationDetailProp, CurationSectionData, CurationSectionFormItem, ModalSelectBoxItem } from "../types"
+import { ContentsProp, CurationDetailProp, CurationSectionData, ModalSelectBoxItem } from "../types"
 import { SelectBoxItem } from "@/components/ui/forms/types"
 import { setListOrderChange } from "@/utils/common"
-//import ChannelAddModal from "@/pages/modal/common/AddChannelModal"
-//import AddContentModal from "@/pages/modal/common/AddContentModal"
 import { Checkbox } from "@/components/ui/forms"
+import AddContentModal from "../../../modal/AddContentModal"
 
 /**
  * 콘텐츠 편성 영역
@@ -41,50 +40,18 @@ const ContentsSchedulingForm = ({
     const { t: m } = useTranslation(T_NAMESPACE.MENU2)
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
 
-    const { curationType, sectionYn } = formItem
+    const { contentsType, sectionYn } = formItem
     const [openContentModal, setOpenContentModal] = useState<boolean>(false)
-    const [openChannelModal, setOpenChannelModal] = useState<boolean>(false)
-
-    /** 에피소드 정렬 순서 선택 */
-    const onSelectEpisodeOrder = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setSectionData(prev => {
-            prev[order].episodeOrder = e.target.value
-            return [...prev]
-        })
-    }, [])
 
     /** 컨텐츠 추가 */
-    const addContentItem = useCallback(
-        (value: Array<any>) => {
-            setSectionData(prev => {
-                const contents = value.map(item => ({
-                    contentType: item.ctsTypeNm,
-                    programCode: item.ctsCd,
-                    programName: item.ctsNm,
-                    servEpiCnt: item.servEpiCnt,
-                    epiCnt: item.epiCnt,
-                    orderNo: 1,
-                    bandYn: false,
-                }))
-
-                return prev.map((item, index) => {
-                    if (index == order) return { ...item, organizations: contents }
-                    return item
-                })
-            })
-        },
-        [curationType, formItem]
-    )
-
-    /** 에피소드 추가 */
-    const addEpisodeItem = useCallback((value: Array<any>) => {
+    const addContentItem = useCallback((value: Array<any>) => {
         setSectionData(prev => {
             const contents = value.map((item: any) => ({
-                programCode: item.pgmCd,
-                programName: item.pgmNm,
-                episodeCode: item.epiCd,
-                episodeName: item.epiNm,
-                servEpiCnt: item.epiCycleNo,
+                pgCd: item.pgCd,
+                pgNm: item.pgNm,
+                epiCd: item.epiCd,
+                epiNm: item.epiNm,
+                serviceCnt: item.serviceCnt,
                 bandYn: false,
             }))
 
@@ -156,27 +123,22 @@ const ContentsSchedulingForm = ({
         [sectionData]
     )
 
-    /** 에피소드(전체) 컬럼 */
-    const tsColumnsAllEpisode = useCallback(
+    /** 컨텐츠 1 타입 컬럼 */
+    const tsColumnsContent1 = useCallback(
         (sectionIdx: number) => {
             return [
-                { id: "programCode", accessorKey: "programCode", header: t("programCode") },
-                { id: "programName", accessorKey: "programName", header: t("programName") },
-                {
-                    id: "servEpiCnt",
-                    accessorKey: "servEpiCnt",
-                    header: t("serviceSequence"),
-                    accessorFn: (row: ContentsProp) => `${row.servEpiCnt}/${row.epiCnt}`,
-                },
+                { id: "pgCd", accessorKey: "pgCd", header: t("programCode") },
+                { id: "pgNm", accessorKey: "pgNm", header: t("programName") },
+                { id: "serviceCnt", accessorKey: "serviceCnt", header: t("serviceSequence")},
                 sectionYn && {
                     id: "viewYn",
                     accessorKey: "viewYn",
                     header: t("viewYn"),
                     cell: ({ row }: CellProps) => {
-                        const { programCode } = row.original
-                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.programCode == programCode)?.bandYn
+                        const { pgCd } = row.original
+                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.pgCd == pgCd)?.bandYn
                         return (
-                            <Checkbox id={programCode as string} onChange={e => onSelectBandYn(e, sectionIdx, "programCode")} isChecked={isChecked} />
+                            <Checkbox id={pgCd as string} onChange={e => onSelectBandYn(e, sectionIdx, "pgCd")} isChecked={isChecked} />
                         )
                     },
                 },
@@ -199,15 +161,15 @@ const ContentsSchedulingForm = ({
         [sectionData]
     )
 
-    /** 에피소드(단일) 컬럼 */
-    const tsColumnsSingleEpisode = useCallback(
+    /** 컨텐츠 2 타입 컬럼 */
+    const tsColumnsContent2 = useCallback(
         (sectionIdx: number) => {
             return [
-                { id: "drag", accessorKey: "drag", header: g("column.drag") },
+                { id: "drag", accessorKey: "drag", header:  g("drag") },
                 {
                     id: "orderNo",
                     accessorKey: "orderNo",
-                    header: t("order"),
+                    header: g("orderNo"),
                     cell: (props: CellProps) => {
                         const { table, row } = props
                         const contents = sectionData[sectionIdx].organizations
@@ -224,20 +186,19 @@ const ContentsSchedulingForm = ({
                         )
                     },
                 },
-                { id: "programCode", accessorKey: "programCode", header: t("programCode") },
-                { id: "programName", accessorKey: "programName", header: t("programName") },
-                { id: "episodeCode", accessorKey: "episodeCode", header: t("episodeCode") },
-                { id: "episodeName", accessorKey: "episodeName", header: t("episodeName") },
-                { id: "servEpiCnt", accessorKey: "servEpiCnt", header: t("sequence") },
+                { id: "pgCd", accessorKey: "pgCd", header: t("programCode") },
+                { id: "pgNm", accessorKey: "pgNm", header: t("programName") },
+                { id: "epiCd", accessorKey: "epiCd", header: t("episodeCode") },
+                { id: "epiNm", accessorKey: "epiNm", header: t("episodeName") },
                 sectionYn && {
                     id: "bandYn",
                     accessorKey: "bandYn",
-                    header: t("bandYn"),
+                    header: t("checkYn"),
                     cell: ({ row }: CellProps) => {
-                        const { episodeCode } = row.original
-                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.episodeCode == episodeCode)?.bandYn
+                        const { epiCd } = row.original
+                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.epiCd == epiCd)?.bandYn
                         return (
-                            <Checkbox id={episodeCode as string} onChange={e => onSelectBandYn(e, sectionIdx, "episodeCode")} isChecked={isChecked} />
+                            <Checkbox id={epiCd as string} onChange={e => onSelectBandYn(e, sectionIdx, "epiCd")} isChecked={isChecked} />
                         )
                     },
                 },
@@ -260,73 +221,71 @@ const ContentsSchedulingForm = ({
         [sectionData]
     )
 
-    /** 에피소드(전체) 모달 컬럼 */
-    const tsAllEpisodeColumns = useMemo(
+    /** 컨텐츠 1 타입 모달 컬럼 */
+    const tsModalColumnsContent1 = useMemo(
         () => [
-            { id: "radio", accessorKey: "radio", header: g("column.select") },
-            { id: "seasonCtsNo", accessorKey: "seasonCtsNo", header: t("seasonNo") },
-            { id: "ctsCd", accessorKey: "ctsCd", header: t("programCode") },
-            { id: "ctsNm", accessorKey: "ctsNm", header: t("programName") },
-            { id: "ctsAttrNm", accessorKey: "ctsAttrNm", header: m("contentVersion") },
-            { id: "epiCnt", accessorKey: "epiCnt", header: t("episodeCount") },
-            { id: "gradeNm", accessorKey: "gradeNm", header: m("gradeName") },
-            { id: "ctsGroupCd", accessorKey: "ctsGroupCd", header: m("contentGroupCode") },
-            { id: "ctsTypeNm", accessorKey: "ctsTypeNm", header: m("contentType") },
-            { id: "makeNatCd", accessorKey: "makeNatCd", header: m("makeNation") },
-            { id: "chNm", accessorKey: "chNm", header: m("channel") },
-            { id: "licns", accessorKey: "licns", header: m("licns") },
+            { id: "check", accessorKey: "check" },
+            { id: "pgCd", accessorKey: "pgCd", header: t("programCode") },
+            { id: "pgNm", accessorKey: "pgNm", header: t("programName") },
+            { id: "serviceCnt", accessorKey: "serviceCnt", header: t("serviceSequence") },
+            { id: "gradeNm", accessorKey: "gradeNm", header: t("gradeName") },
+            { id: "ctType", accessorKey: "ctType", header: t("contentsType") },
+            { id: "nation", accessorKey: "nation", header: t("makeNation") },
         ],
         []
     )
 
-    /** 에피소드(단일) 모달 컬럼 */
-    const tsSingleEpisodeColumns = useMemo(
+    /** 컨텐츠 2 타입 모달 컬럼 */
+    const tsModalColumnsContent2 = useMemo(
         () => [
             { id: "check", accessorKey: "check" },
-            { id: "seasonNo", accessorKey: "seasonNo", header: t("seasonNo") },
-            { id: "pgmCd", accessorKey: "pgmCd", header: t("programCode") },
-            { id: "pgmNm", accessorKey: "pgmNm", header: t("programName") },
-            { id: "epiCycleNo", accessorKey: "epiCycleNo", header: t("sequence") },
+            { id: "pgCd", accessorKey: "pgCd", header: t("programCode") },
+            { id: "pgNm", accessorKey: "pgNm", header: t("programName") },
+            { id: "serviceCnt", accessorKey: "serviceCnt", header: t("serviceSequence") },
             { id: "epiCd", accessorKey: "epiCd", header: t("episodeCode") },
             { id: "epiNm", accessorKey: "epiNm", header: t("episodeName") },
             { id: "gradeNm", accessorKey: "gradeNm", header: m("gradeName") },
-            { id: "makeNatCd", accessorKey: "makeNatCd", header: m("makeNation") },
-            { id: "chNm", accessorKey: "chNm", header: m("channel") },
-            { id: "licns", accessorKey: "licns", header: m("licns") },
+            { id: "nation", accessorKey: "nation", header: m("makeNation") },
         ],
         []
     )
+
+    /** 컨텐츠 2 타입 모달 컬럼 */
+    const tsModalColumnsContent3 = useMemo(
+        () => [
+            { id: "check", accessorKey: "check" },
+            { id: "pgCd", accessorKey: "pgCd", header: t("programCode") },
+            { id: "pgNm", accessorKey: "pgNm", header: t("programName") },
+            { id: "serviceCnt", accessorKey: "serviceCnt", header: t("serviceSequence") },
+            { id: "epiCd", accessorKey: "epiCd", header: t("episodeCode") },
+            { id: "epiNm", accessorKey: "epiNm", header: t("episodeName") },
+            { id: "gradeNm", accessorKey: "gradeNm", header: m("gradeName") },
+            { id: "nation", accessorKey: "nation", header: m("makeNation") },
+        ],
+        []
+    )
+    
 
     /** 컨텐츠 조회 타입 별 데이터
      * @desc
      */
-    const tsColumn: { [key: string]: CurationSectionFormItem } = useMemo(() => {
-        return {
-            content1: {
-                formItem: tsColumnsAllEpisode(order),
-                modal: tsAllEpisodeColumns,
-                ctsTypeCd: ["PROGRAM"],
-                selectboxItem: {
-                    search: selectBoxItems.allEpisodeSearch,
-                    content: selectBoxItems.content,
-                },
-            },
-            content2: {
-                formItem: tsColumnsSingleEpisode(order),
-                modal: tsSingleEpisodeColumns,
-                selectboxItem: {
-                    search: selectBoxItems.singleEpisodeSearch,
-                },
-            },
-            content3: {
-                formItem: tsColumnsSingleEpisode(order),
-                modal: tsSingleEpisodeColumns,
-                selectboxItem: {
-                    search: selectBoxItems.singleEpisodeSearch,
-                },
-            },
-        }
-    }, [sectionData, selectBoxItems, formItem])
+    const tsColumn: { [key: string]: any } = useMemo(() => ({
+        content1: {
+            formItem: tsColumnsContent1(order),
+            modal: tsModalColumnsContent1,
+            selectboxItem: selectBoxItems.pSearchType,
+        },
+        content2: {
+            formItem: tsColumnsContent2(order),
+            modal: tsModalColumnsContent2,
+            selectboxItem: selectBoxItems.eSearchType,
+        },
+        content3: {
+            formItem: tsColumnsContent1(order),
+            modal: tsModalColumnsContent3,
+            selectboxItem: selectBoxItems.eSearchType,
+        },
+    }), [sectionData, selectBoxItems, formItem])
 
     return (
         <>
@@ -335,15 +294,12 @@ const ContentsSchedulingForm = ({
                     <Button
                         styleType={ButtonStyleType.primary}
                         border={true}
-                        onClick={() => {
-                            const isLiveType = [CHANNEL, EPG].includes("EPISODE_ALL")
-                            isLiveType ? setOpenChannelModal(true) : setOpenContentModal(true)
-                        }}>
+                        onClick={() => setOpenContentModal(true)}>
                         <LibraryAdd />
                         {t(contentsSettingType[formItem.contentsType]?.button)}
                     </Button>
                     <TsTable
-                        keyName="episodeCode"
+                        keyName="pgCd" 
                         columns={tsColumn[formItem.contentsType].formItem}
                         rows={sectionData[order]?.organizations}
                         theme={TableTheme.lined}
@@ -352,43 +308,17 @@ const ContentsSchedulingForm = ({
                     />
                 </div>
             </FormItem>
-            {/* {openContentModal && curationType !== EPISODE_SINGLE && (
+            {openContentModal && (
                 <AddContentModal
                     onClose={() => setOpenContentModal(false)}
                     setItem={addContentItem}
-                    //에피소드(전체) 의 경우 key값 programCode
-                    checkedItems={sectionData[order].organizations.map(item => (curationType == EPISODE_ALL ? item.programCode : item.contentCode))}
-                    customItems={{
-                        columns: tsColumn[curationType].modal,
-                        selectBoxItems: tsColumn[curationType].selectboxItem,
-                    }}
-                    isRadio={curationType == EPISODE_ALL || formItem.curationClass == CONTENT}
-                    contentsTypeCode={tsColumn[curationType]?.ctsTypeCd}
-                />
-            )} */}
-            {/* {openContentModal && curationType == EPISODE_SINGLE && (
-                <AddEpisodeModal
-                    onClose={() => setOpenContentModal(false)}
-                    setItem={addEpisodeItem}
                     item={sectionData[order].organizations.map(item => item.episodeCode)}
                     customItems={{
-                        columns: tsColumn[curationType].modal,
-                        selectBoxItems: tsColumn[curationType].selectboxItem,
+                        columns: tsColumn[contentsType].modal,
+                        selectBoxItems: tsColumn[contentsType].selectboxItem,
                     }}
                 />
-            )} */}
-            {/* {openChannelModal && (
-                <ChannelAddModal
-                    onClose={() => setOpenChannelModal(false)}
-                    checkedItems={sectionData[order].organizations.map(item => item.channelCode)}
-                    onSave={addChannelItem}
-                    isRadio={curationType == EPG}
-                    customItems={{
-                        customColumns: tsColumn[curationType].modal,
-                        selectBoxItems: tsColumn[curationType].selectboxItem,
-                    }}
-                />
-            )} */}
+            )}
         </>
     )
 }

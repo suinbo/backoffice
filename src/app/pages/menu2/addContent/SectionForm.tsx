@@ -17,7 +17,7 @@ import "./styles.scss"
  * @param formItem
  * @param setFormItem
  */
-const CurationDetailContents = ({
+const SectionForm = ({
     contentsType,
     modalItems,
     formItem,
@@ -73,8 +73,6 @@ const CurationDetailContents = ({
         },
         [formItem]
     )
-
-    console.log(formItem)
 
     /** 섹션 사용여부 선택 */
     const onSelectSectionYn = useCallback(
@@ -144,4 +142,4 @@ const CurationDetailContents = ({
     )
 }
 
-export default CurationDetailContents
+export default SectionForm

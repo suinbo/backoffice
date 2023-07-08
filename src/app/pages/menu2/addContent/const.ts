@@ -1,5 +1,6 @@
 import {  PAGINATION_FORMAT } from "@/utils/resources/constants"
 import {
+    ContentModalRequestProps,
     ContentsSettingItem,
     CurationDetailProp,
     CurationListProp,
@@ -120,3 +121,13 @@ export const defaultList: Array<CurationListProp> = [
         updateId: "",
     },
 ]
+
+//에피소드 추가 모달
+export const defaultEpisodeRequestData: ContentModalRequestProps = {
+    pageNo: PAGINATION_FORMAT.DEFAULT_PAGE,
+    pageSize: PAGINATION_FORMAT.DEFAULT_LIMIT,
+    type: "",
+    keywords: "",
+    showYn: "",
+    gradeCd: "",
+}

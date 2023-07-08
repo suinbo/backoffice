@@ -10,6 +10,8 @@
     "imageType": "이미지 타입",
     "contentsType": "컨텐츠 타입",
     "addContents": "컨텐츠 추가",
+    "contentSearch": "컨텐츠 검색",
+    "contentList": "컨텐츠 목록",
     "contentsList": "컨텐츠 편성",
     "minimum1Image": "* 이미지는 1개만 등록 가능합니다.",
     "minimum2Images": "* 이미지는 2개 등록 가능합니다.",
@@ -22,11 +24,17 @@
     "settingDescription": "* 컨텐츠 타입 변경 시 컨텐츠 편성목록이 초기화 됩니다.",
     "programCode": "프로그램 코드",
     "programName": "프로그램 명",
+    "episodeCode": "에피소드 코드",
+    "episodeName": "에피소드 명",
     "serviceSequence": "서비스 회차",
+    "makeNation": "제작 국가",
+    "gradeName": "시청 등급",
+    "checkYn": "체크 유무",
     "viewYn": "노출 여부",
     "vertical": "세로형",
     "horizon": "가로형",
     "useImageYN": "이미지 사용 여부",
     "appweb": "이미지 타입 1/2",
-    "tv": "이미지 타입 3"
+    "tv": "이미지 타입 3",
+    "noAddItemMsg": "추가할 컨텐츠가 없습니다."
 }

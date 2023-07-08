@@ -24,6 +24,7 @@ export const API = {
     FAQ_ORDER: "", // FAQ 순서 변경
     OPCODE_LIST: "/api/opcodes", // 운영코드 조회
     SYSCODE_LIST: "/admins/getSystemCode", // 시스템코드 조회
+    CONTENTS_LIST: "/admins/getContents", // 컨텐츠 목록 조회 
 }
 
 /** HTTP METHODS */
