@@ -3,56 +3,16 @@ import {
     ContentModalRequestProps,
     ContentsSettingItem,
     SectionFormProp,
-    CurationRequestProp,
     CurationSectionData,
     DetailSelectBoxItem,
-    ListSelectBoxItem,
 } from "./types"
 
-//컨텐츠 타입코드 분류
-export const VOD = "VOD",
-    LIVE = "LIVE",
-    UPLOAD = "UPLOAD",
-    LINK = "LINK",
-    HORIZONTAL = "HORIZONTAL",
-    VERTICAL = "VERTICAL",
-    //큐레이션 분류
-    GENERAL = "GENERAL",
-    CONTENT = "CONTENT",
-    SPECIAL = "SPECIAL",
-    USER = "USER",
-    CATEGORY = "CATEGORY",
-    //큐레이션 컨텐츠 조회 타입
-    PROGRAM_MOVIE = "PROGRAM_MOVIE",
-    EPISODE_ALL = "EPISODE_ALL",
-    EPISODE_SINGLE = "EPISODE_SINGLE",
-    CHANNEL = "CHANNEL",
-    EPG = "EPG"
-
 export const SECTION_DEFAULT_COUNT = 2
-export const SPECIAL_MINIMUN_IMAGE = 2
-export const CONTENT_MINIMUN_IMAGE = 5
-
-export const defaultRequestData: CurationRequestProp = {
-    page: PAGINATION_FORMAT.DEFAULT_PAGE,
-    size: PAGINATION_FORMAT.DEFAULT_LIMIT,
-    search: PAGINATION_FORMAT.DEFAULT_KEYWORD,
-    type: "",
-    codeId: "",
-    curationClass: "",
-    broadcastClass: "",
-    pocs: [],
-}
-
-export const defaultSearchItem: ListSelectBoxItem = {
-    search: [],
-    broadcastClass: [],
-    poc: [],
-    curationClass: [],
-}
 
 export const defaultDetailItem: DetailSelectBoxItem = {
     contentsType: [],
+    pSearchType: [],
+    eSearchType: []
 }
 
 export const defaultDetailData: SectionFormProp = {
@@ -79,12 +39,12 @@ export const contentsSettingType: ContentsSettingItem = {
 
 export const defaultSectionData: CurationSectionData[] = [
     {
-        sectionName: "", //섹션 명
-        organizations: [], //컨텐츠 정보
+        sectionName: "", // 섹션 명
+        organizations: [], // 컨텐츠 
     },
 ]
 
-//에피소드 추가 모달
+/** 컨텐츠 추가 모달 요청 파람 타입 */
 export const defaultEpisodeRequestData: ContentModalRequestProps = {
     pageNo: PAGINATION_FORMAT.DEFAULT_PAGE,
     pageSize: PAGINATION_FORMAT.DEFAULT_LIMIT,

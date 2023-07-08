@@ -3,7 +3,7 @@ import { DividerIcon } from "@/components/layout/types"
 import { Button } from "@/components/ui/buttons"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { Close, LibraryAdd } from "@material-ui/icons"
-import { PAGINATION_FORMAT, T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
+import { PAGINATION_FORMAT, T_NAMESPACE } from "@/utils/resources/constants"
 import { TableTheme } from "@/utils/resources/types"
 import FormItem from "@/components/ui/forms/FormItem"
 import SearchForm from "@/components/ui/forms/SearchForm"
@@ -19,7 +19,7 @@ import { SelectBoxItem } from "@/components/ui/forms/types"
 import { useConfirm } from "@/contexts/ConfirmContext"
 import { ConfirmType } from "@/components/ui/confirm/types"
 import TsTable from "@/components/ui/table/TsTable"
-import { EpisodeAddModalProps, ContentModalRequestProps, ContentsListProp, ContentsList } from "../menu2/addContent/types"
+import { EpisodeAddModalProps, ContentModalRequestProps, ContentsListProp, ContentsProp } from "../menu2/addContent/types"
 import { defaultEpisodeRequestData } from "../menu2/addContent/const"
 import Pagination from "@/components/ui/table/Pagination"
 import { getComma } from "@/utils/common"
@@ -60,12 +60,12 @@ const AddContentModal = ({ onClose, item, setItem, customItems }: EpisodeAddModa
     )
 
     const [checklist, setChecklist] = useState<Array<string>>(item)
-    const [addItem, setAddItem] = useState<Array<ContentsList>>([])
+    const [addItem, setAddItem] = useState<Array<ContentsProp>>([])
 
     /** 체크아이템 데이터 세팅 */
     useEffect(() => {
         const compareIds = (a: string[], b: string[]) => !a.every(id => b.includes(id))
-        const idsArr = (list: ContentsList[]) => list.map(item => item.pgCd)
+        const idsArr = (list: ContentsProp[]) => list.map(item => item.pgCd)
 
         // dim 항목 체크 해제 방지
         if (compareIds(item, checklist)) {
