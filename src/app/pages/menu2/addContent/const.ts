@@ -3,7 +3,7 @@ import {
     ContentModalRequestProps,
     ContentsSettingItem,
     SectionFormProp,
-    CurationSectionData,
+    SectionDataProp,
     DetailSelectBoxItem,
 } from "./types"
 
@@ -37,10 +37,12 @@ export const contentsSettingType: ContentsSettingItem = {
     },
 }
 
-export const defaultSectionData: CurationSectionData[] = [
+export const defaultSectionData: SectionDataProp[] = [
     {
-        sectionName: "", // 섹션 명
-        organizations: [], // 컨텐츠 
+        open: true,
+        sectionName: "", 
+        organizations: [], 
+        sectionOrder: 1
     },
 ]
 

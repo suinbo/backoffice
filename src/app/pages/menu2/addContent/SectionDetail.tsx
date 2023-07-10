@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react"
+import React, { useState, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/buttons"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next"
 import { useRequest } from "@/contexts/SendApiContext"
 import { PageCodeList } from "@/utils/apis/request.types"
 import { API, HTTP_METHOD_POST, HTTP_METHOD_PUT } from "@/utils/apis/request.const"
-import { SectionFormProp, CurationSectionData, DetailSelectBoxItem } from "./types"
+import { SectionFormProp, DetailSelectBoxItem } from "./types"
 import {
     defaultDetailData,
     defaultDetailItem,
@@ -42,13 +42,12 @@ const SectionDetail = () => {
     const { setLoading } = useLoading()
 
     const [formItem, setFormItem] = useState<SectionFormProp>({ ...defaultDetailData, sections: defaultSectionData })
-    const [sectionData, setSectionData] = useState<CurationSectionData[]>(defaultSectionData)
     const [opSelectboxItems, setOpSelecBoxItems] = useState<DetailSelectBoxItem>(defaultDetailItem)
 
-    const { isValid } = useValidate({ formItem, sectionItem: { sectionYn: formItem.sectionYn, sections: sectionData } })
+    const { isValid } = useValidate(formItem)
     const refs = useRef<HTMLDivElement>(null)
 
-    useEffect(() => setSectionData(formItem.sections.map(section => ({ ...section, open: true }))), [formItem.sections])
+    console.log("formItem:: ", formItem)
 
     /** 시스템 코드 조회 */
     useFetch<PageCodeList[]>(
@@ -120,7 +119,7 @@ const SectionDetail = () => {
                 setVisible(true)
             }
         })
-    }, [formItem, sectionData])
+    }, [formItem])
 
     /** Modal Footer */
     const FooterRenderer = useCallback(() => {
@@ -134,7 +133,7 @@ const SectionDetail = () => {
                 </Button>
             </div>
         )
-    }, [formItem, sectionData])
+    }, [formItem])
 
     return (
         <div id="cms02Detail" ref={refs}>
@@ -145,8 +144,6 @@ const SectionDetail = () => {
                         modalItems={opSelectboxItems}
                         formItem={formItem}
                         setFormItem={setFormItem}
-                        sectionData={sectionData}
-                        setSectionData={setSectionData}
                     />
                 </div>
                 <FooterRenderer />

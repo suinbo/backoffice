@@ -1,4 +1,4 @@
-import { FlagYN, RequestPage, TableList } from "@/utils/apis/request.types"
+import { TableList } from "@/utils/apis/request.types"
 import { SelectBoxItem } from "@/components/ui/forms/types"
 import { RadioProps } from "@/components/ui/forms/Radio"
 import { RowItem } from "@/components/ui/table/tsTypes"
@@ -14,8 +14,15 @@ export type DetailSelectBoxItem = {
 
 export type SectionFormProp = {
     contentsType: string
-    sectionYn: boolean //섹션 설정
-    sections?: Array<CurationSectionData>
+    sectionYn: boolean 
+    sections?: Array<SectionDataProp>
+}
+
+export type SectionDataProp = {
+    open?: boolean
+    sectionOrder?: number
+    sectionName?: string
+    organizations?: Array<ContentsProp>
 }
 
 export type ContentsSettingItem = {
@@ -23,33 +30,6 @@ export type ContentsSettingItem = {
         desc: string
         button: string
     }
-}
-
-export interface RequestParams {
-    [key: string]: any
-}
-
-//섹션
-export type CurationSectionData = {
-    open?: boolean
-    sectionOrder?: number
-    sectionName?: string
-    organizations?: Array<ContentsProp>
-}
-
-/** 콘텐츠 조회 타입 별 컴포넌트 데이터 */
-export interface CurationSectionFormItem {
-    formItem: RowItem[]
-    modal?: RowItem[]
-    selectboxItem?: ModalSelectBoxItem
-}
-
-export interface CurationModalSearchRequest<POCCD = string> extends RequestPage {
-    class: string
-    type: string
-    pocCd: POCCD
-    sType: string
-    viewYn: FlagYN | "" //노출여부
 }
 
 /** 모달 */
@@ -75,13 +55,16 @@ export type ContentModalRequestProps = {
 
 export type ContentsListProp = TableList<Array<ContentsProp>>
 export type ContentsProp = {
-    noId: number
-    pgCd: string
-    pgNm: string
-    epiCd: string
-    epiNm: string
-    serviceCnt: number
-    gradeNm: string
-    nation: string
-    viewYn: number
+    [key: string]: number | string | boolean
+    orderNo?: number
+    noId?: number
+    pgCd?: string
+    pgNm?: string
+    epiCd?: string
+    epiNm?: string
+    serviceCnt?: number
+    gradeNm?: string
+    nation?: string
+    viewYn?: number
+    bandYn?: boolean
 }

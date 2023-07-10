@@ -3,7 +3,7 @@ import FormItem from "@/components/ui/forms/FormItem"
 import Radio, { RadioProps } from "@/components/ui/forms/Radio"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { SectionFormProp, CurationSectionData, DetailSelectBoxItem, ModalSelectBoxItem } from "./types"
+import { SectionFormProp, SectionDataProp, DetailSelectBoxItem, ModalSelectBoxItem } from "./types"
 import { contentsSettingType } from "./const"
 import SectionWrapper from "./wrapper/SectionForm"
 import ContentsSchedulingForm from "./wrapper/SchedulingForm"
@@ -22,14 +22,10 @@ const SectionForm = ({
     modalItems,
     formItem,
     setFormItem,
-    sectionData,
-    setSectionData,
 }: {
     modalItems: ModalSelectBoxItem
     formItem: SectionFormProp
     setFormItem: React.Dispatch<React.SetStateAction<SectionFormProp>>
-    sectionData: CurationSectionData[]
-    setSectionData: React.Dispatch<React.SetStateAction<CurationSectionData[]>>
 } & Partial<DetailSelectBoxItem>) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
@@ -59,16 +55,15 @@ const SectionForm = ({
             setFormItem(prev => ({
                 ...prev,
                 [name]: value,
+                sections: [
+                    {
+                        open: true,
+                        sectionName: "",
+                        organizations: [],
+                        sectionOrder: 1,
+                    },
+                ]
             }))
-
-            setSectionData(() => [
-                {
-                    open: true,
-                    sectionName: "",
-                    organizations: [],
-                    sectionOrder: 1,
-                },
-            ])
         },
         [formItem]
     )
@@ -79,7 +74,7 @@ const SectionForm = ({
             e.stopPropagation()
             const { name, value } = e.target
             const useYn = Boolean(Number(value))
-            const sections: CurationSectionData = { open: true, sectionName: "", organizations: [] }
+            const sections: SectionDataProp = { open: true, sectionName: "", organizations: [] }
 
             setFormItem(prev => ({
                 ...prev,
@@ -127,14 +122,13 @@ const SectionForm = ({
             </FormItem>
             {/* 콘텐츠 편성 */}
             {formItem.sectionYn ? (
-                <SectionWrapper selectBoxItems={modalItems} sectionData={sectionData} setSectionData={setSectionData} formItem={formItem} />
+                <SectionWrapper selectBoxItems={modalItems} formItem={formItem} setFormItem={setFormItem}/>
             ) : (
                 <ContentsSchedulingForm
                     order={0}
                     formItem={formItem}
+                    setFormItem={setFormItem}
                     selectBoxItems={modalItems}
-                    sectionData={sectionData}
-                    setSectionData={setSectionData}
                 />
             )}
         </div>

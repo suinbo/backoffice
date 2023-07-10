@@ -10,7 +10,7 @@ import { contentsSettingType } from "../const"
 import { Selectbox } from "@/components/ui/forms"
 import { CellProps } from "@/components/ui/table/tsTypes"
 import { TableTheme } from "@/utils/resources/types"
-import { ContentsProp, SectionFormProp, CurationSectionData, ModalSelectBoxItem } from "../types"
+import { ContentsProp, SectionFormProp, ModalSelectBoxItem } from "../types"
 import { SelectBoxItem } from "@/components/ui/forms/types"
 import { setListOrderChange } from "@/utils/common"
 import { Checkbox } from "@/components/ui/forms"
@@ -22,18 +22,16 @@ import AddContentModal from "../../../modal/AddContentModal"
 const ContentsSchedulingForm = ({
     order,
     formItem,
+    setFormItem,
     selectBoxItems,
-    sectionData,
-    setSectionData,
     isReOrdering = false,
     setReOrdering,
 }: {
     order?: number
     formItem: SectionFormProp
+    setFormItem: React.Dispatch<React.SetStateAction<SectionFormProp>>
     selectBoxItems?: ModalSelectBoxItem
-    sectionData?: CurationSectionData[]
     isReOrdering?: boolean
-    setSectionData: React.Dispatch<React.SetStateAction<CurationSectionData[]>>
     setReOrdering?: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2)
@@ -45,7 +43,7 @@ const ContentsSchedulingForm = ({
 
     /** 컨텐츠 추가 */
     const addContentItem = useCallback((value: Array<any>) => {
-        setSectionData(prev => {
+        setFormItem(prev => {
             const contents = value.map((item: any) => ({
                 pgCd: item.pgCd,
                 pgNm: item.pgNm,
@@ -55,8 +53,12 @@ const ContentsSchedulingForm = ({
                 bandYn: false,
             }))
 
-            prev[order].organizations = [...prev[order].organizations, ...contents].map((item, index) => ({ ...item, orderNo: index + 1 }))
-            return [...prev]
+            prev.sections[order].organizations = [...prev.sections[order].organizations, ...contents].map((item, index) => ({ ...item, orderNo: index + 1 }))
+
+            return {
+                ...prev,
+                sections: [...prev.sections]
+            }
         })
     }, [])
 
@@ -64,23 +66,23 @@ const ContentsSchedulingForm = ({
     const onSelectBandYn = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>, sectionIdx: number, key?: string) => {
             const { id } = e.target
-            setSectionData(prev => {
-                prev[sectionIdx].organizations = prev[sectionIdx].organizations.map(item => {
+            setFormItem(prev => {
+                prev.sections[sectionIdx].organizations = prev.sections[sectionIdx].organizations.map(item => {
                     if (item[key] == id) item.bandYn = !item.bandYn
                     return item
                 })
-                return [...prev]
+                return { ...prev, sections: [...prev.sections] }
             })
         },
-        [sectionData]
+        [formItem]
     )
 
     /** 섹션 별 컨텐츠 순서 변경 */
     const onOrderRow = useCallback(
         (sectionIdx: number, prevOrder: number, selectedItem: SelectBoxItem) => {
-                setSectionData((prev: CurationSectionData[]) => {
+                setFormItem(prev => {
                     if (!isReOrdering) {
-                        prev[sectionIdx].organizations = prev[sectionIdx].organizations
+                        prev.sections[sectionIdx].organizations = prev.sections[sectionIdx].organizations
                             .map(item => {
                                 const nextOrder = Number(selectedItem.value)
                                 item.orderNo = item.orderNo == prevOrder ? nextOrder : item.orderNo == nextOrder ? prevOrder : item.orderNo
@@ -88,9 +90,9 @@ const ContentsSchedulingForm = ({
                             })
                             .sort((prev, cur) => prev.orderNo - cur.orderNo)
                     } else {
-                        prev[sectionIdx].organizations = prev[sectionIdx].organizations.map((item, index) => ({ ...item, orderNo: index + 1 }))
+                        prev.sections[sectionIdx].organizations = prev.sections[sectionIdx].organizations.map((item, index) => ({ ...item, orderNo: index + 1 }))
                     }
-                    return [...prev]
+                    return { ...prev, sections: [...prev.sections]}
                 })
             isReOrdering && setReOrdering(false)
         },
@@ -100,27 +102,27 @@ const ContentsSchedulingForm = ({
     /** 섹션 별 콘텐츠 삭제 */
     const onDeleteRow = useCallback(
         (sectionIdx: number, row: ContentsProp) => {
-                setSectionData((prev: CurationSectionData[]) => {
-                    prev[sectionIdx].organizations = prev[sectionIdx].organizations
+            setFormItem(prev => {
+                prev.sections[sectionIdx].organizations = prev.sections[sectionIdx].organizations
                         .filter(contents => row.orderNo !== contents.orderNo)
                         .map((item, index) => ({ ...item, orderNo: index + 1 }))
-                    return [...prev]
-                })
+                return {...prev, sections: [...prev.sections]}
+            })
         },
-        [sectionData]
+        [formItem]
     )
 
     /** 섹션 별 콘텐츠 Drag 순서 변경 */
     const onDrop = useCallback(
         ({ sectionIdx, dragIdx, dropIdx }: { sectionIdx: number; dragIdx: number; dropIdx: number }) => {
-                setSectionData((prev: CurationSectionData[]) => {
-                    const sectionContents = prev[sectionIdx].organizations
+            setFormItem(prev => {
+                const sectionContents = prev.sections[sectionIdx].organizations
                     const orderedList = setListOrderChange(sectionContents, dragIdx, dropIdx) as ContentsProp[]
-                    prev[sectionIdx].organizations = orderedList
-                    return [...prev]
-                })
+                    prev.sections[sectionIdx].organizations = orderedList
+                return {...prev, sections: [...prev.sections]}
+            })
         },
-        [sectionData]
+        [formItem]
     )
 
     /** 컨텐츠 1 타입 컬럼 */
@@ -136,7 +138,7 @@ const ContentsSchedulingForm = ({
                     header: t("viewYn"),
                     cell: ({ row }: CellProps) => {
                         const { pgCd } = row.original
-                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.pgCd == pgCd)?.bandYn
+                        const isChecked = formItem.sections[sectionIdx].organizations.find(item => item.pgCd == pgCd)?.bandYn
                         return (
                             <Checkbox id={pgCd as string} onChange={e => onSelectBandYn(e, sectionIdx, "pgCd")} isChecked={isChecked} />
                         )
@@ -158,7 +160,7 @@ const ContentsSchedulingForm = ({
                 },
             ].filter(Boolean)
         },
-        [sectionData]
+        [formItem]
     )
 
     /** 컨텐츠 2 타입 컬럼 */
@@ -172,7 +174,7 @@ const ContentsSchedulingForm = ({
                     header: g("orderNo"),
                     cell: (props: CellProps) => {
                         const { table, row } = props
-                        const contents = sectionData[sectionIdx].organizations
+                        const contents = formItem.sections[sectionIdx].organizations
                         const selectedList = contents.map(item => ({ label: String(item.orderNo), value: String(item.orderNo) }))
 
                         return (
@@ -196,7 +198,7 @@ const ContentsSchedulingForm = ({
                     header: t("checkYn"),
                     cell: ({ row }: CellProps) => {
                         const { epiCd } = row.original
-                        const isChecked = sectionData[sectionIdx].organizations.find(item => item.epiCd == epiCd)?.bandYn
+                        const isChecked = formItem.sections[sectionIdx].organizations.find(item => item.epiCd == epiCd)?.bandYn
                         return (
                             <Checkbox id={epiCd as string} onChange={e => onSelectBandYn(e, sectionIdx, "epiCd")} isChecked={isChecked} />
                         )
@@ -218,7 +220,7 @@ const ContentsSchedulingForm = ({
                 },
             ].filter(Boolean)
         },
-        [sectionData]
+        [formItem]
     )
 
     /** 컨텐츠 1 타입 모달 컬럼 */
@@ -285,7 +287,7 @@ const ContentsSchedulingForm = ({
             modal: tsModalColumnsContent3,
             selectboxItem: selectBoxItems.eSearchType,
         },
-    }), [sectionData, selectBoxItems, formItem])
+    }), [selectBoxItems, formItem])
 
     return (
         <>
@@ -301,7 +303,7 @@ const ContentsSchedulingForm = ({
                     <TsTable
                         keyName="pgCd" 
                         columns={tsColumn[formItem.contentsType].formItem}
-                        rows={sectionData[order]?.organizations}
+                        rows={formItem.sections[order]?.organizations}
                         theme={TableTheme.lined}
                         noResultMsg={g("noResult")}
                         onDrop={({ dragIdx, dropIdx }: { dragIdx: number; dropIdx: number }) => onDrop({ sectionIdx: order, dragIdx, dropIdx })}
@@ -312,7 +314,7 @@ const ContentsSchedulingForm = ({
                 <AddContentModal
                     onClose={() => setOpenContentModal(false)}
                     setItem={addContentItem}
-                    item={sectionData[order].organizations.map(item => item.episodeCode)}
+                    item={formItem.sections[order].organizations.map(item => item.pgCd)}
                     customItems={{
                         columns: tsColumn[contentsType].modal,
                         selectBoxItems: tsColumn[contentsType].selectboxItem,

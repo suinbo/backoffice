@@ -4,7 +4,7 @@ import FormItem from "@/components/ui/forms/FormItem"
 import Input from "@/components/ui/forms/Input"
 import { T_NAMESPACE, T_PREFIX } from "@/utils/resources/constants"
 import { useTranslation } from "react-i18next"
-import { SectionFormProp, CurationSectionData, ModalSelectBoxItem } from "../types"
+import { SectionFormProp, SectionDataProp, ModalSelectBoxItem } from "../types"
 import { ButtonStyleType } from "@/components/ui/buttons/types"
 import { Selectbox } from "@/components/ui/forms"
 import { SECTION_DEFAULT_COUNT } from "../const"
@@ -21,13 +21,11 @@ import { useToolTip } from "@/contexts/ToolTipContext"
 const SectionWrapper = ({
     selectBoxItems,
     formItem,
-    sectionData,
-    setSectionData,
+    setFormItem,
 }: {
     selectBoxItems: ModalSelectBoxItem
     formItem: SectionFormProp
-    sectionData: CurationSectionData[]
-    setSectionData: React.Dispatch<React.SetStateAction<CurationSectionData[]>>
+    setFormItem: React.Dispatch<React.SetStateAction<SectionFormProp>>
 }) => {
     const { t } = useTranslation(T_NAMESPACE.MENU2, { keyPrefix: T_PREFIX.CURATION })
     const { t: g } = useTranslation(T_NAMESPACE.GLOBAL)
@@ -38,35 +36,35 @@ const SectionWrapper = ({
 
     /** 셀렉박스 아이템 */
     const sectionSelectBoxItems = useMemo(
-        () => sectionData.map((_, idx) => ({ label: t("sectionCount", { val: idx + 1 }), value: String(idx) })),
-        [sectionData]
+        () => formItem.sections.map((_, idx) => ({ label: t("sectionCount", { val: idx + 1 }), value: String(idx) })),
+        [formItem]
     )
 
     /** 섹션명 입력 */
     const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, order: number) => {
         e.stopPropagation()
-        setSectionData(prev => {
-            prev[order].sectionName = e.target.value
-            return [...prev]
+        setFormItem(prev => {
+            prev.sections[order].sectionName = e.target.value
+            return { ...prev, sections: [ ...prev.sections ]}
         })
     }, [])
 
     /** 섹션 순서 변경 */
     const onOrderSection = useCallback((currentOrder: number, selectedItem: SelectBoxItem) => {
         setReOrdering(true)
-        setSectionData(prev => {
-            const prevSection = prev[currentOrder]
-            prev[currentOrder] = prev[Number(selectedItem.value)]
-            prev[Number(selectedItem.value)] = prevSection
-            return [...prev]
+        setFormItem(prev => {
+            const prevSection = prev.sections[currentOrder]
+            prev.sections[currentOrder] = prev.sections[Number(selectedItem.value)]
+            prev.sections[Number(selectedItem.value)] = prevSection
+            return { ...prev, sections: [ ...prev.sections ]}
         })
     }, [])
 
     /** 섹션 열기/닫기 */
     const onOpen = useCallback((order: number) => {
-        setSectionData(prev => {
-            prev[order].open = !prev[order].open
-            return [...prev]
+        setFormItem(prev => {
+            prev.sections[order].open = !prev.sections[order].open
+            return { ...prev, sections: [ ...prev.sections ]}
         })
     }, [])
 
@@ -79,7 +77,7 @@ const SectionWrapper = ({
             buttonStyle: ButtonStyleType.default,
             applyButtonMessage: g("button.ok"),
             onApply: () => {
-                setSectionData(prev => prev.filter((_, index) => index !== order))
+                setFormItem(prev => ({ ...prev, sections: prev.sections.filter((_, index) => index !== order) }))
             },
         })
         setVisible(true)
@@ -87,8 +85,8 @@ const SectionWrapper = ({
 
     /** 섹션 영역 */
     const sectionRenderer = useCallback(
-        (section: CurationSectionData, order: number) => {
-            const isDeleteBtn = sectionData.length > SECTION_DEFAULT_COUNT
+        (section: SectionDataProp, order: number) => {
+            const isDeleteBtn = formItem.sections.length > SECTION_DEFAULT_COUNT
             return (
                 <div
                     key={order}
@@ -120,7 +118,7 @@ const SectionWrapper = ({
                                     }}
                                     styleType={ButtonStyleType.danger}
                                     border={true}>
-                                    {t("sectionDelete")}
+                                    {t("deleteSection")}
                                 </Button>
                             )}
                         </div>
@@ -132,33 +130,35 @@ const SectionWrapper = ({
                     <ContentsSchedulingForm
                         order={order}
                         formItem={formItem}
+                        setFormItem={setFormItem}
                         selectBoxItems={selectBoxItems}
-                        sectionData={sectionData}
-                        setSectionData={setSectionData}
                         isReOrdering={isReOrdering}
                         setReOrdering={setReOrdering}
                     />
                 </div>
             )
         },
-        [sectionData, formItem, selectBoxItems]
+        [formItem, selectBoxItems]
     )
 
     /** 섹션 추가 */
     const onSectionAdd = useCallback(() => {
-        setSectionData(prev => [
-            ...prev,
-            {
-                open: true,
-                sectionName: "",
-                organizations: [],
-            },
-        ])
-    }, [formItem, sectionData])
+        setFormItem(prev => ({
+            ...prev, 
+            sections: [
+                ...prev.sections,
+                {
+                    open: true,
+                    sectionName: "",
+                    organizations: [],
+                },
+            ]
+        }))
+    }, [formItem])
 
     return (
         <>
-            {sectionData.map((section: CurationSectionData, idx: number) => sectionRenderer(section, idx))}
+            {formItem.sections.map((section: SectionDataProp, idx: number) => sectionRenderer(section, idx))}
             <div className="button-group">
                 <Button onClick={onSectionAdd} styleType={ButtonStyleType.primary} border={true}>
                     {t("addSection")}

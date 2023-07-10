@@ -21,6 +21,7 @@
     "sectionCount": "섹션 {{val}}",
     "sectionName": "섹션 명",
     "sectionUsage": "섹션 사용 여부",
+    "deleteSection": "섹션 삭제",
     "settingDescription": "* 컨텐츠 타입 변경 시 컨텐츠 편성목록이 초기화 됩니다.",
     "programCode": "프로그램 코드",
     "programName": "프로그램 명",
