@@ -48,6 +48,7 @@ export const UX_MAPPER = {
 export const VIEW_CODES: RowItem = {
     FAQ: "ST00110",
     POC: "poc",
+    MENU1: "MENU100",
     MENU2: "MENU200"
 }
 

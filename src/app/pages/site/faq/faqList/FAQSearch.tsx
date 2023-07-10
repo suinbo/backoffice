@@ -36,7 +36,7 @@ export type pocRenderCodeProps = {
 /** 시스템 코드 포맷 변경 */
 
 export const getMultiSelectedItem = (codeList: Array<PageCodeList>, code: string) => {
-    const getDepth = codeList[0].leafs.find(leaf => leaf.id == code)
+    const getDepth = codeList[0].leafs.find(leaf => leaf.value == code)
     return getDepth.leafs.map((item: PageCodeListProps) => ({ label: item.name, value: item.id, isChecked: true }))
 }
 
@@ -52,16 +52,15 @@ const FAQSearch = ({ requestData, setRequestData }: FAQPageProp) => {
     const [searchItems, setSearchItem] = useState<SelectBoxItem[]>([])
     const [ctgSeletedItems, setCtgSelectedItems] = useState<MultiSelectBoxItem[]>([])
 
-    /** 운영 코드 조회 */
-    useFetch<Array<PageCodeList>>(
-        { url: `${API.OPCODE_LIST}/${VIEW_CODES.FAQ}/list` },
+    /** 시스템 코드 조회 */
+    useFetch<PageCodeList[]>(
+        { url: `${API.SYSCODE_LIST}?uxId=${VIEW_CODES.MENU1}` },
         {
-            onSuccess: (res: Array<PageCodeList>) => {
-                const getSearchItem = changeSystemCodeFormat(res, "search")
-                setRequestData(prev => ({ ...prev, sType: getSearchItem[0].value }))
-
-                setSearchItem(getSearchItem)
-                setCtgSelectedItems(getMultiSelectedItem(res, "category"))
+            onSuccess: (items: PageCodeList[]) => {
+                const searchTypes = items[0].leafs.find(leaf => leaf.value == "search").leafs
+                setRequestData(prev => ({ ...prev, sType: searchTypes[0].value }))
+                setSearchItem(searchTypes.map((item: PageCodeListProps) => ({ label: item.name, value: item.id })))
+                setCtgSelectedItems(getMultiSelectedItem(items, "category"))
             },
         }
     )
